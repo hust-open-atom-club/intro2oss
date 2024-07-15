@@ -1,0 +1,10 @@
+:root {
+    --md-primary-fg-color: #6AB2F2;
+}
+
+.caption {
+    font-size: 0.94em;
+    color: gray;
+    margin-top: -10px;
+    text-align: center;
+}   

@@ -1,0 +1,114 @@
+site_name: Intro2OSS
+site_description: 开源软件通识课程
+site_author: HUST Open Atom Club
+site_url: https://oss.hust.openatom.club/
+repo_name: hust-open-atom-club/intro2oss
+repo_url: https://github.com/hust-open-atom-club/intro2oss
+copyright: Brought to you by <a href="https://hust.openatom.club/">HUST Open Atom Club</a>. Available freely under the MIT license.
+
+extra_css:
+  - stylesheets/extra.css
+
+theme:
+  name: 'material'
+  language: 'zh'
+  logo: assets/logo.png
+  favicon: assets/favicon.png
+  font: false
+  palette:
+    - scheme: default
+      # media: "(prefers-color-scheme: light)"
+      primary: custom
+      accent: custom
+      # toggle:
+      #   icon: material/weather-night
+      #   name: 切换至深色模式
+    # - scheme: slate
+    #   media: "(prefers-color-scheme: dark)"
+    #   primary: blue
+    #   accent: blue
+    #   toggle:
+    #     icon: material/weather-sunny
+    #     name: 切换至浅色模式
+  icon:
+    repo: octicons/mark-github-16
+  features:
+    - content.code.copy
+    - content.tooltips
+    - navigation.footer
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - markdown.extensions.def_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.tabbed
+  - pymdownx.extra
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      auto_append:
+        - includes/man.md
+        - includes/authors.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: octicons/globe-16
+      link: https://hust.openatom.club/
+    - icon: octicons/mark-github-16
+      link: https://github.com/hust-open-atom-club/
+
+nav:
+  - 欢迎来到开源世界: index.md
+  - 零、引言:
+    - 导览: ch0/index.md
+  - 一、开源简介:
+    - 导览: ch1/index.md
+    - 第一节 什么是开源: ch1/sec1/what-is-oss.md
+    - 第二节 开源简史: ch1/sec2/history-of-oss.md
+    - 第三节 为什么要开源: ch1/sec3/why-oss.md
+    - 第四节 怎么做开源: ch1/sec4/how-to-oss.md
+  - 二、开源基础理论:
+    - 导览: ch2/index.md
+    - 第一节 名词解释: ch2/sec1/terminology.md
+    - 第二节 开源文化: ch2/sec2/culture.md
+    - 第三节 开源世界规则: ch2/sec3/rules.md
+  - 三、开源贡献基础技能:
+    - 导览: ch3/index.md
+    - 第一节 Git训练营:
+      - 导学阶段:
+        - Git简介: ch3/sec1/subsec1/1-git-introduction.md
+        - 代码托管平台简介: ch3/sec1/subsec1/2-code-hosting-platforms.md
+        - 注册并熟悉代码托管平台: ch3/sec1/subsec1/3-practice-code-hosting-platforms.md
+        - 创建并管理仓库: ch3/sec1/subsec1/4-create-repo.md
+        - 开源许可证选择指南: ch3/sec1/subsec1/5-open_source_License.md
+      - 基础阶段:
+        - Git的基础配置: ch3/sec1/subsec2/1-basic-configuration.md
+        - 暂存区操作: ch3/sec1/subsec2/2-staging.md
+        - 如何写好一个commit message: ch3/sec1/subsec2/6-commit-message.md
+      - 专业阶段:
+        - Git Rebase与Git Merge的使用与区别: ch3/sec1/subsec3/1-rebase-merge.md
+        - Git 分布式版本控制工作原理:  ch3/sec1/subsec3/2-Control-Process.md
+        - Git辅助本地项目开发: ch3/sec1/subsec3/3-help-open.md
+      - 项目阶段:
+        - 贡献一个Linux patch: ch3/sec1/subsec4/1-linux-patch.md
+  - 四、领导开源社区:
+    - 第四章 导览: ch4/index.md
+  - 附录:
+    - 关于本教程: ch99/abouts.md
