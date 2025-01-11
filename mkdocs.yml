@@ -1,16 +1,26 @@
-site_name: Intro2oss
+site_name: Intro2OSS
 
 theme:
   name: readthedocs
+  locale: zh_CN
+
 nav:
-- 欢迎来到开源世界: index.md
-- 零:
-  - S0/index.md
-- 一: 
-  - S1/index.md
-- 二:
-  - S2/index.md
-- 三: 
-  - S3/index.md
-- 四:
-  - S4/index.md
+  - 欢迎来到开源世界: index.md
+
+  - 第零章：准备工作:
+    - 第零章 导览: ch0/index.md
+
+  - 第一章：:
+    - 第一章 导览: ch1/index.md
+
+  - 第二章：:
+    - 第二章 导览: ch2/index.md
+
+  - 第三章：:
+    - 第三章 导览: ch3/index.md
+
+  - 第四章：:
+    - 第四章 导览: ch4/index.md
+
+  - 附录:
+    - 关于本教程: ch99/abouts.md
