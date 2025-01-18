@@ -1,27 +1,74 @@
 site_name: Intro2OSS
+site_description: 开源软件通识课程
+site_author: HUST Open Atom Club
+site_url: https://oss.hust.openatom.club/
+repo_name: hust-open-atom-club/intro2oss
+repo_url: https://github.com/hust-open-atom-club/intro2oss
+copyright: Brought to you by <a href="https://hust.openatom.club/">HUST Open Atom Club</a>. Available freely under the MIT license.
+
+extra_css:
+  - stylesheets/extra.css
 
 theme:
-  name: readthedocs
-  locale: zh_CN
+  name: 'material'
+  language: 'zh'
+  logo: assets/logo.png
+  favicon: assets/favicon.png
+  font: false
+  palette:
+    - scheme: default
+      # media: "(prefers-color-scheme: light)"
+      primary: custom
+      accent: custom
+      # toggle:
+      #   icon: material/weather-night
+      #   name: 切换至深色模式
+    # - scheme: slate
+    #   media: "(prefers-color-scheme: dark)"
+    #   primary: blue
+    #   accent: blue
+    #   toggle:
+    #     icon: material/weather-sunny
+    #     name: 切换至浅色模式
+  icon:
+    repo: octicons/mark-github-16
+  features:
+    - content.code.copy
+    - content.tooltips
+    - navigation.footer
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+
+markdown_extensions:
+  - admonition
+  - footnotes
+
+extra:
+  social:
+    - icon: octicons/globe-16
+      link: https://hust.openatom.club/
+    - icon: octicons/mark-github-16
+      link: https://github.com/hust-open-atom-club/
 
 nav:
   - 欢迎来到开源世界: index.md
 
-  - 第零章：准备工作:
+  - 零、使用开源:
     - 第零章 导览: ch0/index.md
 
-  - 第一章：:
+  - 一、了解开源:
     - 第一章 导览: ch1/index.md
 
-  - 第二章：:
+  - 二、拥抱开源:
     - 第二章 导览: ch2/index.md
 
-  - 第三章：:
+  - 三、贡献开源:
     - 第三章 导览: ch3/index.md
-    - 如何写好一个Commit Message: 
-      - RustSBI社区commit message规范: ch3/section 1/contributing-to-rustsbi.md
+    - 如何写好一个 Commit Message: 
+      - RustSBI 社区 Commit Message 规范: ch3/sec1/contributing-to-rustsbi.md
 
-  - 第四章：:
+  - 四、领导开源:
     - 第四章 导览: ch4/index.md
 
   - 附录:
