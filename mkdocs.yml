@@ -18,7 +18,8 @@ nav:
 
   - 第三章：:
     - 第三章 导览: ch3/index.md
-    - RustSBI Commit Message 规范: Contributing to RustSBI/为 RustSBI 贡献.md
+    - 如何写好一个Commit Message: 
+      - RustSBI社区commit message规范: ch3/section 1/contributing-to-rustsbi.md
 
   - 第四章：:
     - 第四章 导览: ch4/index.md
