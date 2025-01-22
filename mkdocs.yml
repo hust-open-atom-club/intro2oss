@@ -43,6 +43,28 @@ theme:
 markdown_extensions:
   - admonition
   - footnotes
+  - markdown.extensions.def_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.tabbed
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      auto_append:
+        - includes/man.md
+        - includes/authors.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - toc:
+      permalink: true
+
 
 extra:
   social:
@@ -70,6 +92,17 @@ nav:
 
   - 四、领导开源:
     - 第四章 导览: ch4/index.md
+
+  - 五、Git 训练营:
+    - 第五章导览: ch5/index.md
+    - 导学阶段: 
+      - Git 简介: ch5/sec1/subsec1/git-introduction.md
+      - 代码托管平台简介: ch5/sec1/subsec2/code-hosting-platforms.md
+      - 实践：注册并熟悉代码托管平台: ch5/sec1/subsec3/practice.md
+      - 创建并管理仓库 (Repository): ch5/sec1/subsec4/create-repo.md
+    - 基础阶段: ch5/sec2/git-basics.md
+    - 专业阶段: ch5/sec3/git-advanced.md
+    - 项目阶段: ch5/sec4/git-projects.md
 
   - 附录:
     - 关于本教程: ch99/abouts.md
