@@ -67,7 +67,6 @@ markdown_extensions:
   - toc:
       permalink: true
 
-
 extra:
   social:
     - icon: octicons/globe-16
@@ -77,34 +76,34 @@ extra:
 
 nav:
   - 欢迎来到开源世界: index.md
-
-  - 零、使用开源:
-    - 第零章 导览: ch0/index.md
-
-  - 一、了解开源:
-    - 第一章 导览: ch1/index.md
-
-  - 二、拥抱开源:
-    - 第二章 导览: ch2/index.md
-
-  - 三、贡献开源:
-    - 第三章 导览: ch3/index.md
-    - 如何写好一个 Commit Message: 
-      - RustSBI 社区 Commit Message 规范: ch3/sec1/contributing-to-rustsbi.md
-
-  - 四、领导开源:
+  - 零、引言:
+    - 导览: ch0/index.md
+  - 一、开源简介:
+    - 导览: ch1/index.md
+    - 第一节 什么是开源: ch1/sec1/what-is-oss.md
+    - 第二节 开源简史: ch1/sec2/history-of-oss.md
+    - 第三节 为什么要开源: ch1/sec3/why-oss.md
+    - 第四节 怎么做开源: ch1/sec4/how-to-oss.md
+  - 二、开源基础理论:
+    - 导览: ch2/index.md
+    - 第一节 名词解释: ch2/sec1/terminology.md
+    - 第二节 开源文化: ch2/sec2/culture.md
+    - 第三节 开源世界规则: ch2/sec3/rules.md
+  - 三、开源贡献基础技能:
+    - 导览: ch3/index.md
+    - 第一节 Git训练营:
+      - 导学阶段:
+        - Git简介: ch3/sec1/subsec1/1-git-introduction.md
+        - 代码托管平台简介: ch3/sec1/subsec1/2-code-hosting-platforms.md
+        - 注册并熟悉代码托管平台: ch3/sec1/subsec1/3-practice-code-hosting-platforms.md
+        - 创建并管理仓库: ch3/sec1/subsec1/4-create-repo.md
+      - 基础阶段:
+        - 如何写好一个commit message: ch3/sec1/subsec2/6-commit-message.md
+      - 专业阶段:
+        - Git Rebase与Git Merge的使用与区别: ch3/sec1/subsec3/1-rebase-merge.md
+      - 项目阶段:
+        - 贡献一个Linux patch: ch3/sec1/subsec4/1-linux-patch.md
+  - 四、领导开源社区:
     - 第四章 导览: ch4/index.md
-
-  - 五、Git 训练营:
-    - 第五章导览: ch5/index.md
-    - 导学阶段: 
-      - Git 简介: ch5/sec1/subsec1/git-introduction.md
-      - 代码托管平台简介: ch5/sec1/subsec2/code-hosting-platforms.md
-      - 实践：注册并熟悉代码托管平台: ch5/sec1/subsec3/practice.md
-      - 创建并管理仓库 (Repository): ch5/sec1/subsec4/create-repo.md
-    - 基础阶段: ch5/sec2/git-basics.md
-    - 专业阶段: ch5/sec3/git-advanced.md
-    - 项目阶段: ch5/sec4/git-projects.md
-
   - 附录:
     - 关于本教程: ch99/abouts.md
