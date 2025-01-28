@@ -27,7 +27,7 @@ jobs:
               echo "$file" >> "$file_list"
               output_file="linted_output/report_and_suggested_fixes/$file"
               mkdir -p "$(dirname "$output_file")"
-              zhlint --config "$GITHUB_WORKSPACE"/ci/.zhlintrc "$file" --output="$output_file" > "$output_file.log" 2>&1
+              zhlint --config "$GITHUB_WORKSPACE"/.github/workflows/.zhlintrc "$file" --output="$output_file" > "$output_file.log" 2>&1
             fi
             set -e
           done
