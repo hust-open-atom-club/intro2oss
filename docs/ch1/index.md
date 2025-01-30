@@ -75,7 +75,6 @@
 ---
 
 #### 📊 关键转折点时间轴
-```mermaid
 timeline
     1969 : ARPANET诞生（开放协议）
     1979 : AT&T收紧UNIX授权
