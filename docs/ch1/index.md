@@ -247,6 +247,35 @@ timeline
     1998年 : "开源"概念正式诞生
     2020年 : WHO开放新冠基因组序列
 ```
+<div style="text-align: center; font-family: Arial, sans-serif;">
+  <h3>人类开源文化里程碑</h3>
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 20px;">
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">公元前300年</span>
+      <span style="font-size: 14px;">欧几里得《几何原本》公开证明体系</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">830年</span>
+      <span style="font-size: 14px;">阿拉伯数字通过《代数学》向全球开放传播</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">1675年</span>
+      <span style="font-size: 14px;">莱布尼茨发布微积分符号系统（开源数学语言）</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">1958年</span>
+      <span style="font-size: 14px;">IPTO建立ARPANET开放协议雏形</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">1998年</span>
+      <span style="font-size: 14px;">"开源"概念正式诞生</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">2020年</span>
+      <span style="font-size: 14px;">WHO开放新冠基因组序列</span>
+    </div>
+  </div>
+</div>
    
 
 ## 二、开源历史
