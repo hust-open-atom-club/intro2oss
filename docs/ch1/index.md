@@ -184,7 +184,7 @@ flowchart TD
 | 新冠疫苗研发 | Slack/Zoom           | 预印本快速共享   | 多中心临床试验     |
 
 ### 人类复杂工程协作史
-```
+```mermaid
 timeline
     title 协作模式进化史
     公元前2560年 : 金字塔建造（10万人协作）
