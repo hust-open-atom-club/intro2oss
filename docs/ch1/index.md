@@ -192,22 +192,7 @@ timeline
     1969年 : 阿波罗计划
     1991年 : Linux内核开发（全球分布式协作）
 ```
-<details>
-<summary>公元前 2560 年 : 金字塔建造（上万人协作）</summary>
-<p>相关技术：象形文字图纸、师徒口耳相传</p>
-</details>
-<details>
-<summary>1406 年 : 紫禁城建设（工匠协作网络）</summary>
-<p>相关技术：复杂师承记录、工匠之间紧密协作</p>
-</details>
-<details>
-<summary>1969 年 : 阿波罗计划（多家承包商协同）</summary>
-<p>相关技术：跨公司沟通机制、文件整合</p>
-</details>
-<details>
-<summary>1991 年 : Linux 内核开发（全球分布式协作）</summary>
-<p>相关技术：版本控制系统、邮件列表</p>
-</details>
+
 
 # 🔍 深度对比：金字塔 vs Linux内核
 
@@ -240,42 +225,32 @@ timeline
 ```mermaid
 timeline
     title 人类开源文化里程碑
-    公元前300年 : 欧几里得《几何原本》公开证明体系
-    830年 : 阿拉伯数字通过《代数学》向全球开放传播
-    1675年 : 莱布尼茨发布微积分符号系统（开源数学语言）
+    公元前300年 : 欧几里得《几何原本》
+    830年 : 阿拉伯数字全球传播
+    1675年 : 莱布尼茨微积分符号
     1958年 : IPTO建立ARPANET开放协议雏形
     1998年 : "开源"概念正式诞生
     2020年 : WHO开放新冠基因组序列
 ```
-<div style="text-align: center; font-family: Arial, sans-serif;">
-  <h3>人类开源文化里程碑</h3>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 20px;">
-    <div style="display: flex; align-items: center; gap: 20px;">
-      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">公元前300年</span>
-      <span style="font-size: 14px;">欧几里得《几何原本》公开证明体系</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 20px;">
-      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">830年</span>
-      <span style="font-size: 14px;">阿拉伯数字通过《代数学》向全球开放传播</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 20px;">
-      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">1675年</span>
-      <span style="font-size: 14px;">莱布尼茨发布微积分符号系统（开源数学语言）</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 20px;">
-      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">1958年</span>
-      <span style="font-size: 14px;">IPTO建立ARPANET开放协议雏形</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 20px;">
-      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">1998年</span>
-      <span style="font-size: 14px;">"开源"概念正式诞生</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 20px;">
-      <span style="background-color: #ddd; padding: 5px; border-radius: 5px;">2020年</span>
-      <span style="font-size: 14px;">WHO开放新冠基因组序列</span>
-    </div>
-  </div>
-</div>
+# 人类开源文化里程碑
+
+* **公元前300年**：欧几里得《几何原本》公开证明体系  
+  欧几里得的《几何原本》是数学史上的一个里程碑，它公开了一套基于公理和定理的证明体系，为后来的数学研究奠定了基础。
+
+* **830年**：阿拉伯数字通过《代数学》向全球开放传播  
+  阿拉伯数学家阿尔-花剌子模的《代数学》将阿拉伯数字引入了欧洲，极大地推动了全球数学和科学的发展。
+
+* **1675年**：莱布尼茨发布微积分符号系统（开源数学语言）  
+  莱布尼茨发布的微积分符号系统，为数学分析和科学计算提供了一种通用的语言，促进了现代科学的进步。
+
+* **1958年**：IPTO建立ARPANET开放协议雏形  
+  美国国防部高级研究计划局（IPTO）的联合研究项目建立了ARPANET，这是现代互联网的前身，开放的协议设计为网络的广泛传播和应用奠定了基础。
+
+* **1998年**：“开源”概念正式诞生  
+  "开源"概念在1998年正式诞生，标志着软件开发模式的一次重大变革，促进了全球软件开发的合作和创新。
+
+* **2020年**：WHO开放新冠基因组序列  
+  世界卫生组织（WHO）开放新冠基因组序列，加速了全球科学家对病毒的研究，推动了疫苗和治疗方法的快速开发。
    
 
 ## 二、开源历史
