@@ -36,7 +36,7 @@ jobs:
           linted_failed=0
           for file in ${{ env.ALL_CHANGED_FILES }}; do
             set +e
-            zhlint --config "$GITHUB_WORKSPACE"/ci/.zhlintrc "$file"
+            zhlint --config "$GITHUB_WORKSPACE"/.github/workflows/.zhlintrc "$file"
             if [ $? -ne 0 ]; then
               linted_failed=1
               echo "$file" >> "$file_list"

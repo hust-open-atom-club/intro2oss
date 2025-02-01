@@ -21,7 +21,7 @@ jobs:
           echo 0 > "$linted_failed_file"
           find . -type f -name '*.md' | while read -r file; do
             set +e
-            zhlint --config "$GITHUB_WORKSPACE"/ci/.zhlintrc "$file"
+            zhlint --config "$GITHUB_WORKSPACE"/.github/workflows/.zhlintrc "$file"
             if [ $? -ne 0 ]; then
               echo 1 > "$linted_failed_file"
               echo "$file" >> "$file_list"
