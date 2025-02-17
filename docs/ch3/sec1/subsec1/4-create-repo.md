@@ -31,7 +31,7 @@
 
 - **创建远程仓库**：登录 GitHub 并点击“New repository”按钮。填写仓库名称、描述并选择公开或私有。点击“Create repository”完成创建。
 
-![Create-repo](../../../assets/createrepo.png)
+![Create-repo](./assets/lec4/createrepo.png)
 
 - **克隆仓库到本地**：复制新仓库的克隆 URL。在终端中使用以下命令将仓库克隆到本地：
 

@@ -28,7 +28,7 @@
 
 注册之后登录首先看到的应该是你的 Dashboard 界面，就像下图这样，不过你的可能比较空白（😁）
 
-![Dashboard](../../../assets/Dashborad.png)
+![Dashboard](./assets/lec3/Dashboard.png)
 
 图 1. Dashboard
 {: .caption }
@@ -41,7 +41,7 @@
 
 注册之后就可以做一些操作了，比如说收藏一个仓库，就是给这个仓库一颗⭐️，可以点击[这里](https://github.com/hust-open-atom-club/intro2oss)去送出你的第一颗⭐️
 
-![repository](../../../assets/repo.png)
+![repository](./assets/lec3/repo.png)
 
 图 2. Repository
 {: .caption }
