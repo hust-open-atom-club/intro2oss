@@ -23,7 +23,7 @@ Git 是一个分布式版本控制系统，与集中式版本控制系统（如 
   git pull origin main
   git merge feature-branch
   ```
-- **Git Rebase**：通过 git rebase 命令将一个分支的提交 “重放” 到另一个分支的顶部。与 merge 不同，rebase 不会产生合并提交，而是将目标分支的修改按时间顺序添加到当前分支。这使得历史记录看起来更为线性，但也会改变提交历史，因此在共享分支上使用时需要谨慎。
+- **Git Rebase**：通过 git rebase 命令将一个分支的提交“重放”到另一个分支的顶部。与 merge 不同，rebase 不会产生合并提交，而是将目标分支的修改按时间顺序添加到当前分支。这使得历史记录看起来更为线性，但也会改变提交历史，因此在共享分支上使用时需要谨慎。
   ```bash
   git checkout feature-branch
   git rebase main

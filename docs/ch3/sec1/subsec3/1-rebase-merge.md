@@ -50,8 +50,8 @@
     ```
 
     *   **结果：** 
-        *   `rebase` 会把你的 `feature/login` 分支上的提交 “移动” 到 `main` 分支的最新提交之后。就像是把你的分支 “嫁接” 到了 `main` 分支上。
-        *   然后再次在 `main` 进行 `merge` 时，由于 `feature/login` 是直接从 `main` 分支 “生长” 出来的，所以可以直接快速合并（fast-forward），不会产生额外的合并提交。
+        *   `rebase` 会把你的 `feature/login` 分支上的提交“移动”到 `main` 分支的最新提交之后。就像是把你的分支“嫁接”到了 `main` 分支上。
+        *   然后再次在 `main` 进行 `merge` 时，由于 `feature/login` 是直接从 `main` 分支“生长”出来的，所以可以直接快速合并（fast-forward），不会产生额外的合并提交。
 
     *   **特点：**干净！`main` 分支的历史记录会是一条直线，非常清晰。
 

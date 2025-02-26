@@ -97,17 +97,17 @@
   使用 git stash 可以将当前的修改保存到堆栈中，然后恢复到干净的工作目录。
   ```bash
   git stash        # 保存当前修改
-  git stash list   # 查看保存的stash
+  git stash list   # 查看保存的 stash
   ```
 - **恢复保存的修改**：
   使用 git stash pop 命令可以恢复最近保存的修改。该命令会将修改应用到当前分支，并从 stash 堆栈中删除。
   ```bash
-  git stash pop    # 恢复最近保存的修改并从stash堆栈中删除
+  git stash pop    # 恢复最近保存的修改并从 stash 堆栈中删除
   ```
 - **应用特定的 stash**：
   如果有多个保存的 stash，可以指定应用某个特定的 stash。
   ```bash
-  git stash apply stash@{2}  # 恢复第二个保存的stash
+  git stash apply stash@{2}  # 恢复第二个保存的 stash
   ```
 ### 总结
    Git 帮助开发者在本地进行多分支管理，提供了灵活的开发与实验机制。通过合理的分支管理、合并与回滚操作，可以有效提升开发效率，并保持代码的整洁与可维护性。同时，借助 stash 功能，开发者能够灵活处理临时任务，避免丢失未完成的工作。Git 的本地开发流程为团队提供了更高效的协作机制，使得开发者能够更加专注于功能开发、问题解决与实验创新。
