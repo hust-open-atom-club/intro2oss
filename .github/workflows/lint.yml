@@ -27,7 +27,7 @@ jobs:
           autocorrect --fix
 
       - name: Stop and report errors if not master
-        if: github.ref != 'refs/heads/master'
+        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
         run: |
           git add -A
           if ! git diff-index --quiet --cached HEAD --; then
