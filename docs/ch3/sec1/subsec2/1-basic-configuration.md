@@ -136,7 +136,7 @@ SSH（Secure Shell）是一种加密的网络协议，用于安全地访问远�
   ```bash
   Host github.com
         Hostname ssh.github.com
-        Port 443 #如果你的网络环境不允许使用22端口进行连接
+        Port 443 #如果你的网络环境不允许使用 22 端口进行连接
         User git
         ProxyCommand nc -v -x 127.0.0.1:10808 %h %p #如果需要使用代理才能访问互联网
   ```
