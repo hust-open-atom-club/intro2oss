@@ -101,6 +101,7 @@ nav:
       - 基础阶段:
         - Git的基础配置: ch3/sec1/subsec2/1-basic-configuration.md
         - 暂存区操作: ch3/sec1/subsec2/2-staging.md
+        - 暂存区操作(续): ch3/sec1/subsec2/3-reset-diff-and-commit.md
         - 如何写好一个commit message: ch3/sec1/subsec2/6-commit-message.md
       - 专业阶段:
         - Git Rebase与Git Merge的使用与区别: ch3/sec1/subsec3/1-rebase-merge.md
