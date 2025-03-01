@@ -98,6 +98,7 @@ nav:
         - 注册并熟悉代码托管平台: ch3/sec1/subsec1/3-practice-code-hosting-platforms.md
         - 创建并管理仓库: ch3/sec1/subsec1/4-create-repo.md
         - 开源许可证选择指南: ch3/sec1/subsec1/5-open_source_License.md
+        - GitHub Fork 简明解析: ch3/sec1/subsec1/6-fork.md
       - 基础阶段:
         - Git的基础配置: ch3/sec1/subsec2/1-basic-configuration.md
         - 暂存区操作: ch3/sec1/subsec2/2-staging.md
