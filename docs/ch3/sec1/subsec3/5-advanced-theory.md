@@ -6,7 +6,7 @@
 
 ## 什么是 Git
 
-在训练营里面，我们一直在和 Git 打交道，但是如今真有其他人问你，“Git 是什么东西？” 这时候你能做出合适的回答吗？Git 的定义肯定不是单一的，他在不同的视角下，有着不同的角色。而在 Scott Chacon 的演讲中，他给出了一个非常棒的定义：
+在训练营里面，我们一直在和 Git 打交道，但是如今真有其他人问你，“Git 是什么东西？”这时候你能做出合适的回答吗？Git 的定义肯定不是单一的，他在不同的视角下，有着不同的角色。而在 Scott Chacon 的演讲中，他给出了一个非常棒的定义：
 
 > Git is a directory content management system,a tree history storage system,a stupid content tracker,and a toolkit.
 
@@ -82,7 +82,7 @@ Scott Chacon 在演讲中提到了一个常见的误区，很多人认为 Git �
 
 Scott Chacon 在演讲中提到，在 Git 中，`.git` 文件夹是 Git 仓库的核心目录，包含了 Git 仓库的全部信息。它是一个隐藏文件夹，位于仓库的根目录下。`.git` 文件夹是存储 Git 仓库所有核心数据和配置的地方。
 
-你可以在任何一个 `git init` 初始化过的文件夹中找到 `.git` 文件夹。用 `ls -a` 命令就可以看到。你可以`cd .git` 之后再 `ls -a` 看看，你会发现里面有很多文件和文件夹:
+你可以在任何一个 `git init` 初始化过的文件夹中找到 `.git` 文件夹。用 `ls -a` 命令就可以看到。你可以`cd .git` 之后再 `ls -a` 看看，你会发现里面有很多文件和文件夹：
 
 ```zsh
 .           FETCH_HEAD  branches    description index       logs        packed-refs
@@ -253,7 +253,7 @@ git cat-file -p <tag_hash>
 
 #### 对象的关系
 
-总结性的说，一个 tag 指向一个 commit，一个 commit 指向一个 tree(根目录)和多个 parent commit，一个 tree 指向多个 blob 和 tree 一起构成目录结构，一个 blob 存储文件内容。
+总结性的说，一个 tag 指向一个 commit，一个 commit 指向一个 tree(根目录) 和多个 parent commit，一个 tree 指向多个 blob 和 tree 一起构成目录结构，一个 blob 存储文件内容。
 
 ![object](../../../assets/GitObject.png)
 
@@ -323,7 +323,7 @@ Git 的打包机制会将多个松散对象打包成一个打包对象，并存�
 - `.idx` 文件：
   索引文件，记录对象的哈希值、位置和元数据，用于快速查找
 
-## 引用 （reference）
+## 引用（reference）
 
 Scott Chacon 在演讲中提到，**引用**也是 Git 需要好好理解的内容
 
