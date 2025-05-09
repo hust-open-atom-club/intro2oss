@@ -1,4 +1,4 @@
 - HCTT 文档翻译（自由选择一篇已收集的英文文档），按照 Wiki 中要求的流程完成“翻译申请”，“翻译提交”等操作。
-- 选择 Git 游戏学习方式（https://learngitbranching.js.org），当然，这个游戏也是开源在 Github 上的项目，大家也可以选择向这个仓库进行开源贡献。
+- 选择 Git 游戏学习方式 https://learngitbranching.js.org ，当然，这个游戏也是开源在 Github 上的项目，大家也可以选择向这个仓库进行开源贡献。
 - 在 Github/Gitee 上创新一个账号（如果没有的话），并使用工具提交自己的第一个 commit，PR。
 - 在 pwn.hust.college 平台 <https://pwn.cse.hust.edu.cn> 中完成“Linux/Unix 基本命令使用”道馆（**待创建**）。
