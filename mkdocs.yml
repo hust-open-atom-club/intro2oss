@@ -116,5 +116,7 @@ nav:
         - 贡献一个Linux patch: ch3/sec1/subsec4/1-linux-patch.md
   - 四、领导开源社区:
     - 第四章 导览: ch4/index.md
+    - 第二节 Linux训练营:
+      - 其他命令与工具: ch4/sec2/4-other-commands.md
   - 附录:
     - 关于本教程: ch99/abouts.md
