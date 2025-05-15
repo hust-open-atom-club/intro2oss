@@ -135,9 +135,9 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
 
     用法：`df [options]`
 
-    当指定`-h`，命令将输出人类可读的数据单位（MB GB 等）而非字节
+    当指定`-h`时，命令将输出人类可读的数据单位（MB GB 等）而非字节
 
-    当指定`-i`，命令将输出文件系统`inode`的使用状况。[何为 inode？](https://www.redhat.com/en/blog/inodes-Linux-filesystem)
+    当指定`-i`时，命令将输出文件系统`inode`的使用状况。[何为 inode？](https://www.redhat.com/en/blog/inodes-Linux-filesystem)
 
     这个命令输出的是物理和虚拟**文件系统**的使用情况。
 
@@ -175,24 +175,24 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
 
     用法：`du [options]`
 
-    当指定`-h`后，将会以人类友好的单位输出数据
+    当指定`-h`时，将会以人类友好的单位输出数据
 
-    当指定`-d <size>`后，将以深度为 size 的目录作为一个条目
+    当指定`-d <size>`时，将以深度为 size 的目录作为一个条目
 
-    当指定`-s`后，将统计当前目录占用的空间
+    当指定`-s`时，将统计当前目录占用的空间
 
 
 #### 3. 文本和文件操作类
 
 - **cat**
   
-    cat 命令用于将一个文件的内容输出到标准输出（stdout，也就是命令行李显示的东西）。
+    cat 命令用于将一个文件的内容输出到标准输出（stdout，也就是命令行里显示的东西）。
 
     用法：`cat [options] [filename]`
 
     当指定`-n`时，cat 将会为输出加上行号
     
-    若未指定`filename`时，cat 将会重定向标准输入（stdin，也就是你输入命令行的东西）到标准输出。具体来说，他会变成一个复读机，显示任何你输入的内容。
+    若未指定`filename`，cat 将会重定向标准输入（stdin，也就是你输入命令行的东西）到标准输出。具体来说，他会变成一个复读机，显示任何你输入的内容。
 
 - **grep**
 
@@ -200,9 +200,9 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
 
     用法：`grep [options] pattern [file]`
 
-    当指定`-i`，grep 将忽略大小写进行匹配
+    当指定`-i`时，grep 将忽略大小写进行匹配
 
-    当指定`-v`，grep 将进行反向查找，只输出不符合`pattern`的行
+    当指定`-v`时，grep 将进行反向查找，只输出不符合`pattern`的行
 
     当指定`-n`时，grep 将会为输出加上行号
 
@@ -251,9 +251,9 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
 
     用法：`more/less [+line] [+/pattern] [filename]`
 
-    当指定`+line`后，工具将会从`line`行以后开始显示
+    当指定`+line`时，工具将会从`line`行以后开始显示
 
-    当指定`+/pattern`后，工具将会从符合`pattern`的位置开始显示
+    当指定`+/pattern`时，工具将会从符合`pattern`的位置开始显示
 
     当未指定`filename`时，工具将会读取标准输入作为数据源
 
@@ -270,7 +270,7 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
 
     用法：`tail [options] [+from] [filename]`
 
-    当指定`-f`参数时，tail 将进行循环读取，也就是实时更新文件内容
+    当指定`-f`时，tail 将进行循环读取，也就是实时更新文件内容
 
     当指定`-n <num>`时，将会输出末尾`num`行的内容。若无此参数，默认输出末尾 10 行
 
@@ -282,13 +282,13 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
 
     用法：`touch [options] filename`
 
-    若指定`-a`，则只会改变读取时间
+    当指定`-a`时，则只会改变读取时间
 
-    若指定`-m`，则只会改变修改时间
+    当指定`-m`时，则只会改变修改时间
 
-    若指定`-t <stamp>`，则会使用 stamp 指定的时间。stamp 的格式为`[[CC]YY]MMDDhhmm[.ss]`
+    当指定`-t <stamp>`时，则会使用 stamp 指定的时间。stamp 的格式为`[[CC]YY]MMDDhhmm[.ss]`
 
-    若未指定`-c`且`filename`不存在，touch 会创建该文件
+    当未指定`-c`且`filename`不存在时，touch 会创建该文件
 
 - **diff**
 
@@ -475,15 +475,15 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
 
     用法：`screen [options] [command]`
 
-    当指定`-ls`，会显示所有运行的 screen 会话
+    当指定`-ls`时，会显示所有运行的 screen 会话
 
-    当指定`-d`，会以分离的模式运行这个会话
+    当指定`-d`时，会以分离的模式运行这个会话
 
-    当指定`-S <name>`，会将会话命名为`name`，方便后续管理
+    当指定`-S <name>`时，会将会话命名为`name`，方便后续管理
 
-    当指定`-r <id/name>`，会切换到相应终端
+    当指定`-r <id/name>`时，会切换到相应终端
 
-    当指定`-XS <id/name> <command>`，会在对于会话中执行命令
+    当指定`-XS <id/name> <command>`时，会在对于会话中执行命令
 
     若想从终端中分离，可以同时按下`Ctrl+A+D`按键
 
