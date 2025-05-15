@@ -114,7 +114,7 @@ nav:
         - Git的进阶理论: ch3/sec1/subsec3/5-advanced-theory.md
       - 项目阶段:
         - 贡献一个Linux patch: ch3/sec1/subsec4/1-linux-patch.md
-  - 四、领导开源社区:
+  - 四、开源贡献基础技能:
     - 第四章 导览: ch4/index.md
     - 第二节 Linux训练营:
       - 其他命令与工具: ch4/sec2/4-other-commands.md
