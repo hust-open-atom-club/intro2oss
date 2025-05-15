@@ -88,7 +88,10 @@ nav:
     - 导览: ch2/index.md
     - 第一节 名词解释: ch2/sec1/terminology.md
     - 第二节 开源文化: ch2/sec2/culture.md
-    - 第三节 开源世界规则: ch2/sec3/rules.md
+    - 第三节 开源世界规则:
+      - 开源项目的运作规则: ch2/sec3/1-project-operations.md
+      - 贡献与回报: ch2/sec3/2-contributions-rewards.md
+      - 开源项目的法律与合规: ch2/sec3/3-legal-and-compliance.md  
   - 三、开源贡献基础技能:
     - 导览: ch3/index.md
     - 第一节 Git训练营:
