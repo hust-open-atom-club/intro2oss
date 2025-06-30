@@ -33,7 +33,7 @@ graph TD
     - **协作模式演变过程**  
       邮件列表→版本控制→CI/CD→自动化治理的进化路径
 
-!!! tip "Red Hat商业化启示"
+!!! tip "Red Hat 商业化启示"
     ```mermaid 
     graph LR 
       A[开源软件] --> B[企业级支持]
@@ -52,7 +52,7 @@ graph TD
     - "自由软件"四大自由原则  
     - Copyleft 许可模式创新  
 
-!!! example "GitHub协作流程标准化"
+!!! example "GitHub 协作流程标准化"
     ```mermaid 
       sequenceDiagram
     autonumber
