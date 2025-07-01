@@ -8,7 +8,12 @@ on:
     branches:
       - '*'
     paths:
-      - '**/*.md' # Only run on Markdown file changes
+      - '**/*.md'
+
+# 添加权限声明
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   markdown-lint:
@@ -18,7 +23,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch full history to allow Git operations
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+          persist-credentials: true
+
+      - name: Debug info
+        run: |
+          echo "PR head ref: ${{ github.event.pull_request.head.ref || 'N/A' }}"
+          echo "Current ref: ${{ github.ref }}"
 
       - name: Lint
         continue-on-error: true
@@ -37,14 +49,18 @@ jobs:
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Commit and push changes
+      - name: Commit changes
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add -A
           git commit -m "Auto fix formatting by autocorrect [ci skip]"
-          git push origin HEAD
+
+      - name: Push changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: git push origin HEAD:${{ github.event.pull_request.head.ref || github.ref }}
+        continue-on-error: true
 
       - name: Create Pull Request
         if: steps.check_changes.outputs.has_changes == 'true'
