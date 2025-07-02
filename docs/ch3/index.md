@@ -78,17 +78,17 @@
 
 ## 🌟 拓展技能树
 ```mermaid
-graph TD  
-  A[开源贡献技能] --> B[Linux训练营]  
-  A --> C[容器虚拟化]  
-  A --> D[高效写作]  
-  B --> E[命令精要]  
-  B --> F[管道艺术]  
-  C --> G[Docker实战]  
-  C --> H[Qemu原理]  
-  D --> I[Markdown精通]  
-  D --> J[文档工程]  
-  ```
+graph TD
+  A[开源贡献技能] --> B[Linux训练营]
+  A --> C[容器虚拟化]
+  A --> D[高效写作]
+  B --> E[命令精要]
+  B --> F[管道艺术]
+  C --> G[Docker实战]
+  C --> H[Qemu原理]
+  D --> I[Markdown精通]
+  D --> J[文档工程]
+```
 ## 🔧明星工具推荐
 !!! example "效率提升神器"
 - tmux：终端会话管理（多窗口操作）
