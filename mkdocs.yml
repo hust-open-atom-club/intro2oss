@@ -86,7 +86,9 @@ nav:
     - 第四节 怎么做开源: ch1/sec4/how-to-oss.md
   - 二、开源基础理论:
     - 导览: ch2/index.md
-    - 第一节 名词解释: ch2/sec1/terminology.md
+    - 第一节 名词解释:
+      - 开源生态系统: ch2/sec1/terminology/1-open-source-ecosystem.md
+      - 开源许可证详解: ch2/sec1/terminology/2-open-source-licenses.md
     - 第二节 开源文化: ch2/sec2/culture.md
     - 第三节 开源世界规则:
       - 开源项目的运作规则: ch2/sec3/1-project-operations.md
