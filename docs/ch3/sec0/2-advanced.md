@@ -22,6 +22,7 @@ $$
 ```
 显示为：
 
+
 <p align="center">
     <img src="https://latex2png.com/pngs/c838ec0ff6cf48f333a310ba72dba65c.png" width="200" />
 
@@ -76,7 +77,7 @@ Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和�
 
 ## 3. 图表
 
-部分 Markdown 编辑器或平台（如 Typora、Obsidian、Jupyter Notebook）支持通过代码块插入图表，常见语法有 Mermaid。
+部分 Markdown 编辑器或平台（如 Typora、Obsidian、Jupyter Notebook、Github）支持通过代码块插入图表，常见语法有 Mermaid。
 
 
 ```mermaid
@@ -88,7 +89,7 @@ graph TD
     D --> E
 ```
 
-mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)，编辑好后复制左侧 markdown 代码即可。
+Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)，编辑好后复制左侧 Markdown 代码即可。
 
 !!! tips
     
@@ -134,7 +135,37 @@ mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 ![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 
-你可以访问 [shields.io](https://shields.io/) 来生成自定义的徽章。
+可以访问 [shields.io](https://shields.io/) 来生成自定义的徽章。
+
+## 5. 高级语法
+
+!!! warning
+
+    请注意，以下出现的大部分语法无法被VS Code或本文档渲染，但可用于Github文档中。在使用时，请确保你的目标用户会通过支持的渲染器访问，以达到最优效果
+
+### 勾选框
+
+```markdown
+- [ ] 未勾选的项目
+- [x] 勾选的项目
+```
+
+### 表情符号
+
+可以通过 `:CODE:` 来插入一个表情。其中，每个表情的`code`可通过[这个网页](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)查询
+
+### 提及其他人（Github）
+
+可以使用 `@username` 或 `@org/team` 提及 Github 的用户。被提及的用户会收到通知。
+
+### 提及 Issue 及 Pull Request（Github）
+
+复制指向 Issue 或 PR 的链接地址并放到 Markdown 中，Github 会自动渲染为对应页面的标题
+
+### 提及代码特定行（Github）
+
+在 Github 代码文件中点击行号左侧，选择“复制永久链接”（Copy permalink），得到的链接放入 Markdown 后，Github 将自动渲染为对应的代码块。
+
 
 ---
-更多高级用法可参考各平台的官方文档或插件说明。
+更多高级用法可参考各平台的官方文档或插件说明。Github 的 Markdown 用法可以在 [这个页面](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) 查询

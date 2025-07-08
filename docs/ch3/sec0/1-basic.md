@@ -6,6 +6,8 @@
 
 Markdown 是一种轻量级标记语言，常用于编写文档、说明和博客。在开源软件的贡献中，我们常常使用 Markdown 来编写文档、需求与说明等。
 
+同时，Github 等代码分享平台默认均以 Markdown 语法渲染文档：我们常常在项目仓库中见到的`README.md`、`CONTRIBUTING.md`等文件均是 Markdown 编写的；在提出 Issue、描述 Pull Request 时，我们同样使用 Markdown 编写对应的消息。 
+
 ## 1. 标题
 
 使用`#`表示标题，数量表示级别（1~6 级）。养成良好的标题习惯可以让他人方便地找到想要的资料。
@@ -47,8 +49,8 @@ Markdown 是一种轻量级标记语言，常用于编写文档、说明和博�
 
 ```markdown
 [百度](https://www.baidu.com)
-![Logo](https://www.example.com/logo.png)
-[![Logo](https://www.example.com/logo.png)](https://www.example.com)
+![Logo](https://oss.hust.openatom.club/assets/logo.png)
+[![Logo](https://oss.hust.openatom.club/assets/logo.png)](https://hust.openatom.club)
 ```
 
 !!! warning
@@ -74,11 +76,11 @@ Markdown 是一种轻量级标记语言，常用于编写文档、说明和博�
 - 行内代码：用反引号包裹，如 `` `代码` ``
 - 代码块：用三个反引号包裹。通常来说，Markdown 编辑器能自动识别代码语言并高亮；但当遇到识别错误时，我们可以使用` ```<语言名称> `来告诉编辑器。
 
-<pre>
+
 ```python
 print("Hello, Markdown!")
 ```
-</pre>
+
 
 ## 8. 表格
 
