@@ -95,9 +95,8 @@ nav:
   - 三、开源贡献基础技能:
     - 导览: ch3/index.md
     - 第零节 Markdown基础:
-      - Markdown基本语法: ch3/sec0/basic.md
-      - Markdown进阶用法: ch3/sec0/advanced.md
-      - 使用Markdown搭建个人主页: ch3/sec0/personal-homepage.md
+      - Markdown基本语法: ch3/sec0/1-basic.md
+      - Markdown进阶用法: ch3/sec0/2-advanced.md
     - 第一节 Git训练营:
       - 导学阶段:
         - Git简介: ch3/sec1/subsec1/1-git-introduction.md
