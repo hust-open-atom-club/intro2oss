@@ -63,7 +63,7 @@ graph LR
 | 预提交钩子   | 启用`pre-commit`自动化检查        | `pre-commit run -a`       |
 | 安全扫描     | 配置 secret-detection 和 CVE 检查     | `trivy`, `gitleaks`       |
 
-#### 环境验证示例
+#### 3. 环境验证示例
 验证开发环境配置是否达标：
 ```bash
 # 检查核心工具链
@@ -76,7 +76,7 @@ curl -sL https://raw.githubusercontent.com/项目名/main/healthcheck.sh | bash
 go build -v ./... && go test -short ./...
 ```
 
-#### 3. 贡献流程详解
+#### 4. 贡献流程详解
 GitHub 标准协作工作流：
 
 1.  **任务认领**  
@@ -111,7 +111,7 @@ GitHub 标准协作工作流：
     *   使用`git rebase -i HEAD~3`整理提交历史  
     *   通过`git push -f`更新远程分支  
 
-#### PR 生命周期管理
+#### 5. PR 生命周期管理
 | 阶段            | 时间要求          | 行动指南                                     |
 |-----------------|------------------|---------------------------------------------|
 | 初始评审        | ≤48 小时          | 添加`needs-review`标签提醒维护者             |
