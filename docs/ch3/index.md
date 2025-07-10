@@ -42,6 +42,7 @@
 
 ## 💡 四阶段学习体系
 ### 1. [导学阶段](https://oss.hust.openatom.club/ch3/sec1/subsec1/1-git-introduction/)
+
 !!! tip "环境准备三步走"
     1. **平台初识**：GitHub/Gitee 功能探索
     2. **实战入门**：创建首个仓库
@@ -57,6 +58,7 @@
     ```
 
 ### 2. [基础阶段](https://oss.hust.openatom.club/ch3/sec1/subsec2/1-basic-configuration/)
+
 !!! warning "Git 生存法则"
     | 场景 | 核心命令 | 应用要点 |
     |------|----------|----------|
@@ -65,6 +67,7 @@
     | 问题排查 | `git diff/reset` | 撤销与比对 | 
 
 ### 3. [专业阶段](https://oss.hust.openatom.club/ch3/sec1/subsec3/1-rebase-merge/)
+
 !!! tip "高级工作流"
     ```mermaid 
     graph LR 
@@ -76,6 +79,7 @@
     ```
 
 ### 4. [项目阶段](https://oss.hust.openatom.club/ch3/sec1/subsec4/1-linux-patch/)
+
 !!! danger "Linux 内核贡献须知"
     - 遵循内核编码规范
     - 补丁包含完整变更说明
@@ -98,6 +102,7 @@
 | **协作平台** | GitHub/Gitee            | 项目托管&PR 流程       |  
 | **持续集成** | GitHub Actions          | 自动化测试/部署       |  
 | **调试分析** | GitHub Network Graph    | 项目关系可视化 |  
+
 
 ## 🌟 拓展技能树
 ```mermaid
