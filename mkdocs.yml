@@ -117,6 +117,7 @@ nav:
         - Git的进阶理论: ch3/sec1/subsec3/5-advanced-theory.md
       - 项目阶段:
         - 贡献一个Linux patch: ch3/sec1/subsec4/1-linux-patch.md
+        - 团队项目合作: ch3/sec1/subsec4/2-teamwork.md
     - 第二节 Linux训练营:
       - 其他命令与工具: ch3/sec2/4-other-commands.md
     - 第三节 杂项:
