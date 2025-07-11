@@ -1,7 +1,7 @@
 ## 4.1.3.7 参与开源项目
 
 !!! note "本节目标"
-    通过实际参与开源项目，掌握GitHub协作开发的核心技能。本节将介绍从零开始参与开源项目的完整路径，包括项目发现、环境配置、贡献流程及社区互动规范，帮助开发者跨越首次贡献的心理门槛，建立可持续的开源贡献习惯。
+    通过实际参与开源项目，掌握 GitHub 协作开发的核心技能。本节将介绍从零开始参与开源项目的完整路径，包括项目发现、环境配置、贡献流程及社区互动规范，帮助开发者跨越首次贡献的心理门槛，建立可持续的开源贡献习惯。
 
 ---
 
@@ -25,7 +25,7 @@ graph LR
     A[项目发现] --> B{验证可行性}
     B -->|符合| C[环境配置]
     B -->|不符| D[重新筛选]
-    C --> E[解决入门任务]
+    C --> E[解决任务]
     E --> F{评审通过?}
     F -->|是| G[进阶贡献]
     F -->|否| H[优化迭代]
@@ -37,13 +37,13 @@ graph LR
 
 *   **活跃度筛选**  
     *   查看`Insights > Contributors`图表确认持续开发  
-    *   检查最近 Release 版本时间（建议≤3 个月）  
-    *   典型指标：每月 50+ commits / 20+ PRs 合并  
+    *   检查最近项目发版时间（建议 ≤ 3 个月）
+    *   典型指标：每月 50+ commits / 20+ PR 合并  
 *   **新手友好标识**  
     *   寻找标有 `good-first-issue` 标签的任务  
     *   确认存在 `CONTRIBUTING.md` 指南文档  
     *   案例项目：
-        - [VS Code](https://github.com/microsoft/vscode) 专设`beginner`分类
+        - [VS Code](https://github.com/microsoft/vscode) 专设`beginner`分类 
         - [Rustlings](https://github.com/rust-lang/rustlings) 
         - [First Contributions](https://github.com/firstcontributions/first-contributions)  
 *   **社区健康度**  
@@ -196,7 +196,7 @@ graph TB
 ```
 
 *   **阶段跃迁条件**  
-    *   **→ Trusted Committer**：合并 20+PR 且涉及 3 个核心模块  
+    *   **→ Trusted Committer**：合并 20+ PR 且涉及 3 个核心模块  
     *   **→ 模块维护者**：主导模块 RFC 设计并通过社区投票  
     *   **→ 核心委员会**：连续参与 2 个 LTS 版本发布管理  
 
