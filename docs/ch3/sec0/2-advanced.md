@@ -1,8 +1,8 @@
+# Markdown 进阶语法
+
 !!! note "主要作者"
 
     [@Paulkm2006](https://github.com/Paulkm2006)
-
-# Markdown 进阶语法
 
 Markdown 除了基本的文本格式化，还支持更高级的功能，如公式、HTML 标签和图表等。下面将分别介绍这些进阶用法。
 
@@ -15,17 +15,17 @@ Markdown 支持使用 LaTeX 语法书写数学公式，常见于支持 MathJax �
 
 **块级公式**：使用 `$$...$$` 包裹公式内容  
 例如：
-```
+
+```bash
 $$
 \int_{a}^{b} f(x)\,dx = F(b) - F(a)
 $$
 ```
+
 显示为：
 
-
 <p align="center">
-    <img src="https://latex2png.com/pngs/c838ec0ff6cf48f333a310ba72dba65c.png" width="200" />
-
+    <img src="https://latex2png.com/pngs/c838ec0ff6cf48f333a310ba72dba65c.png" alt="LaTeX 公式图片" width="200">
 </p>
 
 ## 2. HTML 标签与 CSS 样式
@@ -56,9 +56,9 @@ Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和�
 ```
 
 <p style="color: red;text-align: center;">这是一个红色的段落。</p>
-<p align="center">
-    <img src="https://oss.hust.openatom.club/assets/logo.png" width="200" />
-</p>
+ <p align="center">
+     <img src="https://oss.hust.openatom.club/assets/logo.png" alt="OpenAtom Club Logo" width="200" />
+ </p>
 
 <table>
     <tr>
@@ -79,7 +79,6 @@ Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和�
 
 部分 Markdown 编辑器或平台（如 Typora、Obsidian、Jupyter Notebook、Github）支持通过代码块插入图表，常见语法有 Mermaid。
 
-
 ```mermaid
 graph TD
     A[开始] --> B{条件判断}
@@ -92,11 +91,10 @@ graph TD
 Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)，编辑好后复制左侧 Markdown 代码即可。
 
 !!! tips
-    
+
     使用图表功能时，请确保你的 Markdown 渲染器支持相应的语法。
 
 ## 4. 图片进阶
-
 
 ### 使用图床
 
@@ -109,7 +107,6 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 ### 插入徽章（Badge）
 
 徽章（Badge）是一种小型的图标标签，常用于展示项目状态、版本信息、构建状态等。在 Markdown 中，我们可以通过图片链接的方式插入徽章。
-
 
 ```markdown
 展示 Github Star 状态
@@ -165,7 +162,6 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 ### 提及代码特定行（Github）
 
 在 Github 代码文件中点击行号左侧，选择“复制永久链接”（Copy permalink），得到的链接放入 Markdown 后，Github 将自动渲染为对应的代码块。
-
 
 ---
 更多高级用法可参考各平台的官方文档或插件说明。Github 的 Markdown 用法可以在 [这个页面](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) 查询
