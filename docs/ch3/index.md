@@ -4,9 +4,11 @@
     [@Dreadful_Me](https://github.com/Dreadful_Me)
 
 ## 🚀 开启 Git 与协作之旅  
+
 本章将带您系统掌握开源贡献全流程技能，从 Git 基础到高级协作，从个人项目管理到社区级贡献，通过渐进式学习路径成长为合格的开源贡献者。  
 
 ## markdown 基础
+
 !!! note 基本语法
     在这里，你将学习：
 
@@ -26,7 +28,6 @@
 
     8. 最后，利用**分割线**让不同的段落泾渭分明
 
-
 !!! warning 进阶语法
     除了基本的对文本的操作，markdown 文档能做的不止于此：
 
@@ -41,6 +42,7 @@
     - ......
 
 ## 💡 四阶段学习体系
+
 ### 1. [导学阶段](https://oss.hust.openatom.club/ch3/sec1/subsec1/1-git-introduction/)
 
 !!! tip "环境准备三步走"
@@ -49,11 +51,11 @@
     3. **合规起点**：选择开源许可证
 
 !!! example "核心任务卡"
-    ```mermaid 
-    graph TB 
-    A[注册GitHub] --> B[创建个人仓库] 
-    A --> C[Fork俱乐部项目] 
-    B --> D[配置README] 
+    ```mermaid
+    graph TB
+    A[注册GitHub] --> B[创建个人仓库]
+    A --> C[Fork俱乐部项目]
+    B --> D[配置README]
     C --> E[提交首个Issue]
     ```
 
@@ -63,18 +65,18 @@
     | 场景 | 核心命令 | 应用要点 |
     |------|----------|----------|
     | 版本控制 | `git init/clone` | 建立版本库 |
-    | 变更管理 | `git add/commit` | 原子性提交 | 
-    | 问题排查 | `git diff/reset` | 撤销与比对 | 
+    | 变更管理 | `git add/commit` | 原子性提交 |
+    | 问题排查 | `git diff/reset` | 撤销与比对 |
 
 ### 3. [专业阶段](https://oss.hust.openatom.club/ch3/sec1/subsec3/1-rebase-merge/)
 
 !!! tip "高级工作流"
-    ```mermaid 
-    graph LR 
-    A[特性分支] --> B{合并策略} 
-    B -->|协作开发| C[Rebase] 
-    B -->|公共分支| D[Merge] 
-    C --> E[整洁历史] 
+    ```mermaid
+    graph LR
+    A[特性分支] --> B{合并策略}
+    B -->|协作开发| C[Rebase]
+    B -->|公共分支| D[Merge]
+    C --> E[整洁历史]
     D --> F[保留轨迹]
     ```
 
@@ -86,9 +88,9 @@
     - 通过邮件列表提交
 
 !!! success "团队协作评估"
-    ```mermaid 
+    ```mermaid
     pie
-    title 贡献评估维度 
+    title 贡献评估维度
     "代码质量" : 40
     "文档完善" : 25
     "Issue解决" : 20
@@ -96,6 +98,7 @@
     ```
 
 ## 🔧 开发工具箱
+
 | 类别       | 推荐工具                  | 应用场景              |  
 |------------|-------------------------|-----------------------|  
 | **版本控制** | Git + GitLens           | 代码历史管理          |  
@@ -103,8 +106,8 @@
 | **持续集成** | GitHub Actions          | 自动化测试/部署       |  
 | **调试分析** | GitHub Network Graph    | 项目关系可视化 |  
 
-
 ## 🌟 拓展技能树
+
 ```mermaid
 graph TD
   A[开源贡献技能] --> B[Linux训练营]
@@ -117,8 +120,9 @@ graph TD
   D --> I[Markdown精通]
   D --> J[文档工程]
 ```
+
 ## 🔧明星工具推荐
-!!! example "效率提升神器"
+
 - tmux：终端会话管理（多窗口操作）
 - better-commits：规范化提交助手
 - opencommit：AI 生成提交信息
