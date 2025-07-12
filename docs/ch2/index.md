@@ -4,9 +4,11 @@
     [@Dreadful-Me](github.com/Dreadful-Me)
 
 ## 🚀 开启开源世界之旅
+
 本章将带您深入探索开源的核心生态系统与文化基因，通过生动的案例和互动实践，理解开源世界的运作规则。
 
 ## 📚 核心知识图谱
+
 ```mermaid
 graph TD
     A[开源基础理论] --> B[开源生态]
@@ -34,8 +36,8 @@ graph TD
       邮件列表→版本控制→CI/CD→自动化治理的进化路径
 
 !!! tip "Red Hat 商业化启示"
-    ```mermaid 
-    graph LR 
+    ```mermaid
+    graph LR
       A[开源软件] --> B[企业级支持]
       A --> C[云服务集成]
       A --> D[认证培训]
@@ -53,7 +55,7 @@ graph TD
     - Copyleft 许可模式创新  
 
 !!! example "GitHub 协作流程标准化"
-    ```mermaid 
+    ```mermaid
       sequenceDiagram
     autonumber
     贡献者 ->>+ 维护者: 提交Issue
@@ -84,5 +86,5 @@ graph TD
     ```
 
 🔗 相关资源
-Linux 基金会官网 https://www.linuxfoundation.org/
+Linux 基金会官网 <https://www.linuxfoundation.org/>
 开源之道《Understanding Open Source》

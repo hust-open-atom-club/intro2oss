@@ -23,13 +23,13 @@ Linux 内核的提交规范起源于 Linus Torvalds 对代码管理的哲学思�
 [关联标记]
 ```
 
-#### 核心要素：
+#### 核心要素
 
 - **标签系统**：精确到文件路径级别的分类（示例见下表）
 - **动词规范**：fix/add/remove 等现在时态动词
 - **行长度限制**：标题 50 字符，正文 72 字符（适配 80 列终端）
 
-#### 标签类型速查表：
+#### 标签类型速查表
 
 | 标签         | 对应目录     | 典型变更示例       |
 | ------------ | ------------ | ------------------ |
@@ -99,7 +99,7 @@ Fixed some memory bugs
 [optional footer(s)]
 ```
 
-#### 类型语义字典（扩展版）：
+#### 类型语义字典（扩展版）
 
 | 类型     | 适用场景               | 版本影响 |
 | -------- | ---------------------- | -------- |
@@ -113,7 +113,7 @@ Fixed some memory bugs
 
 ### 3。高级应用技巧
 
-#### 破坏性变更标记：
+#### 破坏性变更标记
 
 ```text
 feat(api)!: remove deprecated methods
@@ -123,7 +123,7 @@ BREAKING CHANGE: The following deprecated methods are removed:
 - User#getName
 ```
 
-#### 多问题关联：
+#### 多问题关联
 
 ```text
 fix(core): handle null pointer in renderer
@@ -184,7 +184,7 @@ Refs: https://openid.net/specs/openid-connect-core-1_0.html
 
 一个*提交信息*必须包含标题和脚注，正文部分是可选项。如果你是向项目直接*提交*的贡献者，那么正文部分则是必要的：
 
-```
+```bash
 <header>
 
 [optional <body>]
@@ -198,13 +198,13 @@ Refs: https://openid.net/specs/openid-connect-core-1_0.html
 
 作为提交信息的第一行，`<标题>` 有着严格的格式要求，通常为：
 
-```
+```bash
 <scope or type>: <subject>
 ```
 
 如果你已习惯了**约定式提交**也可以同时使用 `<类型>` 和 `<范围>`：
 
-```
+```bash
 <type>(<scope>): <suject> 
 ```
 
@@ -266,7 +266,7 @@ Refs: https://openid.net/specs/openid-connect-core-1_0.html
 
 ### Commit Messages 模板
 
-```
+```bash
 rt: refine constant declaration and document on legacy extensions
 
 Modify links on document; do not expose legacy extension EID constants, 
@@ -275,7 +275,7 @@ developers should use from `sbi-spec` crate.
 Signed-off-by: Zhouqi Jiang <luojia@hust.edu.cn>
 ```
 
-```
+```bash
 main: add embedded-cli based serial command line console support
 
 - Add embedded-cli based serial command line console support for bouffaloader, 
@@ -288,7 +288,7 @@ Refs: https://github.com/rustsbi/bouffalo-hal/pull/5
 Signed-off-by: DongQing <placebo27@hust.edu.cn>
 ```
 
-```
+```bash
 binary: enhance `SbiRet` structure functions to match `core::result::Result` APIs
 
 - binary: change `SbiRet::and` signature to `fn and<U>(self, res: Result<U, Error>) -> Result<U, Error>`
