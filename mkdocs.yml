@@ -96,6 +96,9 @@ nav:
       - 开源项目的法律与合规: ch2/sec3/3-legal-and-compliance.md  
   - 三、开源贡献基础技能:
     - 导览: ch3/index.md
+    - 第零节 Markdown基础:
+      - Markdown基本语法: ch3/sec0/1-basic.md
+      - Markdown进阶用法: ch3/sec0/2-advanced.md
     - 第一节 Git训练营:
       - 导学阶段:
         - Git简介: ch3/sec1/subsec1/1-git-introduction.md
@@ -114,12 +117,15 @@ nav:
         - Git 分布式版本控制工作原理:  ch3/sec1/subsec3/2-Control-Process.md
         - Git辅助本地项目开发: ch3/sec1/subsec3/3-help-open.md
         - Git的进阶理论: ch3/sec1/subsec3/5-advanced-theory.md
+        - 参与开源项目: ch3/sec1/subsec3/7-participate-in.md
       - 项目阶段:
         - 贡献一个Linux patch: ch3/sec1/subsec4/1-linux-patch.md
     - 第二节 Linux训练营:
       - 其他命令与工具: ch3/sec2/4-other-commands.md
-    - 第三节 杂项:
-      - 常用的开源工具: ch3/sec3/1-useful-oss.md
+    - 第三节 docker训练营:
+      - Docker 基础: ch3/sec3/1_foundation.md
+    - 第四节 杂项:
+      - 常用的开源工具: ch3/sec4/1-useful-oss.md
   - 四、领导开源社区:
     - 第四章 导览: ch4/index.md
   - 附录:
