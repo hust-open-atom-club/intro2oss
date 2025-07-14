@@ -151,12 +151,12 @@ GitHub 标准协作工作流：
 
 | 贡献类型     | 适用阶段        | 典型任务                                                                 | 工具支持                  |
 |--------------|---------------|-------------------------------------------------------------------------|--------------------------|
-| 文档改进     | 首次贡献        | 修复 API 文档错误  添加代码示例  编写用户指南                         | ReadTheDocs, Diátaxis    |
-| 测试开发     | 初级进阶        | 编写边界测试用例  完善 CI 流水线  性能基准测试                        | Jest, Playwright, JMH    |
-| 缺陷修复     | 能力验证        | 复现社区报告 Bug  定位核心问题  提交 CVE 补丁                          | GDB, Wireshark, Sentry   |
-| 功能开发     | 核心贡献        | 实现 RFC 提案功能  设计扩展 API   优化核心算法                          | Swagger, UML Designer    |
-| 社区运营     | 长期参与        | 组织线上会议  管理社交媒体  新手导师计划                           | Zoom, Discourse, Luma    |
-| 生态建设     | 战略影响        | 开发 IDE 插件  创建语言 SDK   构建工具链集成                           | VSCode Extensions, Rust Crates |
+| 文档改进     | 首次贡献        | 修复 API 文档错误<br>添加代码示例<br>编写用户指南                         | ReadTheDocs, Diátaxis    |
+| 测试开发     | 初级进阶        | 编写边界测试用例<br>完善 CI 流水线<br>性能基准测试                        | Jest, Playwright, JMH    |
+| 缺陷修复     | 能力验证        | 复现社区报告 Bug<br>定位核心问题<br>提交 CVE 补丁                          | GDB, Wireshark, Sentry   |
+| 功能开发     | 核心贡献        | 实现 RFC 提案功能<br>设计扩展 API<br>优化核心算法                          | Swagger, UML Designer    |
+| 社区运营     | 长期参与        | 组织线上会议<br>管理社交媒体<br>新手导师计划                           | Zoom, Discourse, Luma    |
+| 生态建设     | 战略影响        | 开发 IDE 插件<br>创建语言 SDK<br>构建工具链集成                           | VSCode Extensions, Rust Crates |
 
 ---
 
