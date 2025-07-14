@@ -19,7 +19,7 @@
 !!! success "**“带头大哥”说了算：仁慈的独裁者 (BDFL - Benevolent Dictator For Life)**"
     这听起来有点“专制”，但在开源界，这是一种颇为常见且高效的模式，尤其在项目早期。通常，项目的创始人或者一位技术威望极高、深受社区信赖的核心开发者会扮演这个“仁慈的独裁者”角色。他/她对项目的重大技术方向和关键决策拥有最终决定权。
 
-    **代表人物**：提到 BDFL，或许很多人会想到Python 之父 [Guido van Rossum](https://gvanrossum.github.io/)（在他卸任前）和 Linux 内核的创造者 [Linus Torvalds](https://www.britannica.com/biography/Linus-Torvalds)（早期）。他们的远见和果断，对项目的成功起到了至关重要的作用。
+    **代表人物**：提到 BDFL，或许很多人会想到 Python 之父 [Guido van Rossum](https://gvanrossum.github.io/)（在他卸任前）和 Linux 内核的创造者 [Linus Torvalds](https://www.britannica.com/biography/Linus-Torvalds)（早期）。他们的远见和果断，对项目的成功起到了至关重要的作用。
 
     **特点**：决策快，方向稳。但“独裁者”的精力和视野也可能成为项目的桎梏；而且一旦“独裁者”离开，项目就会面临挑战。
 
@@ -40,7 +40,7 @@
 !!! abstract "**“分片包干，各显神通”：去中心化/社区驱动 (Decentralized/Community-Driven)**"
     对于一些规模庞大、领域复杂的项目，将所有权力集中起来显然不现实。于是，去中心化的社区驱动模式应运而生。项目会被分解成若干个子领域或模块，由不同的兴趣小组（SIGs）或工作组（WGs）分头负责，各自在其领域内拥有较大的自主权。
 
-    **标杆**：[Kubernetes](https://dev.to/bobcars/decentralized-governance-in-open-source-bridging-innovation-and-community-181f) 项目就是这种模式的杰出代表。它拥有众多的 SIG，分别聚焦于网络、存储、安全、文档等不同方面，共同推动着这个庞大项目的演进.
+    **标杆**：[Kubernetes](https://dev.to/bobcars/decentralized-governance-in-open-source-bridging-innovation-and-community-181f) 项目就是这种模式的杰出代表。它拥有众多的 SIG，分别聚焦于网络、存储、安全、文档等不同方面，共同推动着这个庞大项目的演进。
 
     **特点**：灵活高效，能应对复杂挑战。但对协调和沟通的要求非常高，需要有良好的机制来确保各个“山头”能够劲往一处使。
 
