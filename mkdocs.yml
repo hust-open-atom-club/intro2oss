@@ -120,10 +120,12 @@ nav:
         - 参与开源项目: ch3/sec1/subsec3/7-participate-in.md
       - 项目阶段:
         - 贡献一个Linux patch: ch3/sec1/subsec4/1-linux-patch.md
+        - 团队项目合作: ch3/sec1/subsec4/2-teamwork.md
     - 第二节 Linux训练营:
       - 其他命令与工具: ch3/sec2/4-other-commands.md
     - 第三节 docker训练营:
       - Docker 基础: ch3/sec3/1_foundation.md
+      - 自定义镜像之 Dockerfile 详解: ch3/sec3/2_dockerfile.md
     - 第四节 杂项:
       - 常用的开源工具: ch3/sec4/1-useful-oss.md
   - 四、领导开源社区:
