@@ -18,6 +18,23 @@
 
 在 Git 中，**本地**通常指你的本地仓库，而**远程**指远程仓库（如 GitHub）。你需要通过 `git push` 将本地的更改同步到远程，或通过 `git pull` 将远程的更新拉取到本地。这种“本地 - 远程”协作模式是现代开发的核心实践之一。
 
+```mermaid
+graph LR
+    A[本地修改文件] --> B[git add]
+    B[git add] --> C[git commit]
+    C[git commit] --> D[git push]
+    D[git push] --> E[远程仓库]
+    E[远程仓库] --> F[git pull]
+    F[git pull] --> A[本地修改文件]
+    
+    style A fill:#e7f3fe,stroke:#4a90e2
+    style B fill:#e7f3fe,stroke:#4a90e2
+    style C fill:#e7f3fe,stroke:#4a90e2
+    style D fill:#e7f3fe,stroke:#4a90e2
+    style E fill:#e7f9e7,stroke:#50c878
+    style F fill:#e7f9e7,stroke:#50c878
+```
+
 随着学习的深入，你会逐渐意识到“本地”和“远程”的更多应用场景，例如：
 
 - 本地开发环境 vs 远程部署环境
@@ -25,6 +42,21 @@
 - 本地测试 vs 远程持续集成（CI）
 
 掌握这种思维方式，将帮助你更好地理解开源的工作流程。
+
+---
+
+## 准备工作
+
+在开始前，请确保：
+
+1. 已安装 [Git](https://git-scm.com/downloads)
+2. 已注册 [GitHub 账号](https://github.com/signup)
+3. 已配置 Git 用户名和邮箱（首次使用需要）：
+
+```bash
+git config --global user.name "你的名字"
+git config --global user.email "你的邮箱"
+```
 
 ---
 
@@ -46,6 +78,13 @@ remote: Total 4 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
 Receiving objects: 100% (4/4), 4.79 KiB | 4.79 MiB/s, done.
 ```
 
+!!! tip "不喜欢命令行？试试 GitHub Desktop！"
+
+    1. [下载 GitHub Desktop](https://desktop.github.com/)  
+    2. 登录你的 GitHub 账号  
+    3. 创建仓库：File → New repository  
+    4. 点击"Publish repository"同步到 GitHub
+  
 - **进行更改并提交**：在本地仓库中进行一些更改，例如添加新文件或修改现有文件。
 
 使用以下命令提交更改：
@@ -53,6 +92,14 @@ Receiving objects: 100% (4/4), 4.79 KiB | 4.79 MiB/s, done.
 ```bash
 git add .
 git commit -m "Your commit message"
+```
+
+- 在添加文件前，可使用 `git status` 查看当前文件状态：
+
+```bash
+git status
+# 会显示红色的"Untracked files"（未跟踪文件）
+# 这些文件需要先添加到暂存区才能提交
 ```
 
 - **推送更改**：使用以下命令将更改推送到远程仓库：
@@ -67,6 +114,9 @@ git push origin main
 
 ### 初始化本地仓库
 
+> 📌 为什么要初始化？  
+> 这就像给你的项目文件夹装上"记忆芯片"，Git 才能开始记录你的每一次修改
+
 - 打开终端或命令行工具（Windows 用户可以使用 Git Bash，macOS 和 Linux 用户可以使用 Terminal）。
 
 - 使用 `cd` 命令导航到你希望创建仓库的文件夹：
@@ -80,6 +130,14 @@ cd /path/to/your/project-folder
 ```bash
 git init
 ```
+
+执行后会显示：
+
+```bash
+Initialized empty Git repository in /path/to/your/project-folder/.git/
+```
+
+💡 这个提示说明你的仓库已成功创建！
 
 - **意义**：这一步告诉 Git 你要开始在这个文件夹中跟踪文件的更改，形成版本控制。
 
@@ -113,6 +171,19 @@ git commit -m "Initial commit"
 git remote add origin https://github.com/yourusername/yourrepository.git
 ```
 
+✅ 验证是否添加成功：
+
+```bash
+git remote -v
+```
+
+应该显示：
+
+```bash
+origin  https://github.com/yourusername/yourrepository.git (fetch)
+origin  https://github.com/yourusername/yourrepository.git (push)
+```
+
 - **意义**：这一步把本地仓库和远程仓库连接起来，告诉 Git 在远程仓库中保存你的代码。
 
 ### 推送更改到远程仓库
@@ -125,11 +196,32 @@ git push -u origin main
 
 - **意义**：`git push` 是将本地的提交上传到远程仓库，`main` 是你本地分支的名字。如果是第一次推送，它会将本地的 `main` 分支推送到远程仓库。
 
+推送成功后，你应该看到类似提示：
+
+```bash
+Enumerating objects: 3, done.
+Writing objects: 100% (3/3), 240 bytes | 240.00 KiB/s, done.
+To https://github.com/yourname/yourrepo.git
+ * [new branch]      main -> main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
+```
+
+---
+
+## 💡 遇到问题怎么办？
+
+1. 权限错误：检查远程 URL 是否正确 `git remote -v`
+2. 分支冲突：首次推送尝试 `git push -u origin HEAD`
+3. 认证失败：更新 Git 凭证 `git config --global credential.helper cache`
+4. 总是先拉取更新：`git pull --rebase` 避免冲突
+
 ---
 
 ## 私人仓库和公共仓库
 
 当前内容主要关注如何创建和管理**私人仓库**，即仅你自己或指定的合作者可以访问的仓库。这种类型的仓库适合用于存放个人项目、学习代码或敏感数据。
+
+> 🆓 好消息：GitHub 现在提供无限免费私人仓库！创建时只需选择"Private"选项即可
 
 如果你计划创建和管理**公共仓库**（即所有人都可以访问的仓库），需要注意以下几点：
 
@@ -139,3 +231,14 @@ git push -u origin main
 4. **安全检查**：确保提交到公共仓库的代码中没有敏感信息（如 API 密钥、配置文件等），以免造成不必要的风险。
 
 如果你有兴趣进一步了解公共仓库的管理，可以专门针对这些注意事项进行深入学习！
+
+## ✅ 学习进度自查
+
+阅读本教程后，你应该能够：
+
+- [ ] 在 GitHub 创建新仓库
+- [ ] 将仓库克隆到本地
+- [ ] 在本地初始化 Git 仓库
+- [ ] 添加文件并提交更改
+- [ ] 连接本地与远程仓库
+- [ ] 推送更改到 GitHub  
