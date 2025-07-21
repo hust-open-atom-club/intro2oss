@@ -1,0 +1,55 @@
+几个月之前写的, 忘记标日期了, 标个今天的日期吧! (2025-7-21 周一 23:21)
+
+Git是什么: 一款分布式的代码版本控制工具 (免费且开源的分布式版本控制系统)  
+Git学习路线
+{
+(1) 学习视频推荐: 尚硅谷
+(2) 书籍: 《Pro Git》
+(3) 文章:  Git tutorial
+(4) 博客:  如何写好 Commit Message
+(5) 动手实现一个Git: https://wyag.thb.lt/
+(6) 其他动手东西: [build-your-own-x](https://github.com/danistefanovic/build-your-own-x) 
+                 [project-based-learning](https://github.com/tuvtran/project-based-learning)
+} 
+这些资料均来自csdiy.wiki
+个人感觉Git的学习主要在于知道相关的命令, 然后就是大量的使用了.
+CS61B 实验4 有关于Git的详细使用
+
+常用命令: 
+         · git init                     初始化git仓库
+         · git clone HTTPS或SSH链接     把远程仓库克隆到本地, SSH链接需要在Github账户中添加本地的SSH密钥
+         · git pull origin main/master  在本地获取远程仓库最新更改的命令   (git pull = git fetch + git merge) 
+         · git add 文件夹或文件名称      把文件添加到暂存区         git add . 把当前目录下的所有文件添加到暂存区
+         · git status                   检查分支状态(看进行了哪些增加、删除等操作)
+         · git commit -m "***"          提交更改       *** 里应简洁明确地表示出所做的更改 
+         · git push origin main         推送本地库到远程库    注意: 如果是第一次推送, 应该在 push 后加 -u ,后续就可以不用写 -u 了
+         · git push -f origin main      强制推送本地库到远程库
+         · git log                      显示提交的历史记录
+         · git restore                  把文件恢复到最近提交的版本     恢复特定的提交 git restore --source=[commitID] [path_to_file]
+         · git rm 文件名                 删除文件           强制删除: git rm -f 文件名
+         · git rebase                   变基操作        git rebase --continue 继续rebase过程     git rebase --abort 终止rebase过程    
+         · git reset                    版本回退
+         · git revert                   撤销提交
+         · git stash                    暂存修改        git stash list 查看所有暂存记录
+         · git cherry-pick              选择提交
+         · git submodule                子模块管理
+
+其他的一些东西: 
+一般, Git 的数据模型或表示形式是基于链表的
+-  自己写一个Git
+-  也可以借助Github Pages搭建一个网站作为练习项目试一下, 很有成就感  
+
+
+- Github    Action的Workflow   
+            Workflow文件采用Yaml格式, 文件名可以任意取, 但是后缀名统一为.yml
+            Github只要发现.github/workflows目录里有.yml文件, 就会按文件中所指定的触发条件, 在符合条件时自动运行该文件中的工作流程
+
+
+- 怎么在本地仓库同步远程仓库的最新代码(2025-5-21周三晚九点十分左右)
+  先检查分支状态  git branch -a         git status        如果不在目标分支, 则切换到该分支 git checkout main/master
+  再使用git pull(git pull = git fetch + git merge) 从远程仓库下载最新代码
+
+
+现在依旧是菜鸟。。。
+切忌好高骛远(个人惨痛教训)
+(提交的东西是被看的, 所以肯定和单纯的个人学习笔记记录有差别)
