@@ -12,12 +12,21 @@
 
 ### 1. [tmux：会话管理魔法](https://github.com/tmux/tmux)
 
+**适用场景**：当你在服务器上工作时突然断网，所有任务都会丢失？tmux 能解决这个问题！
+
 1. 前置知识：窗口与会话
+  
+  许多初学者容易混淆终端、控制台、shell 和解释器这几个概念。我们来简单区分一下：  
 
- 简单来说，无论是使用 SSH 还是 Linux 桌面自带的命令行，你所看到的那个黑色的“框框”便是一个窗口；在窗口中，运行了一个 shell 解释器（bash，sh，zsh 等等）或者其他应用程序，每个运行的程序进程被称为一个“会话”。
+  **终端（Terminal）**：是你看到的黑色窗口，允许你输入命令的界面。  
+  **Shell（壳程序）**：是一个命令解释器，运行在终端内，比如常见的 `bash`、`zsh`。  
+  **会话（Session）**：是 shell 或程序运行的实例，比如你登录系统后打开一个终端窗口，它就是一个会话。
 
- !!! note
-  何为"解释器"？解释器是一个交互的，实时运行的命令环境。解释器可以使用很多语言，如 shell、powershell 和 python。
+!!! note
+    Shell 本身是一个程序，它负责解析你输入的命令并交由系统执行。不同的 shell 功能略有差异，比如 `bash` 是默认的，`zsh` 更强大。
+
+!!! note
+    何为"解释器"？解释器是一个交互的，实时运行的命令环境。解释器可以使用很多语言，如 shell、powershell 和 python。
 
   很多同学可能会认为"解释器是操作系统的一部分"，这实际上是不准确的：在 Linux 中，各发行版通常都预装了一个解释器，但我们也完全可以自行安装更好的解释器。在 Windows 中，系统的确提供了一个底层解释器 cmd，但用户也可以选择使用 PowerShell、Git Bash 等其他解释器。
 
@@ -30,6 +39,14 @@
 - 分离会话并在稍后重新连接，即在后台运行任务
 - 创建分屏布局，同时查看多个会话
 
+   ```mermaid
+   graph LR
+   A[SSH 连接] --> B[tmux 会话]
+   B --> C[关闭 SSH]
+   C --> D[重新连接]
+   D --> E[恢复工作状态]
+   ```
+
 3. tmux 的基本概念
 
  tmux 有三个重要概念：
@@ -37,6 +54,14 @@
 - **会话（Session）**：一个工作环境，包含一个或多个窗口。会话的切换只能在退出 tmux 环境的条件下，使用命令执行。
 - **窗口（Window）**：类似于浏览器的标签页，每个窗口包含一个或多个窗格
 - **窗格（Pane）**：窗口的分割部分，每个窗格运行一个 shell
+
+!!! tip "新手理解"
+    想象你正在用浏览器：  
+
+    **窗口** = 浏览器窗口  
+    **标签页** = tmux 的窗口 (Window)  
+    **分屏浏览** = tmux 的窗格 (Pane)  
+    **会话** = 保存所有标签页和分屏的完整工作状
 
  当我们使用不带任何参数的`tmux`时，tmux 会为我们创建一个新的**会话**，这个会话中有一个**窗口**，窗口中有一个**窗格**。
 
@@ -70,6 +95,21 @@
  tmux detach
  ```
 
+!!! tip "什么是分离会话？"
+    想象你在办公室工作到一半需要离开：  
+    1. 把文件留在桌上（分离会话）= `Ctrl+b d`  
+    2. 下班回家（断开SSH）  
+    3. 第二天回来（重新连接SSH）  
+    4. 坐回桌前继续工作（连接会话）= `tmux attach`  
+    你的工作状态完全保留，就像从未离开过！
+
+!!! tip "重要提示"
+    tmux 的所有快捷键都需要先按**前缀键**（默认是`Ctrl+b`），然后松开，再按功能键。例如：  
+    - 分屏：先按`Ctrl+b`，松开，再按`%`（垂直）或`"`（水平）  
+    - 切换窗口：先按`Ctrl+b`，松开，再按数字键`0-9`  
+
+    记忆技巧：把`Ctrl+b`想象成"告诉tmux我要发命令了"
+
  以下是对**窗格**的操作快捷键：
 
 - `Ctrl+b + %`：垂直分屏
@@ -87,22 +127,31 @@
 - `Ctrl+b + ,`：重命名窗口
 - `Ctrl+b + &`：关闭当前窗口
 
- !!! example
-  如果我们想创建一个如下布局的窗口，我们需要执行以下操作：
-  ![tmux 示例](../../assets/tmux_example.png)
+!!! example
+    如果我们想创建一个如下布局的窗口，我们需要执行以下操作：
+    ![tmux 示例](../../assets/tmux_example.png)
 
-  ```bash
-  tmux # 进入 tmux 环境
+    ```bash
+    tmux # 进入 tmux 环境
 
-  # Ctrl+b % 创建垂直分屏
-  # Ctrl+b " 创建水平分屏
-  # Ctrl+b ← 返回最初始的分屏
+    # Ctrl+b % 创建垂直分屏
+    # Ctrl+b " 创建水平分屏
+    # Ctrl+b ← 返回最初始的分屏
+    ```
 
-  ```
+!!! bug "新手常见问题"
+    断开后如何恢复？
+
+    ```bash
+    # 列出所有会话
+    tmux ls
+    # 重新连接
+    tmux attach -t work
+    ```
 
 ### 2. [Oh My Zsh：实用的 shell 解释器框架](https://ohmyz.sh/)
 
-Oh My Zsh 是一个开源的、社区驱动的框架，用于管理 Zsh 配置。它提供了数百个插件和主题，让你的命令行体验更加强大和美观。
+Oh My Zsh 是一个开源的、社区驱动的框架，用于管理 Zsh 配置。它提供了数百个插件和主题，让你的命令行体验更加强大和美观。同时自带错误纠正和智能提示。
 
 1. Oh My Zsh 的作用
 
@@ -139,6 +188,24 @@ Oh My Zsh 是一个开源的、社区驱动的框架，用于管理 Zsh 配置�
 
 3. 实用插件推荐
 
+要启用插件，需要编辑 Zsh 配置文件：
+
+ ```bash
+ nano ~/.zshrc
+ ```
+
+找到 plugins=(git) 这行，添加你想要的插件：
+
+ ```bash
+ plugins=(git sudo z extract autojump)
+ ```
+
+保存后运行：
+
+ ```bash
+ source ~/.zshrc
+ ```
+
  ```bash
  omz plugin list # 查看插件列表
 
@@ -149,11 +216,13 @@ Oh My Zsh 是一个开源的、社区驱动的框架，用于管理 Zsh 配置�
 
  常用插件介绍：
 
-- **git**：提供 git 命令的别名和补全
-- **sudo**：双击 ESC 键自动在命令前添加 sudo
-- **z**：快速跳转到常访问的目录
-- **extract**：智能解压各种格式的压缩文件
-- **autojump**：基于历史记录的目录跳转
+| 插件       | 功能 | 使用示例 |
+|------------|------|----------|
+| **git**    | 提供 git 别名 | 输入`gst` = `git status`<br>`gco main` = `git checkout main` |
+| **sudo**   | 快速提权 | 输入`apt update` → 按两次`ESC` → 自动变成`sudo apt update` |
+| **z**      | 目录跳转 | `z doc` → 跳转到`~/Documents`<br>`z down` → 跳转到`~/Downloads` |
+| **extract**| 智能解压 | `extract archive.zip` 自动识别解压<br>`extract file.tar.gz` 自动解压 |
+| **autojump**| 历史跳转 | `j proj` → 跳转到最近访问的包含"proj"的目录 |
 
 4. 主题配置
 
@@ -183,16 +252,16 @@ Oh My Zsh 是一个开源的、社区驱动的框架，用于管理 Zsh 配置�
 - **Tab 补全**：支持文件名、命令、参数的智能补全
 - **目录补全**：输入目录名的一部分，按 Tab 键自动补全
 
- !!! tip
-  配置完成后，重新加载配置文件：
+!!! tip
+    配置完成后，重新加载配置文件：
 
-  ```bash
-  source ~/.zshrc
-  ```
+    ```bash
+    source ~/.zshrc
+    ```
 
 ### 3. [uv：Python 包管理利器](https://github.com/astral-sh/uv)
 
-uv 是一个极快的 Python 包管理器和项目管理工具，由 Rust 编写，旨在替代或补充 pip、pipenv 等传统工具。
+uv 是一个极快的 Python 包管理器和项目管理工具，由 Rust 编写，旨在替代或补充 pip、pipenv 等传统工具。其解决了 Python 包安装慢/冲突多的痛点。
 
 1. uv 的优势
 
@@ -204,6 +273,22 @@ uv 是一个极快的 Python 包管理器和项目管理工具，由 Rust 编写
 - **依赖解析**：更智能的依赖冲突解决
 
 2. 安装和基本使用
+
+!!! note "虚拟环境就像隔离的工作区"
+    - 想象你有两个项目：项目 A 需要 Python 3.8，项目 B 需要 Python 3.11
+    - 虚拟环境就是独立的"工作房间"：
+
+      ```bash
+      uv venv projA-env  # 创建 A 项目的房间
+      source projA-env/bin/activate  # 进入 A 房间
+      uv add numpy==1.21  # 在 A 房间安装特定版本
+
+      uv venv projB-env  # 创建 B 项目的房间
+      source projB-env/bin/activate  # 进入 B 房间
+      uv add numpy==1.25  # 在 B 房间安装新版
+      ```
+
+    - 两个项目完全隔离，不会互相干扰！
 
  安装 uv：
 
@@ -301,13 +386,22 @@ btop 是一个漂亮且功能丰富的系统资源监视器，用于显示处理
 
 4. 常用快捷键
 
-- `q`：退出 btop
-- `h`：显示帮助
-- `↑/↓`：在进程列表中导航
-- `F5`：选择排序方式
-- `t`：切换进程树视图
-- `k`：终止选中的进程
-- `+/-`：增加/减少更新间隔
+| 按键          | 功能                | 新手用途                     |
+|---------------|---------------------|------------------------------|
+| `q`           | 退出 btop           | 关闭监控程序                 |
+| `h` 或 `F1`   | 显示帮助            | 查看完整快捷键指南           |
+| `↑/↓`         | 在进程列表中导航    | 上下移动选择进程             |
+| `F5`          | 选择排序方式        | 按 CPU/内存/进程 ID 等排序      |
+| `t`           | 切换进程树视图      | 显示进程父子关系             |
+| `k`           | 终止选中的进程      | 结束卡死的程序               |
+| `+`           | 增加更新间隔        | 减慢刷新速度（节省资源）     |
+| `-`           | 减少更新间隔        | 加快刷新速度（实时监控）     |
+| `p`           | 进程管理            | 查看所有运行中的程序         |
+| `s`           | 磁盘监控            | 检查硬盘使用情况             |
+| `n`           | 网络监控            | 查看网络流量和连接           |
+| `ESC`         | 返回上级            | 退出当前菜单或操作           |
+| `1-9`         | 切换监控页面        | 快速查看不同资源（CPU/内存等）|
+| `TAB`         | 切换主区域          | 在进程列表和资源图表间切换   |
 
 ### 5. [tldr：通俗易懂的 man](https://github.com/tldr-pages/tldr)
 
@@ -372,8 +466,8 @@ tldr（Too Long; Didn't Read）是一个社区维护的帮助页面集合，旨�
  # 输出：基本的 git 操作示例
  ```
 
- !!! tip
-  当你忘记某个命令的具体用法时，先试试`tldr`，它通常能比`man`更快地给你想要的答案。
+!!! tip
+    当你忘记某个命令的具体用法时，先试试`tldr`，它通常能比`man`更快地给你想要的答案。
 
 ### 6. [better-commits：优雅的 Git 提交助手](https://github.com/Everduin94/better-commits)
 
@@ -419,11 +513,25 @@ better-commits 是一个交互式的 Git 提交工具，帮助开发者编写更
 
  运行 `bc` 后，工具会引导你完成以下步骤：
 
-- **选择提交类型**：feat（新功能）、fix（修复）、docs（文档）等
-- **输入作用域**：变更影响的模块或组件（可选）
-- **编写描述**：简洁明了的变更描述
-- **详细说明**：更详细的变更内容（可选）
-- **破坏性变更**：是否包含不兼容变更（可选）
+  **选择提交类型**：
+     - 使用↑↓箭头选择，Enter 确认
+     - 最常用：`feat`(新功能), `fix`(修复)
+
+  **输入作用域**（可选）：
+     - 输入模块名如`login`, `payment`
+     - 按 Enter 跳过
+
+  **编写简短描述**：
+     - 要求：首字母小写，不加句号
+     - 示例："add password validation"
+
+  **详细说明**（可选）：
+     - 解释为什么做这个修改
+     - 按 Ctrl+D 结束输入
+
+  **破坏性变更确认**：
+     - 只有重大变更才选 Yes
+     - 会自动添加`!`标记  
 
 5. 配置自定义
 
@@ -449,9 +557,50 @@ better-commits 是一个交互式的 Git 提交工具，帮助开发者编写更
  }
  ```
 
- !!! tip
-  使用 better-commits 可以让团队的 Git 提交历史更加规范，便于生成变更日志和版本发布说明。
+!!! tip
+    使用 better-commits 可以让团队的 Git 提交历史更加规范，便于生成变更日志和版本发布说明。
+
+```mermaid
+sequenceDiagram
+    participant 开发者
+    participant better-commits
+    开发者->>better-commits: 输入 bc
+    better-commits-->>开发者: 引导选择提交类型
+    开发者->>better-commits: 选择 feat (新功能)
+    better-commits-->>开发者: 提示输入描述
+    开发者->>better-commits: 输入「添加登录功能」
+    better-commits->>Git: 生成标准提交: feat: 添加登录功能
+```
+
+## 工具选择流程图
+
+```mermaid
+graph TD
+    A[需要哪类工具？] 
+    A --> B{防止工作丢失}
+    A --> C{美化/增强终端}
+    A --> D{Python开发}
+    A --> E{系统监控}
+    A --> F{命令帮助}
+    A --> G{Git提交}
+    
+    B --> H[tmux]
+    C --> I[Oh My Zsh]
+    D --> J[uv]
+    E --> K[btop]
+    F --> L[tldr]
+    G --> M[better-commits]
+    
+    style H fill:#9f9,stroke:#333
+    style I fill:#9f9,stroke:#333
+    style J fill:#9f9,stroke:#333
+    style K fill:#9f9,stroke:#333
+    style L fill:#9f9,stroke:#333
+    style M fill:#9f9,stroke:#333
+```
 
 ## 参考资料
 
 - [Tmux 使用教程](https://www.ruanyifeng.com/blog/2019/10/tmux.html)
+- [Linux 新手生存指南](https://linuxnewbieguide.org)
+- [命令行艺术](https://github.com/jlevy/the-art-of-command-line)
