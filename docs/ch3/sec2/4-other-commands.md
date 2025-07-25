@@ -10,6 +10,17 @@
 
 本文只是作为一些常用工具的常用方法的介绍。有很多工具都具有更加高级的使用方法，因篇幅限制无法在本文中展开描述。若对某一个工具感兴趣，最简单的办法就是阅读他的 man 手册。同时，[runoob 网站](https://www.runoob.com/linux/linux-command-manual.html)也覆盖了很多本文没有提及的工具。
 
+## 快速开始（新手建议）
+
+如果你是第一次接触 Linux，建议按以下顺序阅读内容，逐步掌握基础工具的使用：
+
+1. 先学习如何查阅命令的用法，掌握基本帮助命令的使用方法（可参见第 0 节“如何查看命令的帮助”）。
+2. 再了解如何查看和关闭进程，熟悉任务管理相关操作（可参见第 1 节“任务管理器系列”）。
+3. 接着学习如何查看磁盘、CPU、USB 等硬件资源的使用情况（详见第 2 节“资源管理器系列”）。
+4. 最后学习查看和编辑文件内容、搜索关键词等基本文件操作（请参考第 3 节“文本和文件操作类”）。
+
+建议配合实际操作边学边练，更容易理解和记忆。
+
 ## 编写格式
 
 很多工具都可以接受一些可选参数和开关。但同时，也有部分应用要求一些输入才能运行。在本文中，通常用如下的格式来描述命令
@@ -23,6 +34,10 @@
 
 !!! warning
     请注意！Linux 系统是大小写敏感的！若执行命令时出现了错误的结果或提示无法识别参数，请检查一下自己的大小写是否正确。
+
+!!! note
+    什么是“终端”或“命令行”？  
+    简单理解，它是一个可以输入命令并看到执行结果的窗口。在 Ubuntu 中你可以使用 Ctrl+Alt+T 打开它。也叫 shell 或终端窗口。
 
 ## 内容
 
@@ -86,6 +101,15 @@ man 可以被称为 Linux 系统的百科全书。从命令使用到操作系统
     !!! tip
         如果你出于某些原因只能使用 top，那么可以在启动 top 后输入命令`xtm4z`，以获得一个相对友好的界面
 
+    在 top 中常见字段说明：
+
+    `PID`：进程 ID  
+    `USER`：所属用户  
+    `%CPU`：CPU 使用率  
+    `%MEM`：内存使用率  
+    `TIME+`：累计使用的 CPU 时间  
+    `COMMAND`：命令名  
+
 - **htop**
 
     htop 是 top 的（超级）增强版。除了可以显示进程外，它还可以以图标的方式展现系统负载和资源利用情况，并提供了方便的快捷操作
@@ -103,6 +127,20 @@ man 可以被称为 Linux 系统的百科全书。从命令使用到操作系统
 
     如果向了解更多有关 Linux 中各个信号的意义，可以参考[这篇文章](https://prateeksrivastav598.medium.com/understanding-Linux-signals-a-comprehensive-guide-339ecc2d16d4)
 
+    !!! warning
+        如果系统提示找不到 `htop` 命令，可以使用以下命令安装（根据你的系统选择）：
+
+        ```bash
+        # Debian/Ubuntu
+        sudo apt install htop
+
+        # CentOS/RHEL
+        sudo yum install htop
+
+        # Arch Linux
+        sudo pacman -S htop
+        ```
+
 - **kill killall 和 pkill**
 
     我们除了可以使用 htop 与 top 来结束任务，还能直接使用命令行工具进行。
@@ -112,6 +150,11 @@ man 可以被称为 Linux 系统的百科全书。从命令使用到操作系统
     用法：`kill [flags] pid`
 
     当指定`-s <signal>`时，会使用指定的信号结束进程。否则默认为`15 SIGTERM`
+
+    选中你想操作的进程（使用方向键或直接用鼠标点击），按`F9`，最左边会出现一长串以`SIG`开头的命令：
+
+    `SIGTERM` (15)：**安全终止**，允许进程清理后退出（推荐首选）
+    `SIGKILL` (9)：**强制终止**，立即结束进程（用于无响应进程）
 
     killall 工具用于根据进程名称结束进程。注意若有多个进程拥有相同的名字，killall 将会杀死所有同名的进程。
 
@@ -169,6 +212,9 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
     注意，wsl 环境中不存在这两个命令
 
 - **/proc 目录**
+!!! tip "什么是/proc?"
+    Linux中`/proc`是**虚拟文件系统**，不占用磁盘空间，实时反映系统状态
+    你可以像查看普通文件一样查看这些特殊文件
 
     是的，这是一个目录，而并非一个工具。Linux 遵循“万物皆文件”的原则，故我们也可以从一个个“文件”中读取到相应的系统信息。
 
@@ -251,11 +297,18 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
 
     用法：`vi/vim filename`
 
-    打开文件后，按下`i`按钮以进入互动编辑器模式（允许我们移动光标）
+    打开文件后：
 
-    编辑完成后，按下`ESC`以退出互动模式
+    1. 按下 `i` 进入**编辑模式**（底部显示 `-- INSERT --`）
+    2. 编辑完成后按 `ESC` 返回**命令模式**
+    3. 在命令模式下输入：
+        - `:w` 保存
+        - `:q` 退出
+        - `:wq` 保存并退出
+        - `:q!` 强制退出不保存（注意是英文感叹号）
 
-    退出编辑模式后，使用命令`:q!`退出（`!`意味着强制退出，并不保存修改），`:wq`退出并保存
+    !!! tip
+        若编辑时卡住，连续按 `ESC` 确保返回命令模式再输入指令。
 
     !!! info
         多数系统自带的 vim 都是`vim-tiny`而非完整的`vim`。若你在更改他的配置时发现了一些不对劲的地方，可以试试安装完整版的 vim。
@@ -280,6 +333,19 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
   - `Down/Up` 注意，在 more 中这两个按键的作用是向下/上一页，而在 less 中是向下/上一行
   - `q` 退出
   - `h` 查看帮助信息
+
+!!! example
+    你可以使用 `cat` 命令输出内容并通过管道 `|` 传给 `less` 实现分页：
+
+    ```bash
+    cat largefile.txt | less
+    ```
+
+    或直接打开文件：
+
+    ```bash
+    less largefile.txt
+    ```
 
 - **tail**
 
@@ -347,6 +413,26 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
     当指定`-L`时，将会跟随重定向
 
     当指定`-d <data>`时，将会把`data`的数据作为请求体发送。特别的，`data`中可以指定`@filename`，此时将会上传文件
+
+    **常用场景示例：**
+
+    ```bash
+    # 下载文件并重命名
+    wget -O logo.png https://example.com/image.png
+    
+    # 快速测试 API（JSON 格式美化）
+    curl -s https://api.example.com/data | jq  
+    
+    # 带身份验证的请求
+    curl -u user:password https://api.example.com
+    ```
+
+| 功能           | wget                         | curl                            |
+|----------------|------------------------------|----------------------------------|
+| 默认行为       | 下载文件                      | 显示网页内容或发起请求           |
+| 支持协议       | HTTP, HTTPS, FTP             | 支持协议更多（HTTP, FTP, SMTP 等）|
+| 文件上传       | 不支持                       | 支持（`-d` 或 `--upload-file`） |
+| 是否默认安装   | 多数系统已内置               | 多数系统已内置                   |
 
 - **ftp**
 
@@ -443,12 +529,21 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
 
     当指定`-e`，该命令会使用你的默认文本编辑器打开一个配置文件。这个配置文件的详细格式可以参考[这篇文章](https://linux.fasionchan.com/zh_CN/latest/administration/service/cron/crontab-conf.html)
 
-    !!! example
-        `* */1 * * * command`，每小时执行一次 command
+    **时间格式图解：**
 
-        `* 9 */2 * * command`，每两天的早上 9 点执行一次 command
+    ```bash
+    ┌── 分钟 (0-59)
+    │ ┌── 小时 (0-23)
+    │ │ ┌── 日 (1-31)
+    │ │ │ ┌── 月 (1-12)
+    │ │ │ │ ┌── 星期 (0-7, 0 和 7=周日)
+    │ │ │ │ │
+    * * * * * command
+    ```
 
-    当指定`-l`，会显示当前配置的定时任务
+    !!! example "示例"
+        `0 9 * * 1-5 command` → 每周一到周五 9:00 执行  
+        `*/10 * * * * command` → 每 10 分钟执行
 
 - **服务**
 
@@ -478,12 +573,23 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
         严格意义上来说，`systemd`其实是一整套工具，能够让我们管理 Linux 系统的方方面面。
     !!! warning
         对于 Alpine Linux 用户：Alpine 发行版使用的并不是`systemd`而是`OpenRC`。若需要了解更多信息，请参考[Alpine wiki](https://wiki.alpinelinux.org/wiki/Writing_Init_Scripts)
+
 - **nohup 与 screen**
     在 ssh 会话结束后，我们运行的所有前台应用都将会被销毁。若需要将会话长时间保持后台运行，我们可以使用 nohup 或 screen 工具
     nohup 的作用是让应用不受 ssh 会话终止的影响，继续在后台运行。
     用法：`nohup [command]`
 
     通常，我们使用指令`nohup command > log.log 2>&1 &`，意义为：在后台运行`command`，将其的标准错误输出（`stderr`）合并到标准输出，并重定向到文件`log.log`，并让终端继续接受后续命令
+
+    **基础用法：**
+
+    ```bash
+    # 后台运行脚本并忽略关闭信号
+    nohup python myscript.py &
+    
+    # 查看实时输出
+    tail -f nohup.out
+    ```
 
     screen 的作用是相当于一个虚拟终端。我们可以随时切换回到这个终端，或从这个终端分离。分离后，其将继续在后台运行
     用法：`screen [options] [command]`
@@ -496,3 +602,27 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
     若想结束一个终端，可以执行`screen -XS <session-id> quit`
     !!! note
         screen 工具由于维护不佳，导致出现了[许多漏洞](https://security.opensuse.org/2025/05/12/screen-security-issues.html)。在可能的情况下，我们更加推荐使用 tmux。关于这个工具的详情，请参考下一节的“[常用的开源工具](../sec3/1-useful-oss.md)”篇目
+
+## 🧪 小练习
+
+1. 用 `ps aux` 命令查看所有进程，并使用 `grep` 查找包含关键词 "ssh" 的进程。
+2. 使用 `top` 命令，观察当前哪个进程占用 CPU 最高。
+3. 使用 `kill` 命令终止某个你启动的测试进程（比如 `gedit`）。
+4. 尝试用 `ss -tunlp` 查看当前系统监听的端口。
+
+## 小贴士
+
+- 想更深入学习这些工具？推荐查看 [https://explainshell.com](https://explainshell.com)
+- 遇到不会用的命令？试试 `man <命令>` 或 `<命令> --help`
+- 多实践！Linux 学习最好的方式是——动手敲命令
+
+## 附录：推荐安装的常用工具（适合新手）
+
+| 工具      | 作用简述                     | 安装命令（Ubuntu/Debian）       |
+|-----------|------------------------------|----------------------------------|
+| tldr      | 简洁版 man 手册              | `sudo apt install tldr`         |
+| htop      | 图形化任务管理器              | `sudo apt install htop`         |
+| neofetch  | 显示系统信息图               | `sudo apt install neofetch`     |
+| inxi      | 全面展示硬件/系统信息         | `sudo apt install inxi`         |
+| unzip     | 解压 zip 文件                 | `sudo apt install unzip`        |
+| p7zip     | 解压 7z 文件（完整功能）      | `sudo apt install p7zip-full`   |
