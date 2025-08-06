@@ -9,6 +9,9 @@ copyright: Brought to you by <a href="https://hust.openatom.club/">HUST Open Ato
 extra_css:
   - stylesheets/extra.css
 
+plugins:
+    - mkdocs-audio
+
 theme:
   name: 'material'
   language: 'zh'
