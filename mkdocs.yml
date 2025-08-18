@@ -129,8 +129,10 @@ nav:
     - 第三节 docker训练营:
       - Docker 基础: ch3/sec3/1_foundation.md
       - 自定义镜像之 Dockerfile 详解: ch3/sec3/2_dockerfile.md
-    - 第四节 杂项:
-      - 常用的开源工具: ch3/sec4/1-useful-oss.md
+    - 第四节 QEMU训练营:
+      - 参与 QEMU 邮件列表讨论: ch3/sec4/1-qemu-send-email.md
+    - 第五节 杂项:
+      - 常用的开源工具: ch3/sec5/1-useful-oss.md
   - 四、领导开源社区:
     - 第四章 导览: ch4/index.md
   - 附录:
