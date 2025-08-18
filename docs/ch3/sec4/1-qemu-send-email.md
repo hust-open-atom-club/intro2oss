@@ -270,6 +270,8 @@ Be sure your reply has a Subject: header at the top and a blank line before the 
 
 ## 参考资料
 
-[1]: [正确使用邮件列表参与开源社区的协作](https://tinylab.org/mailing-list-intro/)
-[2]: [Linux 内核中文文档翻译规范（补丁发送相关）](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/translations/zh_CN/how-to.rst)
-[3]: [thunderbird 发送纯文本邮件](https://www.cnblogs.com/darkmatter/p/3606819.html)
+[[1]: 正确使用邮件列表参与开源社区的协作](https://tinylab.org/mailing-list-intro/)
+
+[[2]: Linux 内核中文文档翻译规范（补丁发送相关）](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/translations/zh_CN/how-to.rst)
+
+[[3]: thunderbird 发送纯文本邮件](https://www.cnblogs.com/darkmatter/p/3606819.html)
