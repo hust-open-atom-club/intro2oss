@@ -52,7 +52,7 @@ sudo apt install git-email
 
 ## 配置 Git Email
 
-首先我们需要准备一个邮箱，笔者使用的是 yeah.net 邮箱，另外 qq /foxmail 邮箱、网易邮箱、腾讯
+首先我们需要准备一个邮箱，笔者使用的是 yeah.net 邮箱，另外 qq/foxmail 邮箱、网易邮箱、腾讯
 企业邮箱等等也是可以的。
 
 > PS: 如果是国内环境，不推荐使用 google 邮箱，需要翻墙。
@@ -168,18 +168,15 @@ e1000e: Prevent crash from legacy interrupt firing after MSI-X enable
 
 2. 保留邮件标题所在的行，并在原标题前面加上 Re: 即可
 
-```
-“Subject: 原标题” -> "Subject: Re: 原标题"
-```
+    ``` “Subject: 原标题” -> "Subject: Re: 原标题" ```
+
 3. 用符号标记 > 引用原文，自己回复的内容穿插于引用的内容之间，可以批量替换：
 
-```
-sed -i -e 's/^/> /g' /path/to/the-patch-email
-```
+    ``` sed -i -e 's/^/> /g' /path/to/the-patch-email ```
 
-注意：不要替换 Subject 所在邮件标题行
+    注意：不要替换 Subject 所在邮件标题行
 
-4. 回到 lore 的邮件页面，向下滚动，页面底部列出了用 git send-email 命令来回复这封邮件的命令：
+最后我们回到 lore 的邮件页面，向下滚动，页面底部列出了用 git send-email 命令来回复这封邮件的命令：
 
 ```
   git send-email \
@@ -216,12 +213,12 @@ Result: 250
 对于中文版的 Thunderbird：
 
 ```
-[工具->账户设置->[账户名称]->通讯录]->“以 HTML 格式编写消息”
+[工具 -> 账户设置 -> [账户名称] -> 通讯录] -> “以 HTML 格式编写消息”
 ```
 对于英文版的 Thunderbird：
 
 ```
-Tools -> Account Settings -> [Account Name]-> Composition & Addressing -> Compose messages in HTML forma
+Tools -> Account Settings -> [Account Name] -> Composition & Addressing -> Compose messages in HTML format
 ```
 
 当用纯文本格式发送邮件时取消勾选此项即可，判断正在撰写的邮件是否为纯文本格式很简单，
@@ -266,7 +263,7 @@ Reply instructions:
 Be sure your reply has a Subject: header at the top and a blank line before the message body.
 ```
 
-最后找到 `moilto:link`点击它会自动使用本地邮箱客户端，比如使用 Thunderbird 回复邮件。
+最后找到 `mailto: link` 点击它会自动使用本地邮箱客户端，比如使用 Thunderbird 回复邮件。
 
 ## 参考资料
 
