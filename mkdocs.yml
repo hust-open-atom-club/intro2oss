@@ -9,6 +9,13 @@ copyright: Brought to you by <a href="https://hust.openatom.club/">HUST Open Ato
 extra_css:
   - stylesheets/extra.css
 
+plugins:
+  - search
+  - md-preview:
+      enable: true
+      left_title: "Markdown代码"
+      right_title: "渲染输出"
+
 theme:
   name: 'material'
   language: 'zh'

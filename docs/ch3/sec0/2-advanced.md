@@ -15,6 +15,7 @@ Markdown 支持使用 LaTeX 语法书写数学公式，常见于支持 MathJax �
 
 **块级公式**：使用 `$$...$$` 包裹公式内容  
 例如：
+
 ```
 $$
 \int_{a}^{b} f(x)\,dx = F(b) - F(a)
@@ -32,7 +33,7 @@ $$
 
 Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和样式。例如：
 
-```html
+```md preview
 <!-- 插入一个带颜色的段落并居中 -->
 <p style="color: red;text-align: center;">这是一个红色的段落。</p>
 
@@ -55,22 +56,6 @@ Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和�
 
 ```
 
-<p style="color: red;text-align: center;">这是一个红色的段落。</p>
-<p align="center">
-    <img src="https://oss.hust.openatom.club/assets/logo.png" width="200" />
-</p>
-
-<table>
-    <tr>
-        <td>Foo</td>
-        <td>Bar</td>
-    </tr>
-    <tr>
-        <td>Hello</td>
-        <td>World</td>
-    </tr>
-</table>
-
 !!! tips
 
     部分 Markdown 渲染器可能会限制某些 HTML 标签的使用。若非特殊情况，请尽量使用原生Markdown语法而不是HTML标签。
@@ -80,13 +65,15 @@ Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和�
 部分 Markdown 编辑器或平台（如 Typora、Obsidian、Jupyter Notebook、Github）支持通过代码块插入图表，常见语法有 Mermaid。
 
 
+```md preview
 ```mermaid
 graph TD
     A[开始] --> B{条件判断}
-    B -- 是 --> C[处理1]
-    B -- 否 --> D[处理2]
+    B -- 是 --> C[处理 1]
+    B -- 否 --> D[处理 2]
     C --> E[结束]
     D --> E
+```
 ```
 
 Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)，编辑好后复制左侧 Markdown 代码即可。
@@ -111,7 +98,7 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 徽章（Badge）是一种小型的图标标签，常用于展示项目状态、版本信息、构建状态等。在 Markdown 中，我们可以通过图片链接的方式插入徽章。
 
 
-```markdown
+```md preview
 展示 Github Star 状态
 ![GitHub stars](https://img.shields.io/github/stars/hust-open-atom-club/intro2oss?style=social)
 
@@ -128,13 +115,6 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 ```
 
-效果如下：
-![GitHub stars](https://img.shields.io/github/stars/hust-open-atom-club/intro2oss?style=social)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
-![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
-
 可以访问 [shields.io](https://shields.io/) 来生成自定义的徽章。
 
 ## 5. 高级语法
@@ -145,7 +125,7 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 
 ### 勾选框
 
-```markdown
+```md preview
 - [ ] 未勾选的项目
 - [x] 勾选的项目
 ```

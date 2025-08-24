@@ -7,4 +7,138 @@
     color: gray;
     margin-top: -10px;
     text-align: center;
+}
+
+/* Markdown Preview Plugin Styles */
+.markdown-preview-container {
+    margin: 1.5em 0;
+    border: 1px solid var(--md-default-fg-color--lighter);
+    border-radius: 0.2rem;
+    background-color: var(--md-code-bg-color);
+    overflow: hidden;
+}
+
+.markdown-preview-wrapper {
+    display: flex;
+    min-height: 200px;
+    overflow-x: auto;
+    min-width: 100%;
+}
+
+.markdown-preview-left,
+.markdown-preview-right {
+    flex: 1;
+    min-width: 300px; /* Ensure minimum width */
+    max-width: 50%; /* Prevent one side from taking too much space */
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap; /* Prevent wrapping in headers */
+}
+
+.markdown-preview-left {
+    border-right: 1px solid var(--md-default-fg-color--lighter);
+}
+
+.markdown-preview-header {
+    background-color: var(--md-default-fg-color--lightest);
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--md-default-fg-color--lighter);
+    color: var(--md-default-fg-color--light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.markdown-preview-content {
+    flex: 1;
+    padding: 1rem;
+    overflow: auto; /* Allow both horizontal and vertical scrolling */
+    white-space: nowrap; /* Prevent wrapping initially */
+}
+
+.markdown-preview-left .markdown-preview-content {
+    background-color: var(--md-code-bg-color);
+}
+
+.markdown-preview-left .markdown-preview-content pre {
+    margin: 0;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    white-space: pre; /* Preserve whitespace and allow horizontal scrolling */
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.markdown-preview-left .markdown-preview-content code {
+    background-color: transparent;
+    padding: 0;
+    font-size: 0.85em;
+    line-height: 1.4;
+    white-space: pre; /* Preserve formatting and prevent wrapping */
+    display: block;
+    overflow-x: auto;
+}
+
+.markdown-preview-right .markdown-preview-content {
+    background-color: var(--md-default-bg-color);
+    white-space: normal; /* Allow normal wrapping for rendered content */
+}
+
+.markdown-preview-rendered {
+    min-width: 100%;
+    overflow-x: auto;
+}
+
+.markdown-preview-rendered > *:first-child {
+    margin-top: 0 !important;
+}
+
+.markdown-preview-rendered > *:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Ensure tables and wide content can scroll */
+.markdown-preview-rendered table {
+    min-width: 100%;
+    white-space: nowrap;
+}
+
+.markdown-preview-rendered pre {
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.markdown-preview-rendered code {
+    white-space: pre;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .markdown-preview-wrapper {
+        flex-direction: column;
+        overflow-x: visible;
+    }
+    
+    .markdown-preview-left,
+    .markdown-preview-right {
+        max-width: none;
+        min-width: 100%;
+    }
+    
+    .markdown-preview-left {
+        border-right: none;
+        border-bottom: 1px solid var(--md-default-fg-color--lighter);
+    }
+    
+    .markdown-preview-content {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .markdown-preview-right .markdown-preview-content {
+        white-space: normal;
+    }
 }   

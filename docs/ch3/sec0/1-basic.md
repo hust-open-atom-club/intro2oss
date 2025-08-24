@@ -12,7 +12,7 @@ Markdown 是一种轻量级标记语言，常用于编写文档、说明和博�
 
 使用`#`表示标题，数量表示级别（1~6 级）。养成良好的标题习惯可以让他人方便地找到想要的资料。
 
-```markdown
+```md preview
 # 一级标题
 ## 二级标题
 ### 三级标题
@@ -24,16 +24,18 @@ Markdown 是一种轻量级标记语言，常用于编写文档、说明和博�
 
 ## 3. 强调
 
+```md preview
 - **加粗**：`**加粗**` 或 `__加粗__`
 - *斜体*：`*斜体*` 或 `_斜体_`
 - ~~删除线~~：`~~删除线~~`
+```
 
 ## 4. 列表
 
 - 无序列表：使用`-`、`*`或`+`
 - 有序列表：使用数字加点
 
-```markdown
+```md preview
 - 项目 1
 - 项目 2
 
@@ -47,7 +49,7 @@ Markdown 是一种轻量级标记语言，常用于编写文档、说明和博�
 - 图片：`![描述](图片地址)`
 - 可点击的图片：`[![描述](图片地址)](点击后打开的地址)`
 
-```markdown
+```md preview
 [百度](https://www.baidu.com)
 ![Logo](https://oss.hust.openatom.club/assets/logo.png)
 [![Logo](https://oss.hust.openatom.club/assets/logo.png)](https://hust.openatom.club)
@@ -66,25 +68,28 @@ Markdown 是一种轻量级标记语言，常用于编写文档、说明和博�
 
 使用`>`表示引用。
 
-```markdown
+```
 > 这是一个引用
 ```
+
+```md preview
 > Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+```
 
 ## 7. 代码
 
 - 行内代码：用反引号包裹，如 `` `代码` ``
 - 代码块：用三个反引号包裹。通常来说，Markdown 编辑器能自动识别代码语言并高亮；但当遇到识别错误时，我们可以使用` ```<语言名称> `来告诉编辑器。
 
-
+```md preview
 ```python
 print("Hello, Markdown!")
 ```
-
+```
 
 ## 8. 表格
 
-```markdown
+```md preview
 | 姓名 | 年龄 |
 | ---- | ---- |
 | 张三 |  18  |
