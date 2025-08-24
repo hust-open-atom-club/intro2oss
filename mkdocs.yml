@@ -13,7 +13,7 @@ plugins:
   - mkdocs-audio
   - md-preview:
       enable: true
-      left_title: "Markdown源码"
+      left_title: "Markdown 源码"
       right_title: "渲染输出"
 
 theme:
