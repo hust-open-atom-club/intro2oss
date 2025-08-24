@@ -32,28 +32,7 @@ $$
 
 Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和样式。例如：
 
-```html
-<!-- 插入一个带颜色的段落并居中 -->
-<p style="color: red;text-align: center;">这是一个红色的段落。</p>
-
-<!-- 插入图片，自定义大小并居中 -->
-<p align="center">
-    <img src="https://oss.hust.openatom.club/assets/logo.png" width="200" />
-</p>
-
-<!-- 使用 HTML 插入表格（不推荐） -->
-<table>
-    <tr>
-        <td>Foo</td>
-        <td>Bar</td>
-    </tr>
-    <tr>
-        <td>Hello</td>
-        <td>World</td>
-    </tr>
-</table>
-
-```
+```md preview
 
 <p style="color: red;text-align: center;">这是一个红色的段落。</p>
  <p align="center">
@@ -71,6 +50,8 @@ Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和�
     </tr>
 </table>
 
+```
+
 !!! tips
 
     部分 Markdown 渲染器可能会限制某些 HTML 标签的使用。若非特殊情况，请尽量使用原生Markdown语法而不是HTML标签。
@@ -79,6 +60,7 @@ Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和�
 
 部分 Markdown 编辑器或平台（如 Typora、Obsidian、Jupyter Notebook、Github）支持通过代码块插入图表，常见语法有 Mermaid。
 
+```md preview
 ```mermaid
 graph TD
     A[开始] --> B{条件判断}
@@ -86,6 +68,7 @@ graph TD
     B -- 否 --> D[处理2]
     C --> E[结束]
     D --> E
+```
 ```
 
 Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)，编辑好后复制左侧 Markdown 代码即可。
@@ -108,7 +91,7 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 
 徽章（Badge）是一种小型的图标标签，常用于展示项目状态、版本信息、构建状态等。在 Markdown 中，我们可以通过图片链接的方式插入徽章。
 
-```markdown
+```md preview
 展示 Github Star 状态
 ![GitHub stars](https://img.shields.io/github/stars/hust-open-atom-club/intro2oss?style=social)
 
@@ -125,12 +108,6 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 ```
 
-效果如下：
-![GitHub stars](https://img.shields.io/github/stars/hust-open-atom-club/intro2oss?style=social)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
-![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 
 可以访问 [shields.io](https://shields.io/) 来生成自定义的徽章。
 

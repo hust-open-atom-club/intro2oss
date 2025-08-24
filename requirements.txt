@@ -2,3 +2,4 @@ mkdocs
 mkdocs-material
 mkdocs-audio
 pymdown-extensions
+mkdocs-md-preview

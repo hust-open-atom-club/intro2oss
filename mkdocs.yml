@@ -10,7 +10,11 @@ extra_css:
   - stylesheets/extra.css
 
 plugins:
-    - mkdocs-audio
+  - mkdocs-audio
+  - md-preview:
+      enable: true
+      left_title: "Markdown源码"
+      right_title: "渲染输出"
 
 theme:
   name: 'material'
