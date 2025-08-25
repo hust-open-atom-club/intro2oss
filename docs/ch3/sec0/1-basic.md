@@ -10,7 +10,7 @@ Markdown 是一种轻量级标记语言，具有**语法简洁、易读易写**�
 
 使用 `#` 表示标题，`#` 的数量决定标题级别（从 1 级到 6 级）。合理设置标题层级，有助于提升文档结构清晰度，方便他人快速查找所需。
 
-```markdown
+```md preview
 # 一级标题
 ## 二级标题
 ### 三级标题
@@ -23,7 +23,7 @@ Markdown 是一种轻量级标记语言，具有**语法简洁、易读易写**�
 
 直接输入文本即为一个段落，段落之间需空一行。例如：
 
-```markdown
+```md preview
 这是第一段。
 
 这是第二段。
@@ -31,23 +31,25 @@ Markdown 是一种轻量级标记语言，具有**语法简洁、易读易写**�
 
 如需在同一段落内换行，可在行末添加两个空格后回车：
 
-```markdown
+```md preview
 这是第一行。(注意当前行最后有两个空格)  
 这是第二行。
 ```
 
 ## 3. 强调
 
+```md preview
 - **加粗**：`**加粗**` 或 `__加粗__`
 - *斜体*：`*斜体*` 或 `_斜体_`
 - ~~删除线~~：`~~删除线~~`
+```
 
 ## 4. 列表
 
 - 无序列表：使用 `-`、`*` 或 `+`
 - 有序列表：使用数字加点
 
-```markdown
+```md preview
 - 项目 1
 - 项目 2
 
@@ -61,7 +63,7 @@ Markdown 是一种轻量级标记语言，具有**语法简洁、易读易写**�
 - 图片：`![描述](图片地址)`
 - 可点击的图片：`[![描述](图片地址)](点击后打开的地址)`
 
-```markdown
+```md preview
 [百度](https://www.baidu.com)
 ![Logo](https://oss.hust.openatom.club/assets/logo.png)
 [![Logo](https://oss.hust.openatom.club/assets/logo.png)](https://hust.openatom.club)
@@ -80,8 +82,8 @@ Markdown 是一种轻量级标记语言，具有**语法简洁、易读易写**�
 
 使用 `>` 表示引用。
 
-```markdown
-> 这是一个引用
+```md preview
+> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 ```
 
 ## 7. 代码
@@ -91,22 +93,15 @@ Markdown 是一种轻量级标记语言，具有**语法简洁、易读易写**�
 - 行内代码：用反引号包裹，如 `` `print()` ``
 - 代码块：用三个反引号包裹。通常来说，Markdown 编辑器能自动识别代码语言并高亮；但当遇到识别错误时，我们可以使用 ` ```<语言名称> ` 来告诉编辑器。
 
+```md preview
 ```python
 print("Hello, Markdown!")
 ```
-
-```c
-#include <stdio.h>
-int main()
-{
-    printf("Hello, Markdown!");
-    return 0;
-}
 ```
 
 ## 8. 表格
 
-```markdown
+```md preview
 | 姓名 | 年龄 |
 | ---- | ---- |
 | 张三 |  18  |
@@ -162,10 +157,10 @@ int main()
     // 这是一段 C++ 代码，我们通常使用 cpp 表示 C++
     #include <iostream>
 
-     int main(){
-    std::cout << "Hello, world!" << std::endl;
-     }
-     ```
+    int main(){
+        std::cout << "Hello, world!" << std::endl;
+    }
+    ```
 
     | 这是 | 一张 | 表格 |
     | :---- | :----: | ---- |
