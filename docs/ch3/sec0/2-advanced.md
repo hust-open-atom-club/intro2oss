@@ -11,22 +11,17 @@ Markdown 除了基本的文本格式化，还支持更高级的功能，如公�
 Markdown 支持使用 LaTeX 语法书写数学公式，常见于支持 MathJax 或 KaTeX 的渲染器中。
 
 **行内公式**：使用 `$...$` 包裹公式内容  
-例如：`$E=mc^2$` 显示为 $E=mc^2$
+```md preview
+$E=mc^2$
+```
 
 **块级公式**：使用 `$$...$$` 包裹公式内容  
-例如：
 
-```bash
+```md preview
 $$
 \int_{a}^{b} f(x)\,dx = F(b) - F(a)
 $$
 ```
-
-显示为：
-
-<p align="center">
-    <img src="https://latex2png.com/pngs/c838ec0ff6cf48f333a310ba72dba65c.png" alt="LaTeX 公式图片" width="200">
-</p>
 
 ## 2. HTML 标签与 CSS 样式
 
@@ -119,7 +114,7 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 
 ### 勾选框
 
-```markdown
+```md preview
 - [ ] 未勾选的项目
 - [x] 勾选的项目
 ```
@@ -127,6 +122,14 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 ### 表情符号
 
 可以通过 `:CODE:` 来插入一个表情。其中，每个表情的`code`可通过[这个网页](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)查询
+
+通常来说，我们会在[commit message](../sec1/subsec2/6-commit-message.md)的初始位置插入一个表情符号，让用户和其他维护者能够一眼看出此次 commit 的性质，如：
+
+```md preview
+:hammer: fix(api): fix handling logic
+
+:broom: chore: cleanup build deps
+```
 
 ### 提及其他人（Github）
 

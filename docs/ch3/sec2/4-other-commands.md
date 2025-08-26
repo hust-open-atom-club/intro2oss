@@ -63,7 +63,7 @@ man 可以被称为 Linux 系统的百科全书。从命令使用到操作系统
       一般来说，我们无需指定章节号。但是对于某些可能存在于多个章节的条目（比如`printf`既是一个位于章节 1 的工具，也是一个位于章节 3 的 API 函数），要想跳到其他章节，这个编号就是必须的。此时，命令的结构为 `man [section] name`
 
 !!! info
-    对于绝大部分人类来说，man pages 的文档还是有些过于晦涩了。别担心！我们可以使用一个叫`tldr`的开源工具来阅读更加实用、通俗易懂的说明。关于这个工具的详情，请参考下一节的“[常用的开源工具](../sec3/1-useful-oss.md)”篇目。
+    对于绝大部分人类来说，man pages 的文档还是有些过于晦涩了。别担心！我们可以使用一个叫`tldr`的开源工具来阅读更加实用、通俗易懂的说明。关于这个工具的详情，请参考下一节的“[常用的开源工具](../sec5/1-useful-oss.md)”篇目。
 
 ### 1. 任务管理器系列
 
@@ -601,7 +601,7 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
     若想从终端中分离，可以同时按下`Ctrl+A+D`按键
     若想结束一个终端，可以执行`screen -XS <session-id> quit`
     !!! note
-        screen 工具由于维护不佳，导致出现了[许多漏洞](https://security.opensuse.org/2025/05/12/screen-security-issues.html)。在可能的情况下，我们更加推荐使用 tmux。关于这个工具的详情，请参考下一节的“[常用的开源工具](../sec3/1-useful-oss.md)”篇目
+        screen 工具由于维护不佳，导致出现了[许多漏洞](https://security.opensuse.org/2025/05/12/screen-security-issues.html)。在可能的情况下，我们更加推荐使用 tmux。关于这个工具的详情，请参考下一节的“[常用的开源工具](../sec5/1-useful-oss.md)”篇目
 
 ## 🧪 小练习
 
