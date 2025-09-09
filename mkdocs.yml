@@ -139,6 +139,7 @@ nav:
     - 第三节 Docker 训练营:
       - Docker 基础: ch3/sec3/1_foundation.md
       - 自定义镜像之 Dockerfile 详解: ch3/sec3/2_dockerfile.md
+      - Docker 存储管理详解: ch3/sec3/3_storage.md
     - 第四节 QEMU 训练营:
       - 参与 QEMU 邮件列表讨论: ch3/sec4/1-qemu-send-email.md
     - 第五节 杂项:
