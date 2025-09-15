@@ -31,7 +31,7 @@ Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和�
 
 <p style="color: red;text-align: center;">这是一个红色的段落。</p>
 <p align="center">
-    <img src="https://oss.hust.openatom.club/assets/logo.png" alt="OpenAtom Club Logo" width="200" />
+    <img src="https://oss.openatom.club/assets/logo.png" alt="OpenAtom Club Logo" width="200" />
 </p>
 
 <table>

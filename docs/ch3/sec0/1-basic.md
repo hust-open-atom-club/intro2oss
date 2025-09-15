@@ -72,9 +72,9 @@ Markdown 是一种轻量级标记语言，具有**语法简洁、易读易写**�
 - 可点击的图片：`[![描述](图片地址)](点击后打开的地址)`
 
 ```md preview
-[华科开放原子俱乐部](https://oss.hust.openatom.club)
-![Logo](https://oss.hust.openatom.club/assets/logo.png)
-[![Logo](https://oss.hust.openatom.club/assets/logo.png)](https://hust.openatom.club)
+[华科开放原子俱乐部](https://oss.openatom.club)
+![Logo](https://oss.openatom.club/assets/logo.png)
+[![Logo](https://oss.openatom.club/assets/logo.png)](https://hust.openatom.club)
 ```
 
 !!! warning
@@ -151,11 +151,11 @@ print("Hello, Markdown!")
 
     > 这是引用
 
-    [![这是图片](https://oss.hust.openatom.club/assets/logo.png)](https://oss.hust.openatom.club/)
+    [![这是图片](https://oss.openatom.club/assets/logo.png)](https://oss.openatom.club/)
 
-    *图片的链接为 `https://oss.hust.openatom.club/assets/logo.png`，打开后跳转到`https://oss.hust.openatom.club/`*
+    *图片的链接为 `https://oss.openatom.club/assets/logo.png`，打开后跳转到`https://oss.openatom.club/`*
 
-     [这是链接](https://oss.hust.openatom.club/)
+     [这是链接](https://oss.openatom.club/)
 
     ---
 

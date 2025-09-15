@@ -43,7 +43,7 @@
 
 ## 💡 四阶段学习体系
 
-### 1. [导学阶段](https://oss.hust.openatom.club/ch3/sec1/subsec1/1-git-introduction/)
+### 1. [导学阶段](https://oss.openatom.club/ch3/sec1/subsec1/1-git-introduction/)
 
 !!! tip "环境准备三步走"
     1. **平台初识**：GitHub/Gitee 功能探索
@@ -60,7 +60,7 @@
     C --> E[提交首个Issue]
     ```
 
-### 2. [基础阶段](https://oss.hust.openatom.club/ch3/sec1/subsec2/1-basic-configuration/)
+### 2. [基础阶段](https://oss.openatom.club/ch3/sec1/subsec2/1-basic-configuration/)
 
 !!! warning "Git 生存法则"
     | 场景 | 核心命令 | 应用要点 |
@@ -69,7 +69,7 @@
     | 变更管理 | `git add/commit` | 原子性提交 |
     | 问题排查 | `git diff/reset` | 撤销与比对 |
 
-### 3. [专业阶段](https://oss.hust.openatom.club/ch3/sec1/subsec3/1-rebase-merge/)
+### 3. [专业阶段](https://oss.openatom.club/ch3/sec1/subsec3/1-rebase-merge/)
 
 !!! tip "高级工作流"
     ```mermaid
@@ -81,7 +81,7 @@
     D --> F[保留轨迹]
     ```
 
-### 4. [项目阶段](https://oss.hust.openatom.club/ch3/sec1/subsec4/1-linux-patch/)
+### 4. [项目阶段](https://oss.openatom.club/ch3/sec1/subsec4/1-linux-patch/)
 
 !!! danger "Linux 内核贡献须知"
     - 遵循内核编码规范
