@@ -1,7 +1,7 @@
 site_name: Intro2OSS
 site_description: 开源软件通识课程
 site_author: HUST Open Atom Club
-site_url: https://oss.hust.openatom.club/
+site_url: https://oss.openatom.club/
 repo_name: hust-open-atom-club/intro2oss
 repo_url: https://github.com/hust-open-atom-club/intro2oss
 copyright: Brought to you by <a href="https://hust.openatom.club/">HUST Open Atom Club</a>. Available freely under the MIT license.
