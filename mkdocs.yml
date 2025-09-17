@@ -109,7 +109,7 @@ nav:
       - 开源项目的法律与合规: ch2/sec3/3-legal-and-compliance.md  
   - 三、开源贡献基础技能:
     - 导览: ch3/index.md
-    - 第零节 Markdown 基础:
+    - 第零节 Markdown 训练营:
       - Markdown 基本语法: ch3/sec0/1-basic.md
       - Markdown 进阶用法: ch3/sec0/2-advanced.md
     - 第一节 Git 训练营:
