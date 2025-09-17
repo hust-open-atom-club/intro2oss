@@ -78,7 +78,7 @@ docker run -d --name container2 my-nginx
 docker inspect container1 -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
 docker inspect container2 -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
 
-# 进入容器1，尝试通过 IP 访问容器2
+# 进入容器 1，尝试通过 IP 访问容器 2
 docker exec -it container1  curl http://172.17.0.3
 
 # 注意：在默认 bridge 网络中，无法通过容器名称访问
@@ -140,7 +140,7 @@ docker run -d \
 # 直接通过主机的 80 端口访问
 curl http://localhost:80
 
-# 因为使用了 host 网络，容器直接使用主机的 80 端口, 所以当我们再次启动一个 Nginx 容器时，会报端口冲突的错误
+# 因为使用了 host 网络，容器直接使用主机的 80 端口，所以当我们再次启动一个 Nginx 容器时，会报端口冲突的错误
 docker run -d \
     --name nginx-host-2 \
     --network host \
