@@ -1,6 +1,6 @@
 # Docker Compose 实践
 
-## 1. 从单容器到容器编排
+## 从单容器到容器编排
 
 在前面的课程中，我们学习了如何使用 Docker 容器来运行单个服务。
 通过 `docker run` 命令，我们可以快速启动一个数据库、一个 Web 服务器或者一个缓存服务。
@@ -11,11 +11,11 @@
 Docker Compose 应运而生，它通过一个声明式的 YAML 配置文件，帮助我们定义和管理多容器应用。
 通过 Docker Compose，我们可以用一个命令就完成整个应用的部署，而不需要手动管理每个容器。
 
-## 2. Docker Compose 核心概念
+## Docker Compose 核心概念
 
 Docker Compose 是一个用于定义和运行多容器 Docker 应用程序的工具。使用 Compose，你可以通过一个 YAML 文件来配置应用程序的所有服务，然后使用一个命令来创建和启动所有服务。
 
-### 2.1 主要概念
+### 主要概念
 
 - **服务 (Services)**：容器的定义，包括使用哪个镜像、端口映射、环境变量等
 - **网络 (Networks)**：定义容器之间如何通信
@@ -23,25 +23,25 @@ Docker Compose 是一个用于定义和运行多容器 Docker 应用程序的工
 - **依赖关系 (Dependencies)**：定义服务之间的启动顺序
 - **环境变量 (Environment Variables)**：管理不同环境的配置
 
-### 2.2 核心命令
+### 核心命令
 
 - `docker compose up`：创建和启动所有服务
 - `docker compose down`：停止和删除所有服务
 - `docker compose ps`：查看服务状态
 - `docker compose logs`：查看服务日志
 
-## 3. 实践项目：使用 docker compose 构建 Todo 应用（单文件演示）
+## 实践项目：使用 docker compose 构建 Todo 应用
 
 在本章节中，我们通过一个最小可用的 Todo 应用来实战 Docker Compose 编排。示例完全基于官方镜像，并在容器启动时用命令动态生成所需配置与代码，不需要在本机创建除本文外的任何文件。
 
-### 3.1 目标组件
+### 目标组件
 
 - **Nginx**：统一入口与反向代理 (对外 8080)
 - **前端**：CDN 版 React 静态页，由 Nginx 托管
 - **后端**：Node.js Express API (容器内 3001)
 - **数据库**：MongoDB (容器内 27017)
 
-### 3.2 项目结构 (示意)
+### 项目结构 (示意)
 
 ```text
 5_compose/
@@ -71,7 +71,7 @@ Docker Compose 是一个用于定义和运行多容器 Docker 应用程序的工
                             └───────────────┘
 ```
 
-### 3.4 Docker Compose 配置
+### ocker Compose 配置
 
 将下列 `docker-compose.yml` 内容复制到你的工程中使用 (该 compose 通过容器内命令动态生成 `nginx.conf`、前端 `index.html` 与后端 `server.js`)：
 
@@ -243,26 +243,26 @@ volumes:
   mongodb_data:
 ```
 
-### 3.5 配置与代码说明
+### 配置与代码说明
 
 - 统一入口 `nginx`：容器启动时写入 `nginx.conf` 并前台运行
 - 前端 `frontend`：容器启动时生成 `index.html`，通过 CDN 加载 React，无需构建工具
 - 后端 `backend`：容器启动时写入 `server.js`，随后安装依赖并运行
 - 数据库 `mongodb`：官方镜像，使用命名卷 `mongodb_data` 持久化数据
 
-### 3.6 服务解析
+### 服务解析
 
 1. nginx 服务：使用官方 `nginx:alpine` 镜像，对外暴露 `8080:80`，将 `/` 转发到 `frontend`，`/api` 转发到 `backend`
 1. frontend 服务：使用官方 `nginx:alpine`，启动时写入带 React CDN 的 `index.html`
 1. backend 服务：使用官方 `node:18-alpine`，生成 `server.js`，安装依赖后运行，连接 `mongodb`
 1. mongodb 服务：使用官方 `mongo:7` 镜像，使用命名卷 `mongodb_data` 持久化
 
-### 3.7 网络与数据
+### 网络与数据
 
 - 网络：默认 bridge 网络，服务间通过服务名互访 (`nginx`、`frontend`、`backend`、`mongodb`)
 - 数据：使用命名卷 `mongodb_data` 持久化 MongoDB 数据
 
-### 3.8 使用说明
+### 使用说明
 
 1. 在后台启动服务：
 
@@ -270,13 +270,13 @@ volumes:
 docker compose up -d
 ```
 
-1. 查看服务状态：
+2. 查看服务状态：
 
 ```bash
 docker compose ps
 ```
 
-1. 查看服务日志：
+3. 查看服务日志：
 
 ```bash
 docker compose logs nginx
@@ -285,25 +285,25 @@ docker compose logs backend
 docker compose logs mongodb
 ```
 
-1. 停止所有服务：
+4. 停止所有服务：
 
 ```bash
 docker compose down
 ```
 
-1. 重新拉取镜像并重建容器：
+5. 重新拉取镜像并重建容器：
 
 ```bash
 docker compose pull && docker compose up -d --force-recreate
 ```
 
-1. 重启单个服务：
+6. 重启单个服务：
 
 ```bash
 docker compose restart frontend
 ```
 
-### 3.9 访问应用
+### 访问应用
 
 本地开发 (如 VS Code) 直接在浏览器打开 `http://localhost:8080` 即可访问 Todo 应用。
 

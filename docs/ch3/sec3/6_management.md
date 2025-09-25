@@ -4,9 +4,9 @@
 
 注意：该部分所需要的容器我们可以利用上一节 docker compose 出来的容器来演示。
 
-## 1. 容器管理基础
+## 容器管理基础
 
-### 1.1 容器生命周期管理
+### 容器生命周期管理
 
 以下是一些最常用的容器管理命令：
 
@@ -33,7 +33,7 @@ docker rm <container_id>
 docker rm -f <container_id>
 ```
 
-### 1.2 容器资源监控
+### 容器资源监控
 
 Docker 提供了多种方式来监控容器的资源使用情况：
 
@@ -51,9 +51,9 @@ docker top <container_id>
 docker port <container_id>
 ```
 
-## 2. 容器日志与调试
+## 容器日志与调试
 
-### 2.1 日志查看
+### 日志查看
 
 ```bash
 # 查看容器日志
@@ -69,11 +69,11 @@ docker logs --tail 100 <container_id>
 docker logs -t <container_id>
 ```
 
-## 3. 实践练习：使用 Portainer 对 Docker 进行可视化管理
+## 实践练习：使用 Portainer 对 Docker 进行可视化管理
 
 Portainer 是一个轻量级的 Docker 管理工具，提供了直观的 Web 界面来管理 Docker 环境。
 
-### 3.1 安装 Portainer（本地 VS Code 环境）
+### 安装 Portainer
 
 ```bash
 # 创建 Portainer 数据卷
@@ -93,7 +93,7 @@ docker run -d -p 9000:9000 \
 - VS Code Dev Containers/Remote - Containers 下，端口通常会自动转发；也可在 Ports 面板手动转发 9000 端口
 - 若端口被占用，可改为 `-p 39000:9000`，然后通过 `http://localhost:39000` 访问
 
-### 3.2 Portainer 主要功能
+### Portainer 主要功能
 
 1. **仪表盘概览**
    - 查看环境整体状态
