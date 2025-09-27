@@ -71,7 +71,7 @@ Docker Compose 是一个用于定义和运行多容器 Docker 应用程序的工
                             └───────────────┘
 ```
 
-### ocker Compose 配置
+### Docker Compose 配置
 
 将下列 `docker-compose.yml` 内容复制到你的工程中使用 (该 compose 通过容器内命令动态生成 `nginx.conf`、前端 `index.html` 与后端 `server.js`)：
 
