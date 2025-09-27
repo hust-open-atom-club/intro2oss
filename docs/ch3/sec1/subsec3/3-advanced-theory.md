@@ -1,4 +1,4 @@
-# Git 的进阶理论
+# Git 进阶理论
 
 !!! note "本节概览"
     本小节内容主要来自 github 联合创始人 [Scott Chacon](https://github.com/schacon) 在 2008年关于 Git 的演讲，主要从更底层的角度去了解 Git,我们会介绍 GIT 实际对象，blob 等东西，git 底层发生了什么，你会理解到为什么说 Git branch 本质上是一个指针，git rebase 为什么会改变 commit 的 hash 值。在基于 Scott Chacon 的演讲的基础上，添加了一些更小白的内容。
