@@ -116,24 +116,16 @@ nav:
       - 导学阶段:
         - Git 简介: ch3/sec1/subsec1/1-git-introduction.md
         - 代码托管平台简介: ch3/sec1/subsec1/2-code-hosting-platforms.md
-        - 注册并熟悉代码托管平台: ch3/sec1/subsec1/3-practice-code-hosting-platforms.md
-        - 创建并管理仓库: ch3/sec1/subsec1/4-create-repo.md
-        - 开源许可证选择指南: ch3/sec1/subsec1/5-open_source_License.md
-        - GitHub Fork 简明解析: ch3/sec1/subsec1/6-fork.md
       - 基础阶段:
         - Git 基础配置: ch3/sec1/subsec2/1-basic-configuration.md
         - 暂存区操作: ch3/sec1/subsec2/2-staging.md
-        - 暂存区操作(续): ch3/sec1/subsec2/3-reset-diff-and-commit.md
-        - 如何写好一个 commit message: ch3/sec1/subsec2/6-commit-message.md
+        - 如何写好一个 commit message: ch3/sec1/subsec2/3-commit-message.md
       - 专业阶段:
         - Git Rebase 与 Git Merge 的使用与区别: ch3/sec1/subsec3/1-rebase-merge.md
         - Git 分布式版本控制工作原理:  ch3/sec1/subsec3/2-Control-Process.md
-        - Git 辅助本地项目开发: ch3/sec1/subsec3/3-help-open.md
-        - Git 进阶理论: ch3/sec1/subsec3/5-advanced-theory.md
-        - 参与开源项目: ch3/sec1/subsec3/7-participate-in.md
-      - 项目阶段:
-        - 贡献一个 Linux patch: ch3/sec1/subsec4/1-linux-patch.md
-        - 团队项目合作: ch3/sec1/subsec4/2-teamwork.md
+        - Git 进阶理论: ch3/sec1/subsec3/3-advanced-theory.md
+        - Git 辅助本地项目开发: ch3/sec1/subsec3/4-help-open.md
+        - 参与开源项目: ch3/sec1/subsec3/5-participate-in.md
     - 第二节 Linux 训练营:
       - 其他命令与工具: ch3/sec2/4-other-commands.md
     - 第三节 Docker 训练营:
