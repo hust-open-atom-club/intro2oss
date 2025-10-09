@@ -136,7 +136,8 @@ nav:
       - Docker Compose 实践: ch3/sec3/5_compose.md
       - Docker 容器监控与管理: ch3/sec3/6_management.md
     - 第四节 QEMU 训练营:
-      - 参与 QEMU 邮件列表讨论: ch3/sec4/1-qemu-send-email.md
+      - QEMU 基础: ch3/sec4/1-qemu-foundation.md
+      - 参与 QEMU 邮件列表讨论: ch3/sec4/2-qemu-send-email.md
     - 第五节 杂项:
       - 常用的开源工具: ch3/sec5/1-useful-oss.md
   - 四、领导开源社区:
