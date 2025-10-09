@@ -1,7 +1,8 @@
 name: Sync Linux Software List
+
 on:
   schedule:
-    - cron: '0 0 * * 0'  # 每周日 UTC 0 点自动执行（北京时间早上 8 点）
+    - cron: '0 0 * * 0'  # 每周日 UTC 0 点（北京时间早上 8 点）
   workflow_dispatch:       # 支持手动触发
 
 permissions:
@@ -14,40 +15,50 @@ jobs:
       - name: Checkout this repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # 使用 token 进行认证
-          # 或者移除 persist-credentials: false
-          
+          submodules: false
+
       - name: Clone linuxsoftwarelist repo
         run: |
           rm -rf appendix/linuxsoftwarelist
           mkdir -p appendix
-          git clone --depth=1 https://github.com/hust-open-atom-club/linuxsoftwarelist appendix/linuxsoftwarelist
-          
+          git clone --depth=1 https://github.com/hust-open-atom-club/linuxsoftwarelist appendix/linuxsoftwarelist || {
+            echo "[Error] Failed to clone linuxsoftwarelist repository."
+            exit 1
+          }
+          git rm -r --cached appendix/linuxsoftwarelist 2>/dev/null || true
+
       - name: Add source and license notice
         run: |
           {
-            echo "# Linux 软件列表（附录）"
+            echo "# Linux 软件列表（附录)"
             echo ""
             echo "本目录内容自动同步自 [hust-open-atom-club/linuxsoftwarelist](https://github.com/hust-open-atom-club/linuxsoftwarelist)"
             echo ""
             echo "许可证：BSD-2-Clause License"
             echo ""
           } > appendix/linuxsoftwarelist/README.md
-          
+
       - name: Commit and push updates
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # 添加所有更改
+          git config --global --add safe.directory "$PWD"
+
           git add appendix/linuxsoftwarelist
-          
-          # 检查是否有变化
+
           if git diff --staged --quiet; then
             echo "[Info] No changes detected — nothing to commit."
             exit 0
           fi
-          
-          git commit -m "Auto-sync linuxsoftwarelist $(date -u +'%Y-%m-%d %H:%M:%S')" 
-          git push
+
+          git commit -m "Auto-sync linuxsoftwarelist $(date -u +'%Y-%m-%d %H:%M:%S')" || {
+            echo "[Warning] No changes to commit."
+            exit 0
+          }
+          git push || {
+            echo "[Error] Failed to push changes."
+            exit 1
+          }
           echo "[Success] linuxsoftwarelist updated and pushed successfully."
