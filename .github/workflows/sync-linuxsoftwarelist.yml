@@ -30,18 +30,7 @@ jobs:
           
           # 这行可以保留，用于清理可能存在的旧的 submodule 缓存
           git rm -r --cached appendix/linuxsoftwarelist 2>/dev/null || true
-
-      - name: Add source and license notice
-        run: |
-          {
-            echo "# Linux 软件列表（附录)"
-            echo ""
-            echo "本目录内容自动同步自 [hust-open-atom-club/linuxsoftwarelist](https://github.com/hust-open-atom-club/linuxsoftwarelist)"
-            echo ""
-            echo "许可证：BSD-2-Clause License"
-            echo ""
-          } > appendix/linuxsoftwarelist/README.md
-
+          
       - name: Commit and push updates
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
