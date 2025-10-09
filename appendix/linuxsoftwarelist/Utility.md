@@ -350,7 +350,7 @@ sudo apt-get purge zsh
 
 - 介绍
 
-用于安装你自己手动下载的包的GUI程序
+用于安装你自己手动下载的包的 GUI 程序
 
 - 下载位置
 
@@ -372,7 +372,7 @@ sudo apt-get purge gdebi
 
 - 介绍
 
-apt系的图形化安装软件
+apt 系的图形化安装软件
 
 - 下载位置
 

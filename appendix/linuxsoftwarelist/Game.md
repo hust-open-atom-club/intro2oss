@@ -26,13 +26,13 @@ sudo apt-get install steam
 sudo apt-get purge steam
 ```
 
-## Gnome自带小游戏
+## Gnome 自带小游戏
 
 ### gnome-2048
 
 - 介绍
 
-2048小游戏
+2048 小游戏
 
 - 下载位置
 
@@ -98,7 +98,7 @@ sudo apt-get purge gnome-sudoku
 
 - 介绍
 
-俄罗斯方块，原名为Gnometris
+俄罗斯方块，原名为 Gnometris
 
 - 下载位置
 
