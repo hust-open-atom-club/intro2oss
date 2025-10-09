@@ -3,10 +3,10 @@ name: Sync Linux Software List
 on:
   schedule:
     - cron: '0 0 * * 0'  # 每周日 UTC 0 点（北京时间早上 8 点）
-  workflow_dispatch:       # 支持手动触发
+  workflow_dispatch:      # 支持手动触发
 
 permissions:
-  contents: write          # 允许推送更改
+  contents: write         # 允许推送更改
 
 jobs:
   sync:
@@ -25,6 +25,10 @@ jobs:
             echo "[Error] Failed to clone linuxsoftwarelist repository."
             exit 1
           }
+          # 删除子目录的 .git 文件夹，以避免被当作 submodule
+          rm -rf appendix/linuxsoftwarelist/.git
+          
+          # 这行可以保留，用于清理可能存在的旧的 submodule 缓存
           git rm -r --cached appendix/linuxsoftwarelist 2>/dev/null || true
 
       - name: Add source and license notice
