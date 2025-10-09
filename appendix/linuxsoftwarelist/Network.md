@@ -83,7 +83,7 @@ sudo apt-get update
 
 - 介绍
 
-Google Chrome 浏览器的开源版本
+Google Chrome浏览器的开源版本
 
 - 下载位置
 
@@ -246,7 +246,7 @@ sudo apt-get purge evolution
 
 - 介绍
 
-类 Unix 系统下基于文本的邮件客户端
+类Unix系统下基于文本的邮件客户端
 
 - 下载位置
 
@@ -270,7 +270,7 @@ sudo apt-get install mutt
 
 - 介绍
 
-支持在线聊天、视频电话 (Linux 版暂不支持)、点对点断点续传文件的强大聊天软件
+支持在线聊天、视频电话(Linux版暂不支持)、点对点断点续传文件的强大聊天软件
 
 - 安装方法
 
@@ -286,8 +286,8 @@ sudo apt-get install mutt
 
 - 安装方法
 
-1. UOS 用户可以使用 Wechat-UOS 版本，在[星火商店](https://www.spark-app.store/)自行安装即可。
-2. Arch 用户可以使用如下命令安装：
+1. UOS用户可以使用Wechat-UOS版本，在[星火商店](https://www.spark-app.store/)自行安装即可。
+2. Arch用户可以使用如下命令安装：
 ```
 yay -S wechat-beta-bwarp
 ```
@@ -538,7 +538,7 @@ sudo apt-get purge wget
 
 - 介绍
 
-一种 BitTorrent 客户端，特点是一个跨平台的后端和其上的简洁的用户界面
+一种BitTorrent客户端，特点是一个跨平台的后端和其上的简洁的用户界面
 
 - 下载位置
 
@@ -603,7 +603,7 @@ sudo apt-get purge aria2
 
 - 介绍
 
-免费、开源的最强 FTP 客户端软件
+免费、开源的最强FTP客户端软件
 
 - 下载位置
 
@@ -631,7 +631,7 @@ sudo apt-get purge filezilla
 
 - 下载位置
 
-[DEB 包](https://www.jianguoyun.com/static/exe/installer/debian/nautilus_nutstore_amd64.deb)
+[DEB包](https://www.jianguoyun.com/static/exe/installer/debian/nautilus_nutstore_amd64.deb)
 
 - 安装方法
 
@@ -653,7 +653,7 @@ sudo dpkg -r nautilus_nutstore
 
 - 下载位置
 
-[Dropbox 安装](https://www.dropbox.com/install-linux)
+[Dropbox安装](https://www.dropbox.com/install-linux)
 
 - 安装方法
 
@@ -707,11 +707,11 @@ sudo apt-get remove owncloud-client
 
 - 介绍
 
-Google 巨人开发的文件存储和同步服务
+Google巨人开发的文件存储和同步服务
 
 - 安装方法
 
-使用 Google Drive 的[网页版本](https://drive.google.com)
+使用Google Drive的[网页版本](https://drive.google.com)
 
 ### 百度网盘
 

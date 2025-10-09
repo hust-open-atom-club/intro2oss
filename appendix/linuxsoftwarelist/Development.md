@@ -6,7 +6,7 @@
 
 - 介绍
 
-Linus 为管理 Linux 内核而开发的分布式版本管理工具
+Linus为管理Linux内核而开发的分布式版本管理工具
 
 - 下载位置
 
@@ -30,7 +30,7 @@ sudo apt-get purge git
 
 - 介绍
 
-Apache 开发的集中式版本管理工具
+Apache开发的集中式版本管理工具
 
 - 下载位置
 
@@ -90,7 +90,7 @@ sudo apt-get purge sublime-text
 
 - 介绍
 
-微软开发可以跨 Linux，Windows，Mac OS 的编辑器
+微软开发可以跨Linux，Windows，Mac OS的编辑器
 
 - 下载位置
 
@@ -125,7 +125,7 @@ sudo apt-get purge code
 
 - 介绍
 
-GNOME 桌面环境的默认文本编辑器
+GNOME桌面环境的默认文本编辑器
 
 - 下载位置
 
@@ -153,7 +153,7 @@ sudo apt-get purge gedit
 
 - 下载位置
 
-[官方网站](https://atom.io/) [Github 仓库](https://github.com/atom/atom)
+[官方网站](https://atom.io/) [Github仓库](https://github.com/atom/atom)
 
 - 安装方法
 
@@ -229,7 +229,7 @@ sudo apt-get purge emacs
 
 - 介绍
 
-类 Unix 系统上基于命令行接口的文本编辑器
+类Unix系统上基于命令行接口的文本编辑器
 
 - 下载位置
 

@@ -6,7 +6,7 @@
 
 - 介绍
 
-为 Linux/Unix 系统开发的全新输入法框架
+为Linux/Unix系统开发的全新输入法框架
 
 - 下载位置
 
@@ -29,7 +29,7 @@ sudo apt-get purge ibus ibus-pinyin ibus-sunpinyin
 
 - 介绍
 
-为 Linux 提供的轻量的输入法框架
+为Linux 提供的轻量的输入法框架
 
 - 下载位置
 
@@ -76,7 +76,7 @@ sudo dpkg -r sogoupinyin
 
 - 介绍
 
-GNOME 中默认的 pdf 阅读器
+GNOME中默认的pdf阅读器
 
 - 下载位置
 
@@ -154,7 +154,7 @@ Bringing **The World’s Best Office Experience** To Linux
 
 - 下载位置
 
-[下载位置](https://linux.wps.cn/)，点击对应的架构与包格式（如 X64）下载对应的安装包
+[下载位置](https://linux.wps.cn/)，点击对应的架构与包格式（如X64）下载对应的安装包
 
 - 安装方法
 
@@ -182,7 +182,7 @@ Google 巨人开发的笔记服务
 
 ### WizNote
 
-为知笔记 [linux 版源代码](https://github.com/WizTeam/WizQTClient)
+为知笔记 [linux版源代码](https://github.com/WizTeam/WizQTClient)
 
 ### NixNote
 

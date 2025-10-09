@@ -28,7 +28,7 @@ sudo apt-get purge gnome-tweak-tool
 
 - 介绍
 
-Gnome 桌面中管理，添加和去除系统字体
+Gnome桌面中管理，添加和去除系统字体
 
 - 下载位置
 
