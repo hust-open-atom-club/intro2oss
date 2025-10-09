@@ -6,7 +6,7 @@
 
 - 介绍
 
-GNOME桌面的简单文件管理器
+GNOME 桌面的简单文件管理器
 
 - 下载位置
 
@@ -31,7 +31,7 @@ sudo apt-get purge nautilus
 
 - 介绍
 
-GNOME桌面使用的解压工具
+GNOME 桌面使用的解压工具
 
 - 下载位置
 
@@ -75,7 +75,7 @@ sudo apt-get purge unzip
 
 - 介绍
 
-WinRAR的Linux版本
+WinRAR 的 Linux 版本
 
 - 下载位置
 
@@ -125,7 +125,7 @@ sudo vmware-installer -u vmware-workstation
 
 - 介绍
 
-Sun公司开发的完全开源的x86模拟器
+Sun 公司开发的完全开源的 x86 模拟器
 
 - 下载位置
 

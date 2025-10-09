@@ -30,11 +30,11 @@ sudo apt-get purge spotify-client
 
 - 介绍
 
-网易云音乐的linux客户端
+网易云音乐的 linux 客户端
 
 - 下载位置
 
-[FeelUOwn源码](https://github.com/cosven/FeelUOwn)
+[FeelUOwn 源码](https://github.com/cosven/FeelUOwn)
 
 - 安装方法
 
@@ -68,7 +68,7 @@ sudo apt-get purge banshee
 
 - 介绍
 
-Gnome桌面中默认带的音乐播放器，提供音乐管理与播放的强大播放器
+Gnome 桌面中默认带的音乐播放器，提供音乐管理与播放的强大播放器
 
 - 下载位置
 
@@ -92,7 +92,7 @@ sudo apt-get purge rhythmbox
 
 - 介绍
 
-一个基于mplayer2的视频播放器，可能是Linux下最方便的视频播放器
+一个基于 mplayer2 的视频播放器，可能是 Linux 下最方便的视频播放器
 
 - 下载位置
 
@@ -156,7 +156,7 @@ sudo apt-get install mpv
 sudo apt-get purge mpv
 ```
 
-### KODI(原XBMC)
+### KODI(原 XBMC)
 
 - 介绍
 
@@ -180,7 +180,7 @@ sudo apt-get install kodi
 sudo apt-get purge kodi
 ```
 
-注: 中文插件 [xbmc-addons-chinese](https://github.com/taxigps/xbmc-addons-chinese)
+注：中文插件 [xbmc-addons-chinese](https://github.com/taxigps/xbmc-addons-chinese)
 
 
 ## 屏幕录制
@@ -189,7 +189,7 @@ sudo apt-get purge kodi
 
 - 介绍
 
-基于QT的Linux原生屏幕录制软件
+基于 QT 的 Linux 原生屏幕录制软件
 
 - 下载位置
 
@@ -239,7 +239,7 @@ sudo apt-get purge audacity
 
 - 介绍
 
-Gnome桌面中默认的图片查看器
+Gnome 桌面中默认的图片查看器
 
 - 下载位置
 
@@ -261,7 +261,7 @@ sudo apt-get purge eog
 
 - 介绍
 
-Gnome桌面中的图片查看器及浏览器
+Gnome 桌面中的图片查看器及浏览器
 
 - 下载位置
 
@@ -286,7 +286,7 @@ sudo apt-get purge gthumb
 
 - 介绍
 
-支持多种操作系统（Linux，Windows，MacOS等）的跨平台的图片编辑软件
+支持多种操作系统（Linux，Windows，MacOS 等）的跨平台的图片编辑软件
 
 - 下载位置
 
@@ -380,7 +380,7 @@ sudo apt-get purge gnome-screenshot
 
 - 介绍
 
-GNOME桌面环境中的画图软件
+GNOME 桌面环境中的画图软件
 
 - 下载位置
 
