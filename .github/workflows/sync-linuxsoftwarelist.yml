@@ -1,5 +1,4 @@
 name: Sync Linux Software List
-
 on:
   schedule:
     - cron: '0 0 * * 0'  # 每周日 UTC 0 点自动执行（北京时间早上 8 点）
@@ -11,19 +10,19 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
-
+          token: ${{ secrets.GITHUB_TOKEN }}  # 使用 token 进行认证
+          # 或者移除 persist-credentials: false
+          
       - name: Clone linuxsoftwarelist repo
         run: |
           rm -rf appendix/linuxsoftwarelist
           mkdir -p appendix
           git clone --depth=1 https://github.com/hust-open-atom-club/linuxsoftwarelist appendix/linuxsoftwarelist
-
+          
       - name: Add source and license notice
         run: |
           {
@@ -34,23 +33,21 @@ jobs:
             echo "许可证：BSD-2-Clause License"
             echo ""
           } > appendix/linuxsoftwarelist/README.md
-
+          
       - name: Commit and push updates
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "AutoSyncBot"
-          git config user.email "autosync@users.noreply.github.com"
-
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # 添加所有更改
+          git add appendix/linuxsoftwarelist
+          
           # 检查是否有变化
-          if git diff --quiet && git diff --cached --quiet; then
+          if git diff --staged --quiet; then
             echo "[Info] No changes detected — nothing to commit."
             exit 0
           fi
-
-          git add appendix/linuxsoftwarelist
+          
           git commit -m "Auto-sync linuxsoftwarelist $(date -u +'%Y-%m-%d %H:%M:%S')" 
           git push
-
           echo "[Success] linuxsoftwarelist updated and pushed successfully."
-
