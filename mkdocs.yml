@@ -10,6 +10,7 @@ extra_css:
   - stylesheets/extra.css
 
 plugins:
+  - search
   - mkdocs-audio
   - md-preview:
       enable: true
@@ -48,6 +49,9 @@ theme:
     - navigation.top
     - navigation.tracking
     - content.comments
+    - search.suggest
+    - search.highlight
+    - search.share
 
 
 markdown_extensions:
