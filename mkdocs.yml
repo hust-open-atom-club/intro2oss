@@ -18,6 +18,7 @@ plugins:
 
 theme:
   name: 'material'
+  custom_dir: docs/overrides
   language: 'zh'
   logo: assets/logo.png
   favicon: assets/favicon.png
@@ -46,6 +47,8 @@ theme:
     - navigation.indexes
     - navigation.top
     - navigation.tracking
+    - content.comments
+
 
 markdown_extensions:
   - admonition
