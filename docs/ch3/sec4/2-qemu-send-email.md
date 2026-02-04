@@ -108,7 +108,7 @@ git format-patch HEAD~<number>     \
 
 发送邮件到邮件列表的命令如下：
 
-以 qemu 为例，可以通过 `./script/get_maintainer.pl <patch-file>` 来获取发送对象和抄送对象，
+以 qemu 为例，可以通过 `./scripts/get_maintainer.pl <patch-file>` 来获取发送对象和抄送对象，
 具体发送邮件补丁的命令如下：
 
 ```bash
