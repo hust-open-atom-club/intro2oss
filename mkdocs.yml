@@ -152,6 +152,7 @@ nav:
     - 第四章 导览: ch4/index.md
   - 附录:
     - 关于本教程: ch99/abouts.md
+    - Linux软件列表: docs/linuxsoftwarelist/SUMMARY.md
 
 extra_javascript:
   - scripts/mathjax.js
