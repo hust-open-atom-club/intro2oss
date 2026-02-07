@@ -4,8 +4,8 @@
 
 | 软件名称 | 简介 | 官网 | 安装方式 | 卸载方式 |
 | -------- | ---- | ---- | ---- | -------- |
-| KeePass2 | 开源的密码管理工具 | [官方网站]() | `sudo apt-get install keepass2` | `sudo apt-get purge keepass2` |
-| KeePassX | 开源的密码管理工具 | [官方网站]() | `sudo apt-get install keepassx` | `sudo apt-get purge keepassx` |
+| KeePass2 | 开源的密码管理工具 | - | `sudo apt-get install keepass2` | `sudo apt-get purge keepass2` |
+| KeePassX | 开源的密码管理工具 | - | `sudo apt-get install keepassx` | `sudo apt-get purge keepassx` |
 
 ## 杀毒软件
 
