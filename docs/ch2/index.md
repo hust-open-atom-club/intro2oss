@@ -1,7 +1,7 @@
 # 开源基础理论导览
 
 !!! note "主要作者"
-    [@Dreadful-Me](github.com/Dreadful-Me)
+    [@Dreadful-Me](https://github.com/Dreadful-Me)
 
 ## 🚀 开启开源世界之旅
 

@@ -126,7 +126,7 @@ graph TD
 
 !!! example "效率提升神器"
 
-- tmux：终端会话管理（多窗口操作）
-- better-commits：规范化提交助手
-- opencommit：AI 生成提交信息
-- pre-commit：自动化代码检
+    - tmux：终端会话管理（多窗口操作）
+    - better-commits：规范化提交助手
+    - opencommit：AI 生成提交信息
+    - pre-commit：自动化代码检

@@ -1,4 +1,4 @@
-# Git Rebase vs. Git Merge
+# 🔀 Git Rebase vs. Git Merge
 
 **目的：**搞懂 Git 这两种合并分支的酷炫方式，以后合并代码不再纠结！
 
