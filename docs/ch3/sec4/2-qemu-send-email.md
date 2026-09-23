@@ -27,7 +27,7 @@ sudo apt install git-email
 
 如果安装失败，比如遇到下面的问题：
 
-```bash
+```text
 Err:9 https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports mantic-security Release
 404  Not Found [IP: 101.6.15.130 443]
 Hit:10 https://ppa.launchpadcontent.net/obsproject/obs-studio/ubuntu mantic InRelease
@@ -40,6 +40,7 @@ N: See apt-secure(8) manpage for repository creation and user configuration deta
 E: The repository 'https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports mantic-updates Release' no longer has a Release file.
 ...
 ```
+
 可以手动添加 Git 官方的 PPA，再次安装：
 
 ```bash
@@ -59,8 +60,8 @@ sudo apt install git-email
 
 需要开启邮箱的 smtp 服务，这个可以 google 找一下教程。注意事项如下：
 
-	- 有一些邮箱会为第三方客户端设置独立的密码，这个需要先 copy 下来，后面需要用;
-	- 需要关注邮箱支持的 smtp 加密协议是 stl 还是 ssl,或者都支持，这个后续配置的时候要用到。
+- 有一些邮箱会为第三方客户端设置独立的密码，这个需要先 copy 下来，后面需要用;
+- 需要关注邮箱支持的 smtp 加密协议是 stl 还是 ssl，或者都支持，这个后续配置的时候要用到。
 
 配置 git email 绑定自己的邮箱，这里推荐使用命令行，而不是直接修改 .gitconfig，避免配置出错：
 
@@ -76,7 +77,7 @@ git config --global sendemail.smtpPass = <your pass or smtp pass>
 
 配置完毕以后，可以 `cat ~/.gitconfig` 检查一下：
 
-```bash
+```ini
 [sendemail]
         smtpEncryption = <ssl or stl>
         smtpServer = <your smtp address>
@@ -120,7 +121,7 @@ git send-email   \
 
 邮件发送成功以后，终端会输出：
 
-```
+```text
 Result: 250
 ```
 
@@ -287,7 +288,7 @@ patman 还能抓取之前版本补丁收到的 review tag 自动延续到新版�
 
 ## 回复邮件
 
-**手动回复邮件**
+### 手动回复邮件
 
 手动回复邮件，也可以使用 git send-email 进行操作。且邮件格式须为“纯文本”格式。回复别人的邮件
 时，需要引用。一般使用符号 > 作为标记。
@@ -298,7 +299,7 @@ patman 还能抓取之前版本补丁收到的 review tag 自动延续到新版�
 
 两种方式都可以，但更推荐第二种，我们以此为例，进行展示：
 
-```
+```text
 > This is a sample email.
 > It changes a behavior of API x, ...
 blabla ...
@@ -311,9 +312,10 @@ blabla ...
 首先在 lore 页面上搜索你想要的邮件列表，比如在搜索框键入 qemu，点击返回的 链接 进入，然后搜素
 自己想回的邮件标题，比如搜索：
 
-```
+```text
 e1000e: Prevent crash from legacy interrupt firing after MSI-X enable
 ```
+
 会返回几个结果，定位到自己想回的某封邮件，点击进去以后，搜索 raw 并点击保存得到纯文本格式的原始邮件。
 
 接下来是编辑保存的文件：
@@ -322,17 +324,17 @@ e1000e: Prevent crash from legacy interrupt firing after MSI-X enable
 
 2. 保留邮件标题所在的行，并在原标题前面加上 Re: 即可
 
-    ``` “Subject: 原标题” -> "Subject: Re: 原标题" ```
+    `“Subject: 原标题” -> "Subject: Re: 原标题"`
 
 3. 用符号标记 > 引用原文，自己回复的内容穿插于引用的内容之间，可以批量替换：
 
-    ``` sed -i -e 's/^/> /g' /path/to/the-patch-email ```
+    `sed -i -e 's/^/> /g' /path/to/the-patch-email`
 
     注意：不要替换 Subject 所在邮件标题行
 
 最后我们回到 lore 的邮件页面，向下滚动，页面底部列出了用 git send-email 命令来回复这封邮件的命令：
 
-```
+```bash
   git send-email \
     --in-reply-to='CACGkMEsYDPjPBNmAd=AmZQ2AY46weFC_u8PK=+CSCuUD6W9zYg@mail.gmail.com' \
     --to=jasowang@redhat.com \
@@ -346,9 +348,10 @@ e1000e: Prevent crash from legacy interrupt firing after MSI-X enable
     --cc=thuth@redhat.com \
     /path/to/YOUR_REPLY
 ```
+
 发送成功后，见到
 
-```
+```text
 OK. Log says:
 Server: smtp.gmail.com
 ...
@@ -359,19 +362,20 @@ Result: 250
 
 手动回复方法虽然麻烦，但不要求使用者订阅邮件列表。
 
-**邮箱客户端回复邮件**
+### 邮箱客户端回复邮件
 
 邮前多数使用 UI 邮件客户端的默认格式都已经是 HTML 了，因此从客户端撰写邮件的时候需要注意切换成
 文本格式。我们以 Thunderbird 为例，修改邮件格式（plain text 或者 html 格式）。
 
 对于中文版的 Thunderbird：
 
-```
+```text
 [工具 -> 账户设置 -> [账户名称] -> 通讯录] -> “以 HTML 格式编写消息”
 ```
+
 对于英文版的 Thunderbird：
 
-```
+```text
 Tools -> Account Settings -> [Account Name] -> Composition & Addressing -> Compose messages in HTML format
 ```
 
@@ -380,7 +384,7 @@ Tools -> Account Settings -> [Account Name] -> Composition & Addressing -> Compo
 
 另外我们可以设置邮件列表的自动换行，方便网页端显示，我们以英文版本为例：
 
-```
+```text
 Settings -> Gernal -> Config Editor -> 搜索：mailnews.wraplength，将其改为 80
 ```
 
@@ -388,9 +392,9 @@ Settings -> Gernal -> Config Editor -> 搜索：mailnews.wraplength，将其改�
 
 我们以 lore.kernel.org 为例，下面是一封示例邮件，一般拉到邮件的末尾，会有一个 reply 选项：
 
-```
+```text
 ...
-     prev parent reply(首先点击这个)	other threads:[~2025-08-18  2:09 UTC|newest]
+     prev parent reply(首先点击这个)    other threads:[~2025-08-18  2:09 UTC|newest]
 ---
 
 Thread overview: 3+ messages / expand[flat|nested]  mbox.gz  Atom feed  top
@@ -413,7 +417,7 @@ Reply instructions:
   https://kernel.org/pub/software/scm/git/docs/git-send-email.html
 
 * If your mail client supports setting the In-Reply-To header
-  via mailto: links, try the mailto: link （然后点击这个）
+  via mailto: links, try the mailto: link（然后点击这个）
 Be sure your reply has a Subject: header at the top and a blank line before the message body.
 ```
 
