@@ -36,12 +36,15 @@ jobs:
       # "下载 → 阅读 → 校验 → 执行"保持一致。
       - name: Install autocorrect
         run: |
-          curl -fsSL -o autocorrect-install.sh \
+          # 下载到 RUNNER_TEMP（不在仓库工作区内），避免安装脚本被后续的
+          # `git add -A` 误提交进仓库。
+          script="$RUNNER_TEMP/autocorrect-install.sh"
+          curl -fsSL -o "$script" \
             "https://raw.githubusercontent.com/huacnlee/autocorrect/${AUTOCORRECT_REF}/install"
           echo "===== 即将执行的安装脚本内容 ====="
-          cat autocorrect-install.sh
+          cat "$script"
           echo "================================="
-          sh autocorrect-install.sh
+          sh "$script"
 
       - name: Lint and auto-fix
         continue-on-error: true
