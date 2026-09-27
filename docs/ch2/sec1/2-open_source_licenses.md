@@ -72,7 +72,7 @@ copyleft 的效力范围被限定在文件的边界或库的边界内。
 
 | 许可证 | 效力范围 | 主要义务 | 典型项目 |
 |--------|----------|----------|----------|
-| `MPL-2.0` | **文件级** | 修改过的 MPL 文件须继续以 MPL 提供源码；其他文件可闭源 | Firefox、Thunderbird |
+| `MPL-2.0` | **文件级** | 分发可执行形式时，须提供**全部 Covered Software**（所有 MPL 覆盖的文件，含未修改的）的 Source Code Form；copyleft 不扩散到 Larger Work 中不属于 Covered Software 的独立文件 | Firefox、Thunderbird |
 | `LGPL-2.1` / `LGPL-3.0` | **库级** | 动态链接通常可用于闭源程序；须允许用户替换库版本（可重链接） | glibc、部分 Qt |
 | `EPL-2.0` | 模块级 | 修改过的贡献须以 EPL 提供；含专利授权 | Eclipse 项目 |
 | `CDDL-1.0` | 文件级 | 修改过的文件须以 CDDL 提供 | OpenZFS |
