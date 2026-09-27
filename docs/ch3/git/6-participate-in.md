@@ -98,7 +98,7 @@ git switch main
 git merge --ff-only upstream/main     # 现在 main 可以干净地跟上上游
 ```
 
-### GitHub 网页上的 “Sync fork”
+### GitHub 网页上的“Sync fork”
 
 Fork 仓库页面上方的 **Sync fork → Update branch** 等价于前几条命令。它很方便，但有三个限制：
 
@@ -316,7 +316,7 @@ git push --force-with-lease
 ### 怎么判断项目要哪一类
 
 - PR 出现 `DCO` 检查，或机器人提示 `Expected "Signed-off-by"`，走的是 DCO；
-- 出现 `cla-assistant`、`EasyCLA` 之类的机器人，或贡献指南里写着 “Sign our CLA”，走的是 CLA；
+- 出现 `cla-assistant`、`EasyCLA` 之类的机器人，或贡献指南里写着“Sign our CLA”，走的是 CLA；
 - Linux 内核、QEMU 等邮件列表流程同样要求 `Signed-off-by`；
 - 两者都要求、或都不要求，都是正常情况。
 
