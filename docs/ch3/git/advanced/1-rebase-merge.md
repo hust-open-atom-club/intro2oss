@@ -40,7 +40,7 @@
     git merge feature/login  # 把 feature/login 分支合并到 main 分支
     ```
 
-    * **结果：**Git 会创建一个新的合并提交（merge commit），把你的 `feature/login` 分支和 `main` 分支的最新代码合并在一起。
+    * **结果：**如果 `main` 在 `feature/login` 创建之后**没有**新提交，`git merge` 默认会做**快进（fast-forward）**——只是把 `main` 指针移到 `feature/login`，不会产生合并提交。只有两边都各自有新提交（已经分叉）时，才会创建一个新的合并提交（merge commit）。想在任何情况下都留下合并提交，用 `git merge --no-ff feature/login`。
 
     * **特点：**简单！`main` 分支的历史记录会完整保留所有分支的开发过程，就像一本详细的日记。
 
