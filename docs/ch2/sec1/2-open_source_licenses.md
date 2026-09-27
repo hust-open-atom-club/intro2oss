@@ -178,7 +178,7 @@ graph TD
 | `Apache-2.0` + `GPL-3.0-only` / `GPL-3.0-or-later` | ✅ 兼容 | GPLv3 第 11 条的专利条款与 Apache-2.0 不冲突，组合作品可按 GPLv3 分发 |
 | `Apache-2.0` + `GPL-2.0-only` | ❌ 不兼容 | Apache-2.0 的专利与免责要求附加了 GPLv2 不允许的条件 |
 | `GPL-2.0-only` + `GPL-3.0-only` / `GPL-3.0-or-later` | ❌ 不兼容 | `GPL-2.0-only` 不允许按后续版本使用 |
-| `MPL-2.0` + `GPL-2.0-or-later` / `GPL-3.0-or-later` / `LGPL-2.1-or-later` / `AGPL-3.0-or-later` | ✅ **有条件**兼容 | 未标注 `Incompatible With Secondary Licenses` 的 MPL-2.0 文件，可依 §3.3 的次级许可证条款改按 GPL / LGPL / AGPL 分发；**标注了该声明的文件不适用**，需逐个文件确认。§3.3 给出的是"GPL 2.0 or later / LGPL 2.1 or later / AGPL 3.0 or later"，因此 `GPL-2.0-only`、`GPL-3.0-only`、`AGPL-3.0-only` 都不在此列 |
+| `MPL-2.0` + `GPL-2.0` / `LGPL-2.1` / `AGPL-3.0` **及其后续版本** | ✅ **有条件**兼容 | §1.12 把次级许可证定义为 GPL 2.0、LGPL 2.1、AGPL 3.0 **以及这些许可证的后续版本**，§3.3 允许据此把 MPL 代码用于 GPL/LGPL/AGPL 项目。**前提是该文件未标注 `Incompatible With Secondary Licenses`**，需逐个文件确认。注意：`only` 后缀限制的是被许可人自行升级版本，并不把该版本排除出次级许可证列表 |
 | `MIT` / `BSD-3-Clause` + 任意 copyleft | ✅ 兼容 | 宽松许可证不附加冲突条件，组合作品按 copyleft 履行义务 |
 | `GPL-3.0-only` / `GPL-3.0-or-later` + `AGPL-3.0-only` / `AGPL-3.0-or-later` | ⚠️ 单向 | GPLv3 第 13 条允许与 AGPLv3 组合；反向（AGPL 代码并入 GPLv3-only 作品）不成立 |
 | `SSPL-1.0` / `BUSL-1.1` / `Elastic-2.0` + 任何开源许可证 | ❌ 不可视为开源组合 | 它们不是开源许可证，组合后整体不再是开源作品 |
