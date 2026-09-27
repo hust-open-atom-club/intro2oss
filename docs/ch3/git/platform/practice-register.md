@@ -17,7 +17,7 @@ GitHub 是全球最大的开源代码托管平台，开发者可以在上面托�
 
 接下来，我们就一步步完成注册 👇
 
-### 1。注册账号
+### 1. 注册账号
 
 1. **访问平台网站**：
    - GitHub: [https://github.com](https://github.com)
@@ -35,18 +35,18 @@ GitHub 是全球最大的开源代码托管平台，开发者可以在上面托�
     4. **学生福利**：认证 GitHub Student Pack 免费解锁 Pro 功能；  
     意义：提升账户安全，建立专业形象，增加曝光机会，融入开发者社区，为求职或协作积累信用资产。
 
-### 2。熟悉 github 平台功能
+### 2. 熟悉 GitHub 平台功能
 
 #### Dashboard 页面
 
 注册之后登录首先看到的应该是你的 Dashboard 界面，就像下图这样，不过你的可能比较空白（😁）
 
-![Dashboard](../../../assets/Dashborad.png)
+![GitHub Dashboard 页面](../../../assets/Dashborad.png)
 
-图 1。Dashboard
-{： 。caption}
+图 1. GitHub Dashboard 页面
+{: .caption }
 
-???+ node "Dashboard 的介绍"
+???+ note "Dashboard 的介绍"
 
     GitHub Dashboard 是用户登录后的主工作界面，集中显示关注仓库的动态更新、推荐项目、待处理通知（Issues/PR）、近期代码提交记录，以及个人仓库列表和团队动态，支持快速跳转到代码审查、仓库管理等功能模块。
 
@@ -54,12 +54,12 @@ GitHub 是全球最大的开源代码托管平台，开发者可以在上面托�
 
 注册之后就可以做一些操作了，比如说收藏一个仓库，就是给这个仓库一颗 ⭐️，可以点击[这里](https://github.com/hust-open-atom-club/intro2oss)去送出你的第一颗 ⭐️
 
-![repository](../../../assets/repo.png)
+![GitHub 仓库页面](../../../assets/repo.png)
 
-图 2。Repository
-{： 。caption}
+图 2. GitHub 仓库页面
+{: .caption }
 
-???+ node "repository 的介绍"
+???+ note "repository 的介绍"
 
     在 GitHub 仓库页面中，您会看到代码文件列表、README 文件、顶部导航栏（包括 Issues、Pull Requests、Actions、Projects、Wiki）、右侧功能栏（About、Releases、Packages、Contributors），以及 Issue 页面的左侧栏（Assignees、Labels、Projects、Milestone、Development）。此外，还有 Star、Fork、Watch、Code 等功能。建议从 README 文件开始，逐步熟悉 Issues 和 Pull Requests 等协作功能。
 

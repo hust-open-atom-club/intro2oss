@@ -1,296 +1,209 @@
-# Git 暂存区
+# Git 暂存区与提交
 
-## 目的
+## 学习目标
 
-本节旨在帮助学生理解 Git 暂存区的作用，并掌握 `git add` 等基础命令
+完成本节后，你应当能够：
 
----
+1. 区分工作区、暂存区和当前提交；
+2. 查看修改并选择本次提交包含的内容；
+3. 撤销误暂存的文件而不丢失工作区修改；
+4. 创建一项范围聚焦、可以解释的提交。
 
-## 内容
+## 三个区域
 
-### 1. Git 暂存区的作用
+```mermaid
+graph LR
+    A[工作区] -->|git add| B[暂存区]
+    B -->|git commit| C[本地仓库]
+    B -->|git restore --staged| A
+```
 
-#### 什么是暂存区？
+- **工作区**：当前正在编辑的文件。
+- **暂存区**：准备放入下一次提交的文件内容。
+- **本地仓库**：已经形成的提交历史。
 
-- **定义**：暂存区（Staging Area）是 Git 中一个临时存储区域，用于保存即将提交的更改。
-- **作用**：允许开发者选择性地将修改的文件添加到暂存区，而不是一次性提交所有更改。
+暂存区允许你从多项本地修改中选择一部分，避免把无关内容混入同一个提交。
 
-#### 工作流程
+## 查看当前状态
 
-1. **工作目录**：开发者对项目文件进行修改。
-2. **暂存区**：使用 `git add` 将修改的文件添加到暂存区。
-3. **本地仓库**：使用 `git commit` 将暂存区的内容提交到本地仓库。
+先使用以下命令确认分支、已暂存修改和未暂存修改：
 
----
+```bash
+git status
+```
 
-### 2. 修改暂存区
+查看工作区与暂存区的内容差异：
 
-`git add` 是 Git 中用于将工作目录中的修改添加到暂存区的命令。以下是 `git add` 的常见用法：
+```bash
+git diff
+```
 
-#### 添加文件
+查看暂存区与当前提交的内容差异：
 
-  **命令**：
+```bash
+git diff --staged
+```
 
-  ```bash
-  git add <文件 1> <文件 2>
-  ```
+只看每个文件改了多少行、不展示具体内容：
 
-  **作用**：将文件（如 `file1.txt` 和 `file2.txt`）添加到暂存区。
+```bash
+git diff --stat
+```
 
-#### 添加某个目录下的所有修改
+`git status` 回答“哪些文件处于什么状态”，`git diff` 回答“具体改了什么”，`git diff --stat` 回答“这次改动大致有多大”。
 
-  **命令**：
+## 选择要提交的修改
 
-  ```bash
-  git add <目录名>/
-  ```
+暂存指定文件：
 
-  **作用**：将指定目录（如 `src/`）下的所有修改添加到暂存区。
+```bash
+git add docs/example.md
+```
 
-  如果你使用的是
+暂存指定目录：
 
-  ```bash
-  git add .
-  ```
-  
-  那么将把当前所在目录的所有文件添加进暂存区
+```bash
+git add docs/ch1/
+```
 
->可以把构建产物的文件路径加入 `.gitignore` 文件中，避免被错误加入暂存区
+逐块选择同一文件中的修改：
 
-#### 交互式添加
+```bash
+git add -p
+```
 
-  **命令**：
+进入交互后，Git 会逐个“块（hunk）”询问你的决定，常用按键如下：
 
-  ```bash
-  git add -p
-  ```
+| 按键 | 含义 | 使用建议 |
+| ---- | ---- | -------- |
+| `y` | 暂存这个块 | 确认与本次提交相关 |
+| `n` | 不暂存这个块 | 无关修改或调试代码 |
+| `s` | 把当前块拆成更小的块 | 一个块里混了相关和无关改动时 |
+| `e` | 手动编辑当前块 | 需要逐行挑选，要求理解 diff 格式 |
+| `q` | 退出，已做的选择保留 | 中途放弃，不再处理后续块 |
+| `?` | 查看全部按键帮助 | 忘记按键时 |
 
-  **作用**：进入交互模式，逐块（hunk）选择要添加到暂存区的修改。Git 会显示每个修改块，并提示是否将其添加到暂存区。
-  **使用场景**：当需要对修改进行精细控制时，可以使用交互式添加。
+`git add .` 会暂存当前目录下的全部修改。使用前应先检查 `git status`，确认其中不包含构建产物、密钥或与当前任务无关的文件。
 
->`git rm`，`git mv` 的用法与 `git add` 差不多
+## 撤销误暂存
 
----
+将指定文件移出暂存区，同时保留工作区中的修改：
 
-### 3. 撤销暂存区的修改
+```bash
+git restore --staged docs/example.md
+```
 
-如果误将某些修改添加到暂存区，可以使用以下命令将其撤销：
+撤销全部暂存内容：
 
-#### 撤销单个文件的暂存
+```bash
+git restore --staged .
+```
 
-  **命令**：
+这两条命令不会删除工作区修改。执行后再次运行 `git status` 和 `git diff` 确认结果。
 
-  ```bash
-  git restore --staged <文件名>
-  ```
+## 创建提交
 
-  **示例**：
+提交前完成三项检查：
 
-  ```bash
-  git restore --staged README.md
-  ```
+```bash
+git status
+git diff --staged
+git diff --check
+```
 
-  **作用**：将指定文件（如 `README.md`）从暂存区移回工作目录。
+确认差异聚焦且没有明显空白错误后创建提交：
 
-#### 撤销所有暂存的修改
+```bash
+git commit
+```
 
-  **命令**：
+提交时可以在编辑器里同时看到已暂存差异，帮助自己复核：
 
-  ```bash
-  git restore --staged .
-  ```
+```bash
+git commit -v
+```
 
-  **作用**：将所有暂存的文件移回工作目录。
+`git commit -v` 把暂存区的 diff 作为注释附在提交信息模板下方，写信息时能直接对照改动，**不会**把注释写进最终提交。推荐在写较长的提交信息时使用。
 
->`git restore` 是在 Git 2.23 引入的，在此之前，使用 `git checkout` 从某个提交恢复文件
+如果需要快速提交所有**已跟踪**文件的修改，可以跳过显式 `git add`：
 
-## 总结
+```bash
+git commit -a
+```
 
-通过本节的学习，学生应掌握以下内容：
+- **取舍**：`-a` 省事，适合“我确认这次所有已跟踪修改都属于同一个逻辑变更”的场景。
+- **风险**：它会一次性吞掉所有已跟踪文件的修改，容易把调试代码、临时注释或密钥一起提交；它**不会**包含新建的未跟踪文件，容易出现“以为提交了其实没有”的错觉。本课程建议先用 `git status` 和 `git add -p` 明确选择，再 `git commit`。
 
-1. **暂存区的基础操作**
+提交信息应说明这项修改做了什么以及为什么需要修改。项目若规定了提交格式、签名或 DCO，应遵循项目自己的贡献指南。
 
-# Git 暂存区
+## 修改最后一次提交
 
-## 4. Git Reset
+如果最后一次提交尚未共享，并且只需要修正提交信息或补入遗漏内容，可以使用：
 
-前面我们提到了 `git restore`，与其不同，`git reset` 会移动头指针，并且可以选择性地修改暂存区和工作目录。
+```bash
+git commit --amend
+```
 
-以下是 `git reset` 的常见用法：
+这会创建一个新的提交对象。已经推送并供他人使用的提交不应随意改写。
 
-### 撤销暂存区的修改（保留工作目录的更改）
+### 用 `--fixup` 与 `rebase -i --autosquash` 整理提交
 
-  **命令**：
+如果错误出在**更早**的提交上（例如第 2 个提交漏了一个文件，而后面又提交了三次），不必手工记忆每个哈希。`--fixup` 和 `--autosquash` 是配套的三件套：
 
-  ```bash
-  git reset
-  ```
+```bash
+# 1. 照常修改文件并暂存
+git add path/to/file
 
-  **作用**：将暂存区的内容重置为最后一次提交的状态，但保留工作目录中的修改。
+# 2. 把它标记为“对 SHA 的修补”
+git commit --fixup SHA
 
-### 撤销暂存区和工作目录的修改
+# 3. 交互式变基时自动把 fixup 排到对应提交之后并标记为 fixup
+git rebase -i --autosquash SHA^
+```
 
-  **命令**：
+在打开的编辑器中，`fixup!` 开头的行会被自动放到目标提交之后并标记为 `fixup`，保存退出后 Git 会把它们合并进原提交，历史看起来就像一次写对。
 
-  ```bash
-  git reset --hard
-  ```
+> `--autosquash` 也可以配成默认行为：`git config --global rebase.autoSquash true`。
 
-  **作用**：将暂存区和工作目录的内容都重置为最后一次提交的状态。**注意**：这将丢弃所有未提交的更改，使用时要小心。
+!!! warning "改写历史的前提"
 
-### 回退到某个提交
+    这一套操作会重写提交哈希，只应在**尚未推送**、或**只有你自己使用**的个人分支上做。分支已经推送时，整理后用 `git push --force-with-lease` 更新，不能对共享分支强制推送。详见 [Rebase 与 Merge](advanced/1-rebase-merge.md)。
 
-  **命令**：
+## 常见失败场景
 
-  ```bash
-  git reset <commit-hash>
-  ```
+### 误把构建产物或密钥 `add` 进来
 
-  **作用**：将当前分支的 HEAD 移动到指定的提交，并可以选择是否重置暂存区和工作目录。
+如果错误内容还没提交，先用 `git restore --staged` 把它移出暂存区；如果它已经被提交过一次，就需要同时把它从版本库中移除、但保留本地文件：
 
-- `git reset --soft <commit-hash>`：仅移动 HEAD，保留暂存区和工作目录的更改。
-- `git reset --mixed <commit-hash>`：移动 HEAD 并重置暂存区，但保留工作目录的更改（默认行为）。
-- `git reset --hard <commit-hash>`：移动 HEAD 并重置暂存区和工作目录，丢弃所有更改。
-- **使用场景**: 比如，在你不小心把一些奇怪的文件交上去后，可以用这个撤销。
+```bash
+# 仅从 Git 跟踪中移除，本地文件保留；随后把它写进 .gitignore
+git rm --cached build/output.bin
+git commit -m "chore: stop tracking build artifacts"
+```
 
----
+!!! danger "密钥已经提交并被推送"
 
-## 5. Git Diff
+    `git rm --cached` 只是让后续提交不再包含它，**历史里仍然存在**。正确顺序是：立即在服务端**吊销/轮换**该凭据，再按项目要求处理历史（例如 `git filter-repo` 或平台提供的清理流程），并通知维护者。不要以为删掉文件就安全了。
 
-`git diff` 用于比较工作目录、暂存区和仓库之间的差异。以下是 `git diff` 的常见用法：
+### 把无关修改混进了提交
 
-### 比较工作目录和暂存区
+```bash
+# 撤销最近一次提交，把内容退回暂存区，再重新拆分
+git reset --soft HEAD~1
+```
 
-  **命令**：
+这条命令只移动分支指针，不丢弃内容；随后用 `git restore --staged` 和 `git add -p` 重新组织成两个聚焦的提交。相比之下 `git reset --hard` 会直接丢弃工作区修改，除非你确定不要这些内容，否则不要使用。
 
-  ```bash
-  git diff
-  ```
+!!! danger "谨慎使用 reset --hard"
 
-  **作用**：显示工作目录中尚未添加到暂存区的更改。
+    `git reset --hard` 会移动当前分支并丢弃工作区和暂存区中的修改。本课程的常规贡献流程不需要使用它。需要恢复文件或撤销暂存时，优先使用作用范围更明确的 `git restore`。
 
-  **输出示例**：
+## 实践任务
 
-  ```diff
-  diff --git a/file.txt b/file.txt
-  index 1234567..89abcde 100644
-  --- a/file.txt
-  +++ b/file.txt
-  @@ -1,3 +1,4 @@
-   Hello, World!
-  -This is the old content.
-  +This is the new content.
-  +Added a new line.
-  ```
+1. 在练习仓库中修改两个文件，并让其中一个文件包含两处独立修改。
+2. 使用 `git add -p` 只暂存一处修改。
+3. 用 `git diff` 和 `git diff --staged` 解释剩余修改分别位于哪个区域。
+4. 创建一次聚焦提交，再用 `git show --stat` 和 `git show` 检查结果。
+5. 故意再提交一个小的修补，用 `git commit --fixup <sha>` 加 `git rebase -i --autosquash <sha>^` 把它合并回原提交，最后用 `git log --oneline` 确认只剩一条记录。
 
-- `---` 表示旧文件（暂存区中的文件）。
-- `+++` 表示新文件（工作目录中的文件）。
-- `-` 表示删除的行。
-- `+` 表示新增的行。
-
-- **使用场景**：在将修改添加到暂存区之前，检查工作目录中的更改。
-
----
-
-### 比较暂存区和最后一次提交
-
-  **命令**：
-
-  ```bash
-  git diff --cached
-  ```
-
-  >或者是`git diff --staged`
-
-  **作用**：显示暂存区中尚未提交的更改。
-
-### 比较工作目录和最后一次提交
-
-  **命令**：
-
-  ```bash
-  git diff HEAD
-  ```
-
-  **作用**：显示工作目录和最后一次提交之间的所有差异（包括暂存区和工作目录的更改）。
-
-### 比较两个提交之间的差异
-
-  **命令**：
-
-  ```bash
-  git diff <commit-hash-1> <commit-hash-2>
-  ```
-
-  **作用**：显示两个提交之间的差异。
-  >类似的，可以使用`git diff <branch-1> <branch-2>` 来比较两个分支的最新提交之间的差异。
-
-### diff 的其他用法
-
-  **命令与输出**:
-
-  ```bash
-  #统计
-  git diff --stat
-  docs/ch3/sec1/subsec2/3-reset-diff-and-commit.md | 25 +++++++++++++++++++++++--
-  1 file changed, 23 insertions(+), 2 deletions(-)
-  ```
-
-  使用`git diff`查看某个文件在几个 commit 之间的差异
-
-  命令：`git diff  a6274 293c5  docs/ch3/sec1/subsec1/2-code-hosting-platforms.md`
-
-  ```diff
-
-  diff --git a/docs/ch3/sec1/subsec1/2-code-hosting-platforms.md b/docs/ch3/sec1/subsec1/2-code-hosting-platforms.md
-  index 0a257d5..4b2f348 100644
-  --- a/docs/ch3/sec1/subsec1/2-code-hosting-platforms.md
-  +++ b/docs/ch3/sec1/subsec1/2-code-hosting-platforms.md
-  @@ -97,7 +97,7 @@
-   - **是什么**：自动化测试、构建和部署的工具，就像你在 Steam 上设置了自动更新游戏，每次有新版本都会自动下载安装。
-   - **为什么重要**：提升开发效率，确保代码质量，就像你设置了自动回复，不用每次手动处理重复的事情。
-   - **使用场景**：自动化测试、持续集成/持续交付，比如每次提交代码后，自动运行测试并发布新版本。
-  -
-  +- **案例**:[开源操作系统训练营的自动化测评](https://github.com/LearningOS/template-2024a-rcore/blob/ch8/.github/workflows/build.yml)，[本教程](https://github.com/hust-open-atom-club/intro2oss/actions)
-   ---
- 
-   ## 常用代码托管平台
-  ```
-
----
-
-## 6. Git Commit
-
-`git commit` 用于将暂存区的内容提交到本地仓库。以下是 `git commit` 的常见用法：
-
-### 提交暂存区的更改
-
-  **命令**：
-
-  ```bash
-  git commit -m "提交信息"
-  ```
-
-  **作用**：将暂存区的内容提交到本地仓库，并附带提交信息。
-
-### 提交时跳过暂存区
-
-  **命令**：
-
-  ```bash
-  git commit -a -m "提交信息"
-  ```
-
-  **作用**：将所有已跟踪文件的修改直接提交到本地仓库。**注意**：未跟踪的文件不会被提交。
-
-### 修改最后一次提交
-
-  **命令**：
-
-  ```bash
-  git commit --amend
-  ```
-
-  **作用**：修改最后一次提交的内容或提交信息。
-
-> 对 commit 进行签名 [参考链接](https://docs.github.com/zh/authentication/managing-commit-signature-verification)
+完成后，你应当能够准确说明“下一次提交将包含什么”，而不是依赖试错来操作 Git。

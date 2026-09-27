@@ -1,4 +1,4 @@
-# 4.1.3.2 Git 分布式版本控制工作原理
+# Git 分布式版本控制工作原理
 
 ## 目的
 
@@ -6,7 +6,7 @@
 
 ## 内容
 
-### 1。Git 的分布式特性
+### 1. Git 的分布式特性
 
 Git 是一个分布式版本控制系统（DVCS），与集中式系统（如 SVN）不同：
 
@@ -20,7 +20,7 @@ Git 是一个分布式版本控制系统（DVCS），与集中式系统（如 SV
 > 🌟 **新手理解提示**：
 > 想象成：每个开发者都有完整的项目备份，而不是只能连接中央服务器查看
 
-### 2。分支管理与协作
+### 2. 分支管理与协作
 
 在 Git 中，分支允许开发者并行工作。分支就像代码的平行宇宙，让多人同时进行不同任务：
 
@@ -34,10 +34,11 @@ Git 是一个分布式版本控制系统（DVCS），与集中式系统（如 SV
 > 💡 **新手提示**：
 >
 > 1. 使用 `git branch` 查看所有分支
-> 2. 使用 `git checkout -b 新分支名` 创建并切换分支
+> 2. 使用 `git switch -c 新分支名` 创建并切换分支
 > 3. 分支名只是约定，实际可用任意名称
+> 4. 旧教程里的 `git checkout -b` 是 `git switch -c` 的旧写法；恢复文件请用 `git restore`，不要再用 `git checkout -- <文件>`
 
-### 3。合并远程分支与本地分支
+### 3. 合并远程分支与本地分支
 
 #### 何时需要合并？
 
@@ -50,19 +51,19 @@ Git 是一个分布式版本控制系统（DVCS），与集中式系统（如 SV
 - **Git Merge**：通过 `git merge` 命令将不同分支的修改合并。此操作会生成一个新的合并提交，保留两个分支的历史记录。合并时，如果两个分支在同一部分文件有不同修改，Git 会提示冲突，需要手动解决。
 
   ```bash
-  git checkout main
+  git switch main
   git pull origin main
   git merge feature-branch
   ```
 
-- **Git Rebase**：通过 git rebase 命令将一个分支的提交“重放”到另一个分支的顶部。与 merge 不同，rebase 不会产生合并提交，而是将目标分支的修改按时间顺序添加到当前分支。这使得历史记录看起来更为线性，但也会改变提交历史，因此在共享分支上使用时需要谨慎。
+- **Git Rebase**：通过 git rebase 命令把**当前分支上的提交“重放”到目标分支的最新提交之上**。与 merge 不同，rebase 不会产生合并提交，历史记录看起来更为线性，但每条被重放的提交都会生成新的哈希。下面这条命令的含义是：取出 `feature-branch` 上“`main` 之后”的提交，逐个重放到 `main` 的最新提交之上；**不是**把 `main` 的修改搬进 `feature-branch`。因此只有自己使用的分支才适合 rebase。
 
   ```bash
-  git checkout feature-branch
+  git switch feature-branch
   git rebase main
   ```
 
-### 4。处理分支冲突
+### 4. 处理分支冲突
 
 在合并分支时，可能会发生冲突，尤其是在多个开发者同时修改相同文件的情况下。Git 无法自动合并这些冲突，因此需要开发者手动干预。冲突的解决通常包括：
 
@@ -79,7 +80,7 @@ git commit -m "Resolved merge conflict"
 
 ⚠️ 注意：冲突时不要慌，这只是正常的协作信号！
 
-### 5。推送与拉取操作
+### 5. 推送与拉取操作
 
 **推送（Push）**：将本地仓库的更改提交到远程仓库。推送操作要求本地分支与远程分支保持同步，且在推送之前需要先拉取（git pull）远程仓库的更新，以避免冲突。
 
@@ -103,19 +104,19 @@ git pull --rebase origin main
 
 💡 提示：推送前先拉取可减少冲突！
 
-### 6。Git 工作流建议
+### 6. Git 工作流建议
 
 #### 标准功能开发流程
 
 ```bash
 # 1. 从主分支开始
-git checkout main
+git switch main
 
 # 2. 获取最新代码
 git pull origin main
 
 # 3. 创建功能分支
-git checkout -b feature-login
+git switch -c feature-login
 
 # ...开发完成后...
 
@@ -124,11 +125,11 @@ git add .
 git commit -m "添加登录功能"
 
 # 5. 同步主分支最新状态
-git checkout main
+git switch main
 git pull origin main
 
 # 6. 合并更新到功能分支
-git checkout feature-login
+git switch feature-login
 git merge main
 
 # 7. 推送到远程
@@ -171,9 +172,24 @@ git push origin 分支名
 # 撤销最近一次提交（保留修改）
 git reset --soft HEAD~1
 
-# 完全丢弃最近提交（慎用！）
+# 完全丢弃最近提交（危险，慎用！）
 git reset --hard HEAD~1
 ```
+
+!!! danger "已经推送的提交不要用 `reset` 改写"
+
+    `git reset` 会移动分支指针并改写历史。如果这些提交**已经推送到共享分支**，你的改写会和别人的历史分叉，逼他们做一次痛苦的清理；随后如果再想同步，就只能强制推送。
+
+    这种情况应改用 `git revert` 生成一个**反向提交**：它保留原有历史，用新提交抵消错误改动，别人正常 `git pull` 即可跟上。
+
+    ```bash
+    git switch main
+    git pull --ff-only
+    git revert SHA          # 生成一条“撤销该提交”的新提交
+    git push origin main
+    ```
+
+    注意 `git revert` 需要 `SHA` 对应的提交在本地历史中，且一次只能撤销一条；撤销合并提交时要额外指定 `-m <父提交编号>`。仅在“提交还没推送、或分支只有自己使用”时，才可以用 `reset` 改写历史，并用 `git push --force-with-lease` 更新。
 
 ### Q5: 如何找回误删的分支？
 

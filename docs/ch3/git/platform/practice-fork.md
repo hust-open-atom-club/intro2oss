@@ -19,7 +19,7 @@
 
   3. **二次开发基础**
      基于原项目创建自己的新版本（需遵守开源协议）。
-     *示例：著名的 Linux 系统有众多衍生版本（如 Ubuntu、Debian），均通过 Fork 机制发展而来。*
+     *示例：著名的 Linux 系统有众多衍生版本（如 OpenTofu 由 Terraform 的社区分叉而来、Valkey 由 Redis 分叉而来——这类因许可证或治理变更而产生的分叉，是理解 Fork 机制最现实的案例。*
 
   ---
 
@@ -33,9 +33,15 @@
 
      ![Fork 按钮位置](../../../assets/forkLocation.png)
 
+     图 1. GitHub 仓库页面右上角的 Fork 按钮
+     {: .caption }
+
      然后点击 Creat fork 即可：
 
-     ![Creat fork](../../../assets/CreatFork.png)
+     ![创建 Fork 的确认页面](../../../assets/CreatFork.png)
+
+     图 2. 创建 Fork 时的确认页面
+     {: .caption }
 
   3. **完成复制**
      等待几秒钟，系统会自动生成你的副本仓库，地址为：

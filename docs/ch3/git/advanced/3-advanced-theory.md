@@ -1,8 +1,15 @@
-# Git 进阶理论
+# Git 底层原理
+
+!!! note "主要作者"
+
+    [@ywh555hhh](https://github.com/ywh555hhh)
+
+!!! tip "本节对实际贡献有什么用"
+
+    这一节不教新命令，但它解释了你每天都会遇到的三件事：为什么切换分支几乎瞬间完成、为什么 `git rebase` 之后提交哈希全变了、为什么一次提交只占几 KB 而不是把整个项目复制一遍。理解了对象模型，你在评审别人 PR 时就能判断“这条改动会不会影响历史”，在排查 `.git` 目录膨胀、文件被误删、`reflog` 恢复等问题时也知道该去哪里找原因，而不是只会背命令。
 
 !!! note "本节概览"
     本小节内容主要来自 github 联合创始人 [Scott Chacon](https://github.com/schacon) 在 2008年关于 Git 的演讲，主要从更底层的角度去了解 Git,我们会介绍 GIT 实际对象，blob 等东西，git 底层发生了什么，你会理解到为什么说 Git branch 本质上是一个指针，git rebase 为什么会改变 commit 的 hash 值。在基于 Scott Chacon 的演讲的基础上，添加了一些更小白的内容。
-    本节作者：[ywh555hhh](https://github.com/ywh555hhh)
 
 ## 什么是 Git
 
@@ -26,7 +33,7 @@ Git 是一个文件夹内容管理系统，这意味它是以文件夹为单位�
 
 ### 文件树历史存储系统
 
-文件树历史存储系统，意味着 Git 不仅仅记录了文件夹的内容，还记录了文件夹内容的变化历史。而且是以“树”的形式记录的。想必学过数据结构的同学都知道，树是表示有向无环图的一种数据结构。但你可能很难立马把“树”和“Git”联系起来，没关系往后读，我们会详细介绍。
+文件树历史存储系统，意味着 Git 不仅仅记录了文件夹的内容，还记录了文件夹内容的变化历史，而且是以“树”的形式记录的。树是一种由节点和有向边组成、且不存在环的数据结构，它其实是有向无环图（DAG）的一个特例：每个节点至多只有一个父节点，因此不会绕回自己。Git 的对象关系正是一个这样的结构——commit 指向 tree，tree 再指向子 tree 和 blob，方向始终一致。但你可能很难立马把“树”和“Git”联系起来，没关系往后读，我们会详细介绍。
 
 ### 傻瓜式内容跟踪器
 
@@ -57,7 +64,7 @@ Scott Chacon 在演讲中提到了一个常见的误区，很多人认为 Git �
 ![版本控制软件的家谱](../../../assets/VersionControlClassification.png)
 
 图 1. 版本控制软件的家谱
-{： .caption}
+{: .caption }
 
 ???+ note "消失在历史中的其他版本控制软件"
     在 Git 出现之前，还有很多版本控制软件，比如图中的 CVS、SVN 等。但是随着 Git 的出现，这些版本控制软件都逐渐退出了历史舞台。Git 凭借分布式架构、强大的分支管理、高效性能、数据安全性、强大社区支持及适应现代开发需求等优势，逐渐取代了 CVS、SVN 等传统版本控制系统，成为全球开发者首选的版本控制工具。
@@ -74,7 +81,7 @@ Scott Chacon 在演讲中提到了一个常见的误区，很多人认为 Git �
     然而，这种合作并未持续太久。2005年，BitKeeper 的免费使用许可引发争议，限制开发者在使用期间及一年内不得参与竞争工具的开发。这一条款激怒了 Linux 社区，尤其是在开发者 Andrew Tridgell 试图逆向工程 BitKeeper 时，BitMover 公司认为这违反了协议。尽管 Linus 最初支持 Larry，但随着争议升级，Linux 社区对 BitKeeper 的商业限制愈发不满。最终，BitMover 收回了 Linux 社区的免费使用权，促使 Linus 决定开发一个完全开源的版本控制系统——Git。
 
     #### Git 的诞生与 BitKeeper 的落幕
-    Linus 在短短两周内完成了 Git 的初步开发，并于2005年4月8日发布了第一个版本。Git 不仅继承了 BitKeeper 的分布式设计理念，还进一步简化和优化了功能，完美适应 Linux 内核的开发需求。从 Linux-2.6.12-rc2开始，Linux 内核正式迁移到 Git 上。随着 Git 的迅速普及，BitKeeper 逐渐失去了在开源社区的影响力。2016年，BitKeeper 宣布开源，但此时 Git 已成为全球最主流的版本控制系统。
+    Linus 在约一周内完成了 Git 的自举版本，并在两周内把它投入 Linux 内核维护，于 2005 年 4 月 8 日发布了第一个版本。Git 不仅继承了 BitKeeper 的分布式设计理念，还进一步简化和优化了功能，完美适应 Linux 内核的开发需求。从 Linux-2.6.12-rc2开始，Linux 内核正式迁移到 Git 上。随着 Git 的迅速普及，BitKeeper 逐渐失去了在开源社区的影响力。2016年，BitKeeper 宣布开源，但此时 Git 已成为全球最主流的版本控制系统。
 
     BitKeeper 与 Linux 的故事是一场开源与商业的博弈。尽管 BitKeeper 曾为 Linux 内核开发提供强大支持，但其商业限制最终导致了与开源社区的决裂。这一事件不仅催生了 Git，也深刻改变了开源社区的未来。
 
@@ -84,7 +91,7 @@ Scott Chacon 在演讲中提到，在 Git 中，`.git` 文件夹是 Git 仓库�
 
 你可以在任何一个 `git init` 初始化过的文件夹中找到 `.git` 文件夹。用 `ls -a` 命令就可以看到。你可以`cd .git` 之后再 `ls -a` 看看，你会发现里面有很多文件和文件夹：
 
-```zsh
+```text
 .           FETCH_HEAD  branches    description index       logs        packed-refs
 ..          HEAD        config      hooks       info        objects     refs
 ```
@@ -110,7 +117,7 @@ Scott Chacon 在演讲中提到，在 Git 中，`.git` 文件夹是 Git 仓库�
 
 Git 对象分为四种类型：
 
-- `blob`：存储文件内容。binary large object 二进制大对象。代表着文件内容。`.cpp`, `.py`, `.txt` ,`.jpg` 等文件都是 blob 对象。  
+- `blob`：存储文件内容。名字来自 “binary large object”（二进制大对象），但在 Git 里它**只是“一段内容”**——一串字节，与文件是不是二进制、属于什么类型毫无关系：`.cpp`, `.py`, `.txt`, `.jpg` 都以 blob 存储，Git 不会因为后缀不同而区别对待。  
 - `tree`：存储目录结构和文件路径。
 - `commit`：存储提交历史。
 - `tag`：存储标签信息。
@@ -119,7 +126,7 @@ Git 对象分为四种类型：
 
 上面的四种对象有着统一的格式：
 
-``` txt
+```text
 <object type> <content length>\0<content>
 ```
 
@@ -128,7 +135,7 @@ Git 对象分为四种类型：
 - `\0`：一个空字节，用于分隔对象类型和内容。
 - `<content>`：对象的内容，根据对象类型不同而不同。
 
-#### Blob（二进制大对象）
+#### Blob（一段内容）
 
 假设你有一个文件 `README.md`，内容如下：
 
@@ -147,7 +154,7 @@ This is a sample README file.
 你可以通过以下命令查看仓库中的 `blob` 对象：
 
 ```bash
-git cat-file -p <blob_hash>
+git cat-file -p BLOB_HASH
 ```
 
 其中 `<blob_hash>` 是 `blob` 对象的 SHA-1 哈希值。
@@ -183,7 +190,7 @@ Git 会为这个目录结构创建一个 `tree` 对象，其内容可能类似�
 你可以通过以下命令查看 `tree` 对象的内容：
 
 ```bash
-git cat-file -p <tree_hash>
+git cat-file -p TREE_HASH
 ```
 
 ???+ note "Blob 不存文件名，tree 存文件名"
@@ -217,7 +224,7 @@ Initial commit
 你可以通过以下命令查看 `commit` 对象的内容：
 
 ```bash
-git cat-file -p <commit_hash>
+git cat-file -p COMMIT_HASH
 ```
 
 ---
@@ -248,7 +255,7 @@ First release
 你可以通过以下命令查看 `tag` 对象的内容：
 
 ```bash
-git cat-file -p <tag_hash>
+git cat-file -p TAG_HASH
 ```
 
 #### 对象的关系
@@ -258,7 +265,7 @@ git cat-file -p <tag_hash>
 ![object](../../../assets/GitObject.png)
 
 图 2. 对象关系图
-{： .caption}
+{: .caption }
 
 ### 对象哈希
 
@@ -268,23 +275,27 @@ git cat-file -p <tag_hash>
 
 SHA-1 是一种哈希算法，它将任意长度的数据映射为一个 40 个字符的哈希值。SHA-1 的哈希值长度为 40 个字符，通常表示为 40 个十六进制字符。
 
-所以我们只要有一个 commit 的哈希，就可以找到这个 commit 的内容。而 commit 的哈希发生了变化，
+所以我们只要有一个 commit 的哈希，就可以找到这个 commit 的内容。而 commit 的哈希发生了变化，就说明这个 commit 的内容发生了变化——包括它指向的 tree、它的 parent 提交，以及作者和时间等元数据。这也解释了为什么 rebase 之后“文件内容没改”的提交仍然会换一个新哈希：它的 parent 变了。
 
 ### 对象的存储过程
 
 #### new_content 的生成
 
-原本的 contene 在加上一些元数据后，就变成了 new_content。
+原本的 content 在加上对象头之后，就变成了 new_content。对象头由“类型 + 一个空格 + 以字节为单位的内容长度 + 一个空字节”组成：
 
-``` bash
-new_content = type + '    ' + content.size.to_s + "\\0" + content
+```ruby
+# 注意：类型和长度之间只有一个空格；"\0" 是一个空字节（NUL），
+# 它是对象头与内容之间的分隔符，不是可打印字符，也不是字符串 "0"。
+new_content = "#{type} #{content.size}\0#{content}"
 ```
+
+它的字面结果形如 `blob 12\0Hello, Git!\n`。
 
 #### 计算 new_content 的哈希值
 
 对 new_content 进行 SHA-1 哈希计算，得到这个对象的哈希值。
 
-``` bash
+```ruby
 sha = Digest::SHA1.hexdigest(new_content)
 ```
 
@@ -295,7 +306,7 @@ sha = Digest::SHA1.hexdigest(new_content)
 
 对 new_content 进行压缩，得到压缩后的对象内容。
 
-``` bash
+```ruby
 compressed = Zlib::Deflate.deflate(new_content)
 ```
 
@@ -303,7 +314,7 @@ compressed = Zlib::Deflate.deflate(new_content)
 
 在这里，哈希值就派上用场了。Git 会取哈希值的前两位，作为文件夹名，然后取哈希值的后面部分，作为文件名。假如哈希值是 `1234567890……`，那么文件夹名就是 `12`，文件名就是 `34567890……`。
 
-``` bash
+```ruby
 path = ".git/objects/#{sha[0..1]}/#{sha[2..]}"
 File.open(path, 'wb') { |f| f.write(compressed) }
 ```
@@ -332,12 +343,12 @@ Scott Chacon 在演讲中提到，**引用**也是 Git 需要好好理解的内�
 ![reference](../../../assets/Reference.png)
 
 图 3. 引用
-{： .caption}
+{: .caption }
 
 比如我们之前学过的 `HEAD` 就是一个引用，它指向当前的工作分支或是当前的提交。
 
 ???+ note "Branch 是指针"
-    此时，你终于明白为什么有人说 `branch` 是指针了吧。在你创建分支的时候，Git 会创建一个指向当前提交的引用，并将其命名为分支名。因此，创建分支并不会复制任何内容，只是创建了一个新的引用。而在进行 `git checkout` 切换分支的时候，Git 只会更新 `HEAD` 引用，使其指向新的分支。
+    此时，你终于明白为什么有人说 `branch` 是指针了吧。在你创建分支的时候，Git 会创建一个指向当前提交的引用，并将其命名为分支名。因此，创建分支并不会复制任何内容，只是创建了一个新的引用。而在进行 `git switch` 切换分支的时候（旧写法是 `git checkout <分支名>`），Git 只会更新 `HEAD` 引用，使其指向新的分支。
 
 ## Git 的底层运作
 
@@ -386,14 +397,14 @@ Git 会更新当前分支的引用，使其指向新的 Commit 对象的哈希�
 ![git-underlying](../../../assets/GitUnderlying.png)
 
 图 4. Git 的底层运作
-{： .caption}
+{: .caption }
 
-我们可以看到图四，它展示了 Git 的底层运作。一次 commit 运作，只会新创建那些哈希值发生变化的对象。而其他没有变化的对象，会被复用。
+我们可以看到图 4，它展示了 Git 的底层运作。一次 commit 运作，只会新创建那些哈希值发生变化的对象。而其他没有变化的对象，会被复用。
 
-!!! question "你能看出图四的运作过程吗？"
-    图四中，有三个 commit 对象，你能看出每个 commit 对象所代表的完整目录结构吗？
+!!! question "你能看出图 4 的运作过程吗？"
+    图 4 中，有三个 commit 对象，你能看出每个 commit 对象所代表的完整目录结构吗？
 
-??? answer "参考"
+??? note "参考"
     在每个 commit ，我们只需要观察的 单向箭头 传递下去的一颗树，就可以知道这个 commit 的完整目录结构。
 
 此时我们就能明白原来每一次 commit 的都实现了**快照**的效果，并且不会占用过多的磁盘空间。

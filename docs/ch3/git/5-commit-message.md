@@ -1,5 +1,9 @@
 # Git 代码提交规范与实践指南
 
+!!! note "主要作者"
+
+    yinchunyuan
+
 ---
 
 ## 一、Linux 内核提交规范：工程艺术的典范
@@ -83,7 +87,7 @@ Fixed some memory bugs
 
 ### 1. 规范演进历程
 
-2019 年由 Angular 团队提出，现已成为 GitHub 80% 以上开源项目的选择，特点：
+Conventional Commits v1.0.0 于 2019 年发布，受 Angular 提交约定影响，其特点：
 
 - **机器可读**：支持自动化生成 CHANGELOG
 - **语义化版本**：通过提交类型自动确定版本号
@@ -99,17 +103,24 @@ Fixed some memory bugs
 [optional footer(s)]
 ```
 
-#### 类型语义字典（扩展版）
+#### 类型语义字典（全章统一版）
 
-| 类型     | 适用场景               | 版本影响 |
-| -------- | ---------------------- | -------- |
-| feat     | 新增功能/API           | minor↑  |
-| fix      | 错误修复               | patch↑  |
-| perf     | 性能优化               | patch↑  |
-| refactor | 代码重构（不改变行为） | -        |
-| revert   | 回滚提交               | patch↑  |
-| ci       | CI 配置变更             | -        |
-| chore    | 日常维护（不影响功能） | -        |
+下表汇总了本项目涉及的全部类型。**项目自定义的取值优先**：不同项目可能增删类型或改变含义（例如有的项目用 `build` 表示构建系统变更），以目标项目的贡献指南为准。
+
+| 类型     | 适用场景                       | 版本影响 |
+| -------- | ------------------------------ | -------- |
+| feat     | 新增功能/API                   | minor↑  |
+| fix      | 错误修复                       | patch↑  |
+| perf     | 性能优化                       | patch↑  |
+| refactor | 代码重构（不改变行为）         | -        |
+| revert   | 回滚提交                       | patch↑  |
+| build    | 构建清单、依赖项或版本变更     | -        |
+| docs     | 文档修改                       | -        |
+| test     | 添加或修改测试用例             | -        |
+| ci       | CI 配置变更                    | -        |
+| chore    | 日常维护（不影响功能）         | -        |
+
+> `<类型>` 后加 `!`，或在脚注中包含 `BREAKING CHANGE:`，表示**破坏性变更**。破坏性变更可以是任意 `<类型>` 提交的一部分。
 
 ### 3. 高级应用技巧
 
@@ -184,7 +195,7 @@ Refs: https://openid.net/specs/openid-connect-core-1_0.html
 
 一个*提交信息*必须包含标题和脚注，正文部分是可选项。如果你是向项目直接*提交*的贡献者，那么正文部分则是必要的：
 
-```bash
+```text
 <header>
 
 [optional <body>]
@@ -192,20 +203,20 @@ Refs: https://openid.net/specs/openid-connect-core-1_0.html
 <footer>
 ```
 
-> 为了更好的可读性，提交信息每行都不应该超过 100 个字符！
+> 通用惯例是标题不超过 50 个字符、正文每行不超过 72 个字符。RustSBI 项目在自身规范中把正文放宽到每行不超过 100 个字符，这属于**项目自定义**，其他项目仍以 50/72 为准。
 
 #### 标题
 
 作为提交信息的第一行，`<标题>` 有着严格的格式要求，通常为：
 
-```bash
+```text
 <scope or type>: <subject>
 ```
 
 如果你已习惯了**约定式提交**也可以同时使用 `<类型>` 和 `<范围>`：
 
-```bash
-<type>(<scope>): <suject> 
+```text
+<type>(<scope>): <subject>
 ```
 
 > `<范围 或 类型>/<类型>(范围)` 后面有一个 `!`，或在 `<脚注>` 中包含 `BREAKING CHANGE:`，提醒注意**破坏性变更**。破坏性变更可以是任意 `<类型>` 提交的一部分。
@@ -227,7 +238,9 @@ Refs: https://openid.net/specs/openid-connect-core-1_0.html
 
 #### 类型
 
-作为对 `<范围>` 的补充，遵循**约定式提交**，必须为下列之一，同时附上示例：
+作为对 `<范围>` 的补充，遵循**约定式提交**。完整的类型取值见前文的类型语义字典表；**项目自定义的取值优先**，若某个项目增删类型，以该项目的贡献指南为准。
+
+RustSBI 项目中各类型的真实提交示例（可用于理解类型与改动的对应关系）：
 
 - **`feat`**：新增了一个功能 ([5baa946](https://github.com/rustsbi/rustsbi/commit/5baa946c4036bccba760be36c049ad1626b8d5e0))
 - **`fix`**：修复了一个 bug ([293db69](https://github.com/rustsbi/rustsbi/commit/293db697b39daf69eae1315cb85996e134d0d0b7))
@@ -266,7 +279,7 @@ Refs: https://openid.net/specs/openid-connect-core-1_0.html
 
 ### Commit Messages 模板
 
-```bash
+```text
 rt: refine constant declaration and document on legacy extensions
 
 Modify links on document; do not expose legacy extension EID constants, 
@@ -275,7 +288,7 @@ developers should use from `sbi-spec` crate.
 Signed-off-by: Zhouqi Jiang <luojia@hust.edu.cn>
 ```
 
-```bash
+```text
 main: add embedded-cli based serial command line console support
 
 - Add embedded-cli based serial command line console support for bouffaloader, 
@@ -288,7 +301,7 @@ Refs: https://github.com/rustsbi/bouffalo-hal/pull/5
 Signed-off-by: DongQing <placebo27@hust.edu.cn>
 ```
 
-```bash
+```text
 binary: enhance `SbiRet` structure functions to match `core::result::Result` APIs
 
 - binary: change `SbiRet::and` signature to `fn and<U>(self, res: Result<U, Error>) -> Result<U, Error>`
@@ -302,9 +315,18 @@ Signed-off-by: Zhouqi Jiang <luojia@hust.edu.cn>
 
 ## 四、提交文化的演进趋势
 
-1. **AI 辅助时代**：GitHub Copilot 已支持自动生成符合规范的提交信息
+1. **AI 辅助时代**：GitHub Copilot 等工具已支持自动草拟提交信息
 2. **可视化分析**：基于提交类型的代码健康度仪表盘
 3. **安全增强**：结合 Sigstore 的提交签名验证
-4. **跨平台统一**：GitLab/BitBucket 逐步支持 Conventional Commits
+4. **工具链成熟**：Release Please、semantic-release 等工具可以直接消费 Conventional Commits，自动生成 CHANGELOG 和版本号
+
+### AI 生成的提交信息必须人工核对
+
+让 AI 或编辑器插件代写提交信息是可行的提效手段，但**生成结果必须由提交者本人核对两项内容**：
+
+- **动机**：这条信息描述的“为什么改”是否真的是本次改动的理由？AI 常见的错误是把对照实验、调试代码或顺手清理的动机写成主要目的。
+- **范围**：标题和正文描述的文件、函数、行为是否与实际 `git diff --staged` 完全一致？AI 可能在信息里提到并没有改动的模块，或漏掉改动中最关键的部分。
+
+提交信息是署你名字的工程记录，也是一次提交里唯一无法从代码反推的信息。发出前请用 `git show --stat` 和 `git diff --staged` 对照一遍，不确定就自己改写。
 
 通过掌握这些规范，开发者不仅能提升个人工程能力，更能深入理解开源社区治理的底层逻辑。规范的本质不是约束，而是建立高效协作的共同语言。

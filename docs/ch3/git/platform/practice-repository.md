@@ -70,7 +70,10 @@ git config --global user.email "你的邮箱"
 
 - **创建远程仓库**：登录 GitHub 并点击“New repository”按钮。填写仓库名称、描述并选择公开或私有。点击“Create repository”完成创建。
 
-![Create-repo](../../../assets/createrepo.png)
+![GitHub 新建仓库页面](../../../assets/createrepo.png)
+
+图 1. GitHub 的新建仓库页面
+{: .caption }
 
 - **克隆仓库到本地**：复制新仓库的克隆 URL。在终端中使用以下命令将仓库克隆到本地：
 
@@ -139,7 +142,7 @@ git init
 
 执行后会显示：
 
-```bash
+```text
 Initialized empty Git repository in /path/to/your/project-folder/.git/
 ```
 
@@ -187,7 +190,7 @@ git remote -v
 
 应该显示：
 
-```bash
+```text
 origin  https://github.com/yourusername/yourrepository.git (fetch)
 origin  https://github.com/yourusername/yourrepository.git (push)
 ```
@@ -206,7 +209,7 @@ git push -u origin main
 
 推送成功后，你应该看到类似提示：
 
-```bash
+```text
 Enumerating objects: 3, done.
 Writing objects: 100% (3/3), 240 bytes | 240.00 KiB/s, done.
 To https://github.com/yourname/yourrepo.git
@@ -216,12 +219,12 @@ Branch 'main' set up to track remote branch 'main' from 'origin'.
 
 ---
 
-## 💡 遇到问题怎么办？
+## 遇到问题怎么办？
 
 1. 权限错误：检查远程 URL 是否正确 `git remote -v`
 2. 分支冲突：首次推送尝试 `git push -u origin HEAD`
-3. 认证失败：更新 Git 凭证 `git config --global credential.helper cache`
-4. 总是先拉取更新：`git pull --rebase` 避免冲突
+3. 认证失败：HTTPS 方式需要 **Personal Access Token（PAT）**，用账户密码会被平台拒绝（GitHub 自 2021 年 8 月起已禁用密码认证）；**推荐优先改用 SSH 密钥**。临时缓存凭据可以用 `git config --global credential.helper "cache --timeout=900"`，但要注意 `credential.helper store` 会把凭据**明文**写入 `~/.git-credentials`，不要在公共或共享机器上使用。PAT 的创建与使用见 [Git 基础配置](../3-basic-configuration.md)。
+4. 总是先拉取更新：`git pull --ff-only`（只在能快进时更新，分叉会直接报错，便于先看清情况）或 `git pull --rebase`（保持历史线性）
 
 ---
 
@@ -240,7 +243,7 @@ Branch 'main' set up to track remote branch 'main' from 'origin'.
 
 如果你有兴趣进一步了解公共仓库的管理，可以专门针对这些注意事项进行深入学习！
 
-## ✅ 学习进度自查
+## 学习进度自查
 
 阅读本教程后，你应该能够：
 
