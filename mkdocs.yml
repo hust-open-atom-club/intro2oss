@@ -84,6 +84,13 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       permalink: true
+      # 使用支持 Unicode 的 slugify，使中文标题生成可读且稳定的锚点
+      # （如 "## 三、许可证家族全景" → "#三许可证家族全景"）。
+      # 默认的 slugify 会把非 ASCII 字符全部丢弃，导致中文标题的锚点退化为
+      # "_1"、"_2" 这类无语义且随标题增删而漂移的 id。
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - pymdownx.tasklist:
       custom_checkbox: true
 
@@ -95,9 +102,13 @@ extra:
       link: https://github.com/hust-open-atom-club/
 
 nav:
-  - 欢迎来到开源世界: index.md
-  - 零、引言:
-    - 导览: ch0/index.md
+  - 课程首页: index.md
+  - 课程指南:
+    - 课程大纲: course/index.md
+    - 真实贡献项目: course/project.md
+    - 成绩评定: course/assessment.md
+  - 零、课程导入:
+    - 开源的魅力与渊源: ch0/index.md
   - 一、开源简介:
     - 导览: ch1/index.md
     - 第一节 什么是开源: ch1/sec1/what-is-oss.md
@@ -106,50 +117,54 @@ nav:
     - 第四节 怎么做开源: ch1/sec4/how-to-oss.md
   - 二、开源基础理论:
     - 导览: ch2/index.md
-    - 第一节 名词解释:
+    - 第一节 名词与生态:
+      - 本节导览: ch2/sec1/terminology.md
       - 开源生态系统: ch2/sec1/1-open_source_ecosystem.md
       - 开源许可证详解: ch2/sec1/2-open_source_licenses.md
     - 第二节 开源文化: ch2/sec2/culture.md
     - 第三节 开源世界规则:
+      - 本节导览: ch2/sec3/rules.md
       - 开源项目的运作规则: ch2/sec3/1-project-operations.md
       - 贡献与回报: ch2/sec3/2-contributions-rewards.md
-      - 开源项目的法律与合规: ch2/sec3/3-legal-and-compliance.md  
-  - 三、开源贡献基础技能:
+      - 开源项目的法律与合规: ch2/sec3/3-legal-and-compliance.md
+  - 三、完成开源贡献:
     - 导览: ch3/index.md
-    - 第零节 Markdown 基础:
-      - Markdown 基本语法: ch3/sec0/1-basic.md
-      - Markdown 进阶用法: ch3/sec0/2-advanced.md
-    - 第一节 Git 训练营:
-      - 导学阶段:
-        - Git 简介: ch3/sec1/subsec1/1-git-introduction.md
-        - 代码托管平台简介: ch3/sec1/subsec1/2-code-hosting-platforms.md
-      - 基础阶段:
-        - Git 基础配置: ch3/sec1/subsec2/1-basic-configuration.md
-        - 暂存区操作: ch3/sec1/subsec2/2-staging.md
-        - 如何写好一个 commit message: ch3/sec1/subsec2/3-commit-message.md
-      - 专业阶段:
-        - Git Rebase 与 Git Merge 的使用与区别: ch3/sec1/subsec3/1-rebase-merge.md
-        - Git 分布式版本控制工作原理:  ch3/sec1/subsec3/2-Control-Process.md
-        - Git 进阶理论: ch3/sec1/subsec3/3-advanced-theory.md
-        - Git 辅助本地项目开发: ch3/sec1/subsec3/4-help-open.md
-        - 参与开源项目: ch3/sec1/subsec3/5-participate-in.md
-    - 第二节 Linux 训练营:
-      - 其他命令与工具: ch3/sec2/4-other-commands.md
-    - 第三节 Docker 训练营:
-      - Docker 基础: ch3/sec3/1_foundation.md
-      - 自定义镜像之 Dockerfile 详解: ch3/sec3/2_dockerfile.md
-      - Docker 存储管理详解: ch3/sec3/3_storage.md
-      - Docker 网络管理详解: ch3/sec3/4_network.md
-      - Docker Compose 实践: ch3/sec3/5_compose.md
-      - Docker 容器监控与管理: ch3/sec3/6_management.md
-    - 第四节 QEMU 训练营:
-      - QEMU 基础: ch3/sec4/1-qemu-foundation.md
-      - 参与 QEMU 邮件列表讨论: ch3/sec4/2-qemu-send-email.md
-    - 第五节 杂项:
-      - 常用的开源工具: ch3/sec5/1-useful-oss.md
-      - 计算机教育中缺失的一课: ch3/sec5/2-the-missing-semeste-of-your-CS-education.md
-  - 四、领导开源社区:
-    - 第四章 导览: ch4/index.md
+    - 第一节 协作写作:
+      - Markdown 基本语法: ch3/writing/1-basic.md
+      - Markdown 进阶用法: ch3/writing/2-advanced.md
+    - 第二节 Git 与平台协作:
+      - 学习导览: ch3/git/index.md
+      - Git 简介: ch3/git/1-introduction.md
+      - 代码托管平台简介: ch3/git/platform/index.md
+      - 实践 注册并熟悉平台: ch3/git/platform/practice-register.md
+      - 实践 创建并管理仓库: ch3/git/platform/practice-repository.md
+      - 实践 Fork 一个仓库: ch3/git/platform/practice-fork.md
+      - Git 基础配置: ch3/git/3-basic-configuration.md
+      - Git 暂存区与提交: ch3/git/4-staging.md
+      - 如何写好提交信息: ch3/git/5-commit-message.md
+      - 参与开源项目: ch3/git/6-participate-in.md
+    - 第三节 Linux 命令行:
+      - 常用 Linux 命令与工具: ch3/linux/1-commands.md
+    - 拓展 Git 进阶:
+      - Rebase 与 Merge: ch3/git/advanced/1-rebase-merge.md
+      - 分布式版本控制原理: ch3/git/advanced/2-control-process.md
+      - Git 底层原理: ch3/git/advanced/3-advanced-theory.md
+      - Git 辅助本地开发: ch3/git/advanced/4-help-local.md
+    - 拓展 Docker:
+      - Docker 基础: ch3/docker/1-foundation.md
+      - 自定义镜像之 Dockerfile 详解: ch3/docker/2-dockerfile.md
+      - Docker 存储管理详解: ch3/docker/3-storage.md
+      - Docker 网络管理详解: ch3/docker/4-network.md
+      - Docker Compose 实践: ch3/docker/5-compose.md
+      - Docker 容器监控与管理: ch3/docker/6-management.md
+    - 拓展 QEMU 与邮件列表:
+      - QEMU 基础: ch3/qemu/1-foundation.md
+      - 参与 QEMU 邮件列表讨论: ch3/qemu/2-send-email.md
+    - 拓展效率工具:
+      - 常用的开源工具: ch3/tools/1-useful-oss.md
+      - 计算机教育中缺失的一课: ch3/tools/2-missing-semester.md
+  - 四、持续贡献:
+    - 从一次贡献到持续参与: ch4/index.md
   - 附录:
     - 关于本教程: ch99/abouts.md
 

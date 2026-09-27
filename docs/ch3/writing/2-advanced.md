@@ -123,7 +123,7 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 
 可以通过 `:CODE:` 来插入一个表情。其中，每个表情的`code`可通过[这个网页](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)查询
 
-通常来说，我们会在[commit message](../sec1/subsec2/3-commit-message.md)的初始位置插入一个表情符号，让用户和其他维护者能够一眼看出此次 commit 的性质，如：
+通常来说，我们会在[commit message](../git/5-commit-message.md)的初始位置插入一个表情符号，让用户和其他维护者能够一眼看出此次 commit 的性质，如：
 
 ```md preview
 :hammer: fix(api): fix handling logic
