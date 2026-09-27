@@ -36,12 +36,12 @@ Docker Compose 是一个用于定义和运行多容器 Docker 应用程序的工
 
 ## 实践项目：使用 docker compose 构建 Todo 应用
 
-在本章节中，我们通过一个最小可用的 Todo 应用来实战 Docker Compose 编排。示例使用官方镜像，其中后端采用真实工程结构（源码 + Dockerfile），前端与 Nginx 为了演示方便用容器内命令动态生成配置。
+在本章节中，我们通过一个最小可用的 Todo 应用来实战 Docker Compose 编排。四个服务都采用**真实的工程结构**：源码与配置放在构建上下文里，用各自的 `Dockerfile` 构建镜像，而不是把源码塞进 Compose 的 `command`。
 
 ### 目标组件
 
-- **Nginx**：统一入口与反向代理 (对外 8080)
-- **前端**：CDN 版 React 静态页，由 Nginx 托管
+- **Nginx**：统一入口与反向代理 (对外 8080)，由 `nginx/Dockerfile` 构建
+- **前端**：CDN 版 React 静态页，由 `frontend/Dockerfile` 构建
 - **后端**：Node.js Express API (容器内 3001)，由 `backend/Dockerfile` 构建
 - **数据库**：MongoDB (容器内 27017)
 
@@ -49,11 +49,17 @@ Docker Compose 是一个用于定义和运行多容器 Docker 应用程序的工
 
 ```text
 compose-demo/
-├── compose.yaml          # Compose 配置
-└── backend/
-    ├── Dockerfile        # 后端的构建文件
-    ├── package.json      # 后端依赖清单
-    └── server.js         # 后端源码
+├── compose.yaml           # Compose 配置
+├── backend/
+│   ├── Dockerfile         # 后端构建文件
+│   ├── package.json       # 后端依赖清单
+│   └── server.js          # 后端源码
+├── frontend/
+│   ├── Dockerfile         # 前端构建文件
+│   └── index.html         # React 静态页面（CDN 版）
+└── nginx/
+    ├── Dockerfile         # 网关构建文件
+    └── default.conf       # 反向代理配置
 ```
 
 ### 架构图
@@ -101,7 +107,9 @@ name: todo-app
 services:
   # 统一入口网关：反向代理到 frontend 与 backend
   nginx:
-    image: nginx:1.25-alpine
+    build:
+      context: ./nginx
+    image: todo-nginx:local
     container_name: todo_nginx
     ports:
       - "8080:80"
@@ -116,31 +124,12 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    command: >-
-      sh -c '
-      cat > /etc/nginx/nginx.conf <<"EOF"
-      user  nginx;
-      worker_processes  auto;
-      events { worker_connections  1024; }
-      http {
-        include       /etc/nginx/mime.types;
-        default_type  application/octet-stream;
-        sendfile      on;
-        keepalive_timeout  65;
-        upstream frontend { server frontend:80; }
-        upstream backend  { server backend:3001; }
-        server {
-          listen 80;
-          location / { proxy_pass http://frontend; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; }
-          location /api/ { rewrite ^/api/?(.*)$ /$1 break; proxy_pass http://backend; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; }
-        }
-      }
-      EOF
-      && nginx -g "daemon off;"'
 
-  # 前端：无构建版 React（CDN 加载），由 nginx 直接静态托管
+  # 前端：无构建版 React（CDN 加载），由自己的 nginx 静态托管
   frontend:
-    image: nginx:1.25-alpine
+    build:
+      context: ./frontend
+    image: todo-frontend:local
     container_name: todo_frontend
     restart: unless-stopped
     logging:
@@ -148,66 +137,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    command: >-
-      sh -c '
-      cat > /usr/share/nginx/html/index.html <<"EOF"
-      <!doctype html>
-      <html>
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>Todo App</title>
-          <style>
-            body { font-family: ui-sans-serif, system-ui; max-width: 680px; margin: 24px auto; }
-            li { display: flex; gap: 8px; align-items: center; padding: 6px 0; }
-            button { cursor: pointer; }
-          </style>
-          <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-          <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-        </head>
-        <body>
-          <h1>Todo App</h1>
-          <div id="root"></div>
-          <script>
-            const e = React.createElement;
-            const API_BASE = '/api';
-            function App(){
-              const [todos, setTodos] = React.useState([]);
-              const [text, setText] = React.useState('');
-              async function load(){
-                const res = await fetch(`${API_BASE}/todos`);
-                setTodos(await res.json());
-              }
-              async function add(){
-                if(!text.trim()) return;
-                await fetch(`${API_BASE}/todos`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: text })});
-                setText('');
-                load();
-              }
-              async function toggle(id, completed){
-                await fetch(`${API_BASE}/todos/${id}`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ completed: !completed })});
-                load();
-              }
-              async function remove(id){ await fetch(`${API_BASE}/todos/${id}`, { method:'DELETE' }); load(); }
-              React.useEffect(()=>{ load(); },[]);
-              return e('div', null,
-                e('div', { style:{ display:'flex', gap:8 } },
-                  e('input', { value:text, onChange:ev=>setText(ev.target.value), placeholder:'What to do?', style:{ flex:1, padding:8 } }),
-                  e('button', { onClick:add }, 'Add')
-                ),
-                e('ul', null, todos.map(t => e('li', { key:t._id },
-                  e('input', { type:'checkbox', checked:!!t.completed, onChange:()=>toggle(t._id, !!t.completed) }),
-                  e('span', { style:{ textDecoration: t.completed ? 'line-through' : 'none' } }, t.title),
-                  e('button', { style:{ marginLeft:'auto' }, onClick:()=>remove(t._id) }, 'Delete')
-                )))
-              );
-            }
-            ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
-          </script>
-        </body>
-      </html>
-      EOF
-      && nginx -g "daemon off;"'
 
   # 后端：真实的工程结构，源码与 Dockerfile 都在 ./backend 下
   backend:
@@ -258,16 +187,21 @@ volumes:
   mongodb_data:
 ```
 
-!!! note "`nginx` 与 `frontend` 内的 heredoc 只是演示"
+!!! warning "不要把源码或配置内联进 Compose 的 `command`"
 
-    上面把 `nginx.conf` 和 `index.html` 通过容器内命令内联生成，是为了让示例可以单文件运行、
-    便于教学。真实工程里应当把它们拆成独立文件与各自的 Dockerfile，用 `build:` 构建，而不要在
-    Compose 的 `command` 里拼源码——后端就是按正确做法展开的（见下一小节）。
+    看起来"一个文件搞定"很方便，但把 `nginx.conf`、`index.html` 这类内容塞进 `command:` 至少有三个坑：
+
+    - **变量插值**：Compose 会在启动前对 YAML 字符串做插值，`$host`、`${API_BASE}` 会被替换成
+      宿主机的环境变量；未定义时变成空串，配置与页面会悄悄坏掉（想保留字面量必须写成 `$$host`）；
+    - **换行折叠**：`>-` 这类折叠标量会把换行变成空格，`sh -c` 里的 heredoc 因此无法正常结束，
+      容器直接启动失败；
+    - **引号冲突**：外层 `sh -c '...'` 的引号会和内容里的引号互相干扰，JavaScript 里的单引号会被吞掉。
+
+    正确做法是把配置与源码放进构建上下文，用 `Dockerfile` 的 `COPY` 引入——本节四个服务都按这个方式组织。
 
 ### 后端工程文件
 
-后端不应该把源码内联进 Compose 的 `command` 里。请在 `compose-demo/` 下创建 `backend/` 目录，
-放入下面三个文件。
+请在 `compose-demo/` 下创建 `backend/` 目录，放入下面三个文件。
 
 `backend/package.json`：
 
@@ -364,10 +298,124 @@ EXPOSE 3001
 CMD ["node", "server.js"]
 ```
 
+### 网关与前端的工程文件
+
+后端如此，网关和前端也一样。请在 `compose-demo/` 下再创建 `nginx/` 与 `frontend/` 两个目录。
+
+`nginx/default.conf`（反向代理配置）：
+
+```nginx
+upstream frontend_upstream { server frontend:80; }
+upstream backend_upstream  { server backend:3001; }
+
+server {
+  listen 80;
+  server_name _;
+
+  # /api/ 前缀去掉后再转发给后端
+  location /api/ {
+    rewrite ^/api/?(.*)$ /$1 break;
+    proxy_pass http://backend_upstream;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+
+  location / {
+    proxy_pass http://frontend_upstream;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+}
+```
+
+`nginx/Dockerfile`：
+
+```dockerfile
+FROM nginx:1.25-alpine
+
+# conf.d 下的文件会被官方主配置 include，替换默认站点即可
+COPY default.conf /etc/nginx/conf.d/default.conf
+```
+
+`frontend/index.html`（CDN 版 React，不需要构建工具）：
+
+```html
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <style>
+      body { font-family: ui-sans-serif, system-ui; max-width: 680px; margin: 24px auto; }
+      li { display: flex; gap: 8px; align-items: center; padding: 6px 0; }
+      button { cursor: pointer; }
+    </style>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  </head>
+  <body>
+    <h1>Todo App</h1>
+    <div id="root"></div>
+    <script>
+      const e = React.createElement;
+      const API_BASE = '/api';
+      function App(){
+        const [todos, setTodos] = React.useState([]);
+        const [text, setText] = React.useState('');
+        async function load(){
+          const res = await fetch(`${API_BASE}/todos`);
+          setTodos(await res.json());
+        }
+        async function add(){
+          if(!text.trim()) return;
+          await fetch(`${API_BASE}/todos`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ title: text })});
+          setText('');
+          load();
+        }
+        async function toggle(id, completed){
+          await fetch(`${API_BASE}/todos/${id}`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ completed: !completed })});
+          load();
+        }
+        async function remove(id){ await fetch(`${API_BASE}/todos/${id}`, { method:'DELETE' }); load(); }
+        React.useEffect(()=>{ load(); },[]);
+        return e('div', null,
+          e('div', { style:{ display:'flex', gap:8 } },
+            e('input', { value:text, onChange:ev=>setText(ev.target.value), placeholder:'What to do?', style:{ flex:1, padding:8 } }),
+            e('button', { onClick:add }, 'Add')
+          ),
+          e('ul', null, todos.map(t => e('li', { key:t._id },
+            e('input', { type:'checkbox', checked:!!t.completed, onChange:()=>toggle(t._id, !!t.completed) }),
+            e('span', { style:{ textDecoration: t.completed ? 'line-through' : 'none' } }, t.title),
+            e('button', { style:{ marginLeft:'auto' }, onClick:()=>remove(t._id) }, 'Delete')
+          )))
+        );
+      }
+      ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+    </script>
+  </body>
+</html>
+```
+
+`frontend/Dockerfile`：
+
+```dockerfile
+FROM nginx:1.25-alpine
+
+COPY index.html /usr/share/nginx/html/index.html
+```
+
+!!! tip "用 `$host` 而不是 `${host}` 的前提"
+
+    上面的 `nginx.conf` 是**独立文件**，不经过 Compose 的 YAML 插值，因此 `$host`、`$remote_addr`
+    会原样传给 Nginx。一旦把它内联回 `command:`，就必须写成 `$$host`。
+
 ### 配置与代码说明
 
-- 统一入口 `nginx`：容器启动时写入 `nginx.conf` 并前台运行（演示写法，真实工程应拆成 Dockerfile）
-- 前端 `frontend`：容器启动时生成 `index.html`，通过 CDN 加载 React，无需构建工具（同上）
+- 统一入口 `nginx`：由 `nginx/Dockerfile` 构建，把 `default.conf` 放进 `conf.d/`，对外暴露 `8080:80`，
+  将 `/` 转发到 `frontend`、`/api/` 转发到 `backend`
+- 前端 `frontend`：由 `frontend/Dockerfile` 构建，把 `index.html` 放进默认站点目录，通过 CDN 加载 React，
+  无需前端构建工具
 - 后端 `backend`：由 `backend/Dockerfile` 构建成 `todo-backend:local` 镜像，源码与依赖清单都在
   `backend/` 目录下，通过 `npm install --omit=dev` 安装依赖后运行
 - 数据库 `mongodb`：官方镜像，使用命名卷 `mongodb_data` 持久化数据
@@ -376,8 +424,8 @@ CMD ["node", "server.js"]
 
 ### 服务解析
 
-1. nginx 服务：使用官方 `nginx:1.25-alpine` 镜像，对外暴露 `8080:80`，将 `/` 转发到 `frontend`，`/api` 转发到 `backend`；通过 `depends_on` 等 `backend` 健康后再启动
-1. frontend 服务：使用官方 `nginx:1.25-alpine`，启动时写入带 React CDN 的 `index.html`
+1. nginx 服务：基于 `nginx:1.25-alpine` 构建，把 `default.conf` 作为站点配置；对外暴露 `8080:80`，将 `/` 转发到 `frontend`、`/api/` 转发到 `backend`；通过 `depends_on` 等 `backend` 健康后再启动
+1. frontend 服务：基于 `nginx:1.25-alpine` 构建，把 React CDN 版 `index.html` 复制进默认站点目录
 1. backend 服务：使用 `backend/Dockerfile` 从 `node:22-alpine` 构建，安装依赖后运行 `server.js`，连接 `mongodb`；自带 `/health` 探活
 1. mongodb 服务：使用官方 `mongo:7` 镜像，使用命名卷 `mongodb_data` 持久化；健康检查用 `mongosh --eval "db.adminCommand('ping')"` 判断是否就绪
 
@@ -390,7 +438,7 @@ CMD ["node", "server.js"]
 
 ### 使用说明
 
-1. 在后台启动服务（第一次运行需要构建后端镜像）：
+1. 在后台启动服务（第一次运行需要构建 `nginx`、`frontend`、`backend` 三个镜像）：
 
 ```bash
 docker compose up -d --build
