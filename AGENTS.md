@@ -126,7 +126,7 @@ npm install
 
 - `build.yml`：所有 Pull Request 触发，使用 Python 3.13 安装依赖并执行 `mkdocs -v build`，用于验证文档能否正确构建。
 - `deploy_ghpage.yml`：`main` 分支推送时触发，构建后将 `site/` 目录上传并部署到 GitHub Pages。
-- `lint.yml`：推送或 PR 中的 Markdown 文件变更时触发，执行 `autocorrect --fix`。自动修复产物会上传为 artifact；仅当 PR 来自本仓库分支时才回推，fork PR 则创建自动修复 PR（fork 的 head 分支无法由本仓库 `GITHUB_TOKEN` 推送，此前的写法会静默失败）。
+- `lint.yml`：推送或 PR 中的 Markdown 文件变更时触发，执行 `autocorrect --fix`。修复后的文件会打包上传为 `autocorrect-fixes` artifact；**仅当 PR 来自本仓库分支时**才自动回推（`git add -u` + 回推同一分支）。fork PR 无法自动回推也无法留言——fork 触发的 `pull_request` 事件拿到的 `GITHUB_TOKEN` 恒为只读——因此改为在运行摘要（Job Summary）中说明如何用 artifact 或本地 `autocorrect --fix .` 应用修复。安装脚本下载到 `$RUNNER_TEMP`，不得放进工作区（否则会被变更检测与 `git add` 误提交）。
 - `lint-all.yml`：手动触发，下载并检查安装脚本后执行 `autocorrect`（不使用 `curl | sh`）。
 
 部署目标分支为 `main`，站点产物目录为 `./site`。
