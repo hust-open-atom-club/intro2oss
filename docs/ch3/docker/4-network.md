@@ -159,7 +159,7 @@ Host 网络移除了容器和 Docker 主机之间的网络隔离，直接使用�
     docker run -d --name nginx-port -p 80:80 my-nginx
     ```
 
-    下面这段"端口冲突"的演示只在 Linux 原生环境成立。
+    下面这段"端口冲突"的演示适用于 **Linux 原生环境，或已启用 host networking 的 Docker Desktop 4.34+**：两种情况都让容器直接复用宿主机网络，因此第二个容器会因端口被占用而启动失败。
 
 实践案例：**使用 Host 网络运行 Nginx 服务器**
 

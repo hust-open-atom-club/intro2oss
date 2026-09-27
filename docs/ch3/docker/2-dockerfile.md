@@ -334,8 +334,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 安装 Jupyter 内核
 RUN python -m ipykernel install --name python3
 
-# 创建非 root 用户，并让它拥有工作目录
-RUN useradd --create-home --uid 1000 jupyter
+# 创建非 root 用户；先建好工作目录并交给它，否则切换用户后无法写入
+# （COPY --chown 只改变复制进来的文件，不会改变目录本身的所有者）
+RUN useradd --create-home --uid 1000 jupyter \
+    && mkdir -p /notebooks \
+    && chown jupyter:jupyter /notebooks
 WORKDIR /notebooks
 COPY --chown=jupyter:jupyter sample-notebook.ipynb .
 
