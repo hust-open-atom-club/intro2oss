@@ -172,6 +172,9 @@ docker volume ls
 ### 使用 Volume 运行 MySQL
 
 ```bash
+# 先定义一个仅用于本地实验的 root 口令（生产环境不要这样写，见下面的提示框）
+export MYSQL_ROOT_PASSWORD='mysecret'
+
 # 运行 MySQL 容器并挂载卷
 docker run -d \
   --name mysql_db \
@@ -179,8 +182,8 @@ docker run -d \
   -v mysql_data:/var/lib/mysql \
   mysql:8.4
 
-# 进入容器创建测试数据
-docker exec -it mysql_db mysql -uroot -pmysecret -h127.0.0.1
+# 进入容器创建测试数据（口令必须与上面的变量一致）
+docker exec -it mysql_db mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -h127.0.0.1
 ```
 
 进入 MySQL 交互界面后（`mysql>` 是 MySQL 自己的提示符，不是 shell 提示符）：
@@ -193,11 +196,15 @@ mysql> INSERT INTO users VALUES (1, 'John Doe');
 mysql> exit
 ```
 
-!!! warning "不要把密码写在命令行里"
+!!! warning "口令只用于本地实验"
 
-    上面的 `-e MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD"` 与 `-pmysecret` 只是为了演示。实际使用时密码会留在
-    shell 历史记录（`~/.bash_history`）和 `docker inspect` 的输出里，任何能执行 `docker` 命令的
-    用户都能看到。生产环境请改用 `--env-file` 或 secret 机制，并给数据库配置一个真实口令。
+    上面用 `export` 定义 `mysecret` 只是为了让命令能直接跑通。需要注意两点：
+
+    - 通过 `-e` 在命令行上传入口令，会同时留在 shell 历史记录、`docker inspect` 的输出以及进程
+      参数里，任何能执行 `docker` 命令的用户都能看到；
+    - 首次初始化后，`MYSQL_ROOT_PASSWORD` 会被忽略——后面重用同一个数据卷时必须使用**同一个**口令。
+
+    生产环境请改用 `--env-file`（并限制文件权限）或 secret 机制，不要使用示例口令。
 
 ### 验证数据持久化
 
@@ -205,7 +212,7 @@ mysql> exit
 # 删除原容器
 docker rm -f mysql_db
 
-# 使用同一个卷启动新容器
+# 使用同一个卷启动新容器（口令与前面保持一致；数据卷已初始化，此变量不会再被使用）
 docker run -d \
   --name mysql_db2 \
   -e MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" \
@@ -214,7 +221,7 @@ docker run -d \
 
 # 验证数据是否存在
 docker exec -it mysql_db2 \
-   mysql -uroot -pmysecret -e "USE test_db; SELECT * FROM users;"
+   mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "USE test_db; SELECT * FROM users;"
 ```
 
 ## -v 与 --mount 的区别
