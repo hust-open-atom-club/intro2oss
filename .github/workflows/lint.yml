@@ -81,20 +81,30 @@ jobs:
           path: ${{ runner.temp }}/autocorrect-fixes.tgz
           retention-days: 7
 
-      # 只有 PR 来自本仓库分支时才可能回推：fork 的 head 分支权限不在本仓库手里。
+      # 只在能够回推的情况下提交：
+      #   - push 事件：推送目标就是本仓库的分支，可以直接回推；
+      #   - pull_request 事件：仅当 head 分支来自本仓库时才可以
+      #     （fork 的分支权限不在本仓库手里，fork PR 的 token 恒为只读）。
+      # 注意 push 事件下 github.event.pull_request 为 null，必须显式区分事件类型。
       # 使用 `git add -u` 而不是 `git add -A`，避免把无关的未跟踪文件带入提交。
-      - name: Commit and push fixes (same-repository only)
-        if: steps.check_changes.outputs.has_changes == 'true' && github.event.pull_request.head.repo.full_name == github.repository
+      - name: Commit and push fixes
+        if: steps.check_changes.outputs.has_changes == 'true' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository)
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add -u
           git commit -m "Auto fix formatting by autocorrect [ci skip]"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          if [ "${{ github.event_name }}" = "push" ]; then
+            target_ref="${{ github.ref_name }}"
+          else
+            target_ref="${{ github.event.pull_request.head.ref }}"
+          fi
+          echo "回推到分支: $target_ref"
+          git push origin "HEAD:$target_ref"
 
       # fork PR：默认 token 既不能推送也不能发表评论，因此在运行摘要中说明如何应用修复。
-      - name: Explain how to apply fixes (fork only)
-        if: steps.check_changes.outputs.has_changes == 'true' && github.event.pull_request.head.repo.full_name != github.repository
+      - name: Explain how to apply fixes (fork PR only)
+        if: steps.check_changes.outputs.has_changes == 'true' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
         run: |
           {
             echo "### autocorrect 发现了格式问题"
