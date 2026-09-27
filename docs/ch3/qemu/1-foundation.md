@@ -22,49 +22,90 @@ QEMU 具备高度可配置性，能模拟丰富的外设（如磁盘、网络卡
 
 ## QEMU 安装
 
-下面以 Ubuntu 22.04 为例，介绍如何安装 QEMU 开发环境。
+下面以 Ubuntu 22.04/24.04 为例，介绍如何安装 QEMU 开发环境。
 
-### 从软件包安装 QEMU
+### 前置依赖
+
+无论选择下面哪条安装路径，都建议先把这些包一次性装好：
 
 ```bash
 sudo apt update
-sudo apt install qemu-system-misc
+
+# RISC-V 全系统仿真所需的 QEMU、固件与 U-Boot
+sudo apt install opensbi qemu-system-misc u-boot-qemu
 ```
 
-可以使用如下命令验证是否安装成功：
+!!! note "为什么安装 qemu-system-misc"
 
-```bash
-qemu-system-riscv64 --version
-```
+    `qemu-system-riscv64` 由 `qemu-system-misc` 这个包提供，Ubuntu 上不需要（也不应该）再单独
+    安装一个 `qemu-system-riscv64` 包。其中 `opensbi` 提供 OpenSBI 固件，`u-boot-qemu` 提供可在
+    QEMU 上运行的 U-Boot。
 
-### 从源码编译安装 QEMU
+### 安装路径一：直接用发行版软件包
 
-```bash
-# 备份 sources.list 文件
-sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+??? note "点击展开：使用发行版软件包安装"
 
-# 启用 deb-src 源（将所有 deb 源对应的 deb-src 源解锁）
-sudo sed -i '/^# deb-src /s/^# //' /etc/apt/sources.list
-sudo apt-get update
-sudo apt update && sudo apt build-dep qemu
+    上面的前置依赖装完即可使用。验证安装是否成功：
 
-# 拉取 QEMU 代码（可以从 github、gitlab、gitee 等平台拉取，也可以直接从 QEMU 官方下载源码）
-git clone git@gitlab.com:qemu-project/qemu.git
+    ```bash
+    qemu-system-riscv64 --version
+    ```
 
-cd qemu
+    优点：几分钟就能跑起来。缺点：发行版仓库里的 QEMU 版本通常落后于上游，不适合跟进 QEMU
+    本身的新特性，也不便于调试。
 
-# 这里以配置 RISC-V 架构的全系统仿真为例
-./configure --target-list=riscv64-softmmu
+### 安装路径二：从源码编译安装
 
-# 编译 QEMU
-make -j$(nproc)
-```
+??? note "点击展开：从源码编译安装"
 
-可以使用如下命令验证是否编译成功：
+    ```bash
+    # 备份 sources.list 文件
+    sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
 
-```bash
-./qemu/build/qemu-system-riscv64 --version
-```
+    # 启用 deb-src 源（将所有 deb 源对应的 deb-src 源解锁）
+    sudo sed -i '/^# deb-src /s/^# //' /etc/apt/sources.list
+    sudo apt-get update
+    sudo apt update && sudo apt build-dep qemu
+
+    # 拉取 QEMU 代码
+    git clone https://gitlab.com/qemu-project/qemu.git
+
+    cd qemu
+
+    # 这里以配置 RISC-V 架构的全系统仿真为例
+    ./configure --target-list=riscv64-softmmu
+
+    # 只编译 riscv64 目标，比全量编译快得多
+    ninja -C build qemu-system-riscv64
+    ```
+
+    !!! tip "git clone 的几种写法"
+
+        上面使用 HTTPS 地址，无需额外配置即可匿名拉取。如果确实要用 SSH，请先配置好 SSH key
+        再使用 `git clone git@gitlab.com:qemu-project/qemu.git`；也可以使用 GitHub 上的镜像
+        `https://github.com/qemu/qemu.git`。
+
+    验证是否编译成功：
+
+    ```bash
+    ./build/qemu-system-riscv64 --version
+    ```
+
+    如果需要用 GDB 调试 QEMU 自身，可以在 configure 阶段打开调试开关：
+
+    ```bash
+    ./configure --target-list=riscv64-softmmu --enable-debug --enable-debug-tcg
+    ninja -C build qemu-system-riscv64
+    ```
+
+    说明：
+
+    - **QEMU 9.0 及以后使用 meson/ninja 构建系统**，源码树里的 `./configure` 已经是一个兼容
+      包装脚本：它解析传统参数后仍会生成 `build/` 目录并调用 ninja。因此 `make -j$(nproc)`
+      （会转发给 ninja）和 `ninja -C build` 都可以用，后者更直接。
+    - `--enable-debug` 保留调试符号并关闭优化，`--enable-debug-tcg` 额外为 TCG 打开断言检查，
+      二者配合 GDB 调试 QEMU 源码时很有用（代价是运行明显变慢）。
+    - 只做 RISC-V 相关开发时，用 `--target-list=riscv64-softmmu` 限制目标架构可以显著缩短编译时间。
 
 ## QEMU 使用
 
@@ -74,37 +115,42 @@ make -j$(nproc)
 
 ### 基本环境准备
 
-以宿主机（x86-64）为 Ubuntu 操作系统环境为例，需要安装以下几款软件包：
+宿主机（x86-64）为 Ubuntu 操作系统环境时，软件包依赖已经在上一节的「前置依赖」里装好
+（`opensbi`、`qemu-system-misc`、`u-boot-qemu`），这里不再重复安装。
 
-```bash
-sudo apt update
-sudo apt install opensbi qemu-system-misc u-boot-qemu
-```
+接下来需要准备一个 RISC-V 版本的 Ubuntu 镜像，用于模拟 RISC-V 硬件虚拟化的使用环境。
 
-另外我们还需要准备一个 RISC-V 版本的 Ubuntu 镜像，用于模拟 RISC-V 硬件虚拟化的使用环境。
-
-直接在 [Ubuntu 官网](https://ubuntu.com/download/risc-v) 下载即可（请自己尝试 STFW 获取），这里推荐使用 preinstalled 版本，不需要自己手动安装操作系统。
+直接在 [Ubuntu 官网](https://ubuntu.com/download/risc-v) 下载即可（请自己尝试 STFW 获取），
+这里推荐使用 preinstalled 版本，不需要自己手动安装操作系统。**本文全篇统一使用 Ubuntu 24.04
+LTS 的 RISC-V preinstalled 镜像** `ubuntu-24.04.2-preinstalled-server-riscv64.img.xz`；
+如果你下载到的文件名与本文不同，请把下文所有命令里的文件名一起替换为你自己的文件名。
 
 镜像下载好以后，需要解压和扩容：
 
 ```bash
-# 解压下载好的镜像
+# 解压下载好的镜像：xz -dk 会保留原压缩包，并输出去掉 .xz 后缀的 .img 文件
 xz -dk ubuntu-24.04.2-preinstalled-server-riscv64.img.xz
 
-# 镜像扩容
-qemu-img resize -f raw ubuntu-24.04-preinstalled-server-riscv64.img +5G
+# 镜像扩容：对上面解压出来的 .img 文件操作，在原有大小基础上再加 5G
+qemu-img resize -f raw ubuntu-24.04.2-preinstalled-server-riscv64.img +5G
 ```
+
+!!! note "关于这两个文件名"
+
+    `xz -dk` 的输入是 `.img.xz`，输出是同名的 `.img`（去掉 `.xz` 后缀），所以下一步
+    `qemu-img resize` 以及后面 `-drive file=...` 用的都应该是 `.img` 文件，而不是 `.img.xz`。
+    如果误把 `.img.xz` 交给 `qemu-img` 或 QEMU，会因为「不是 raw 镜像」而报错。
 
 使用如下命令启动 RISC-V Ubuntu 镜像：
 
 ```bash
 qemu-system-riscv64 \
-    -machine virt -nographic -m 4096 -smp 32 \
+    -machine virt -nographic -m 4096 -smp 4 \
     -kernel /usr/lib/u-boot/qemu-riscv64_smode/uboot.elf \
     -device virtio-net-device,netdev=eth0 \
     -netdev user,id=eth0,hostfwd=tcp::2222-:22 \
     -device virtio-rng-pci \
-    -drive file=ubuntu-25.04-preinstalled-server-riscv64.img,format=raw,if=virtio
+    -drive file=ubuntu-24.04.2-preinstalled-server-riscv64.img,format=raw,if=virtio
 ```
 
 下面对每个配置项进行详解：
@@ -113,7 +159,7 @@ qemu-system-riscv64 \
 
 * `-nographic` 不需要图形界面，通过命令行终端打印客户机串口输出，并允许人机交互 (先按下 ctrl + a, 再按下 c 进入)。
 
-* `-m 4096 -smp 32` 分配 4G 内存，32 个核心（u-boot 最大支持数量）。
+* `-m 4096 -smp 4` 分配 4G 内存、4 个核心。这个数值请按宿主机资源调整：一般 2–4 核、2–4G 就足够启动 Server 版并完成日常练习；宿主机内存有限时给太大反而会拖慢整机。
 
 * `-kernel /.../uboot.elf` 我们通过 U-Boot 来引导 kernel。
 
@@ -123,11 +169,7 @@ qemu-system-riscv64 \
 
 * `-device virtio-rng-pci` 基于 PCI 的虚拟随机数生成器（RNG），Linux 内核需加载 virtio_rng 驱动
 
-* `-drive file=ubuntu-riscv64.img,format=raw,if=virtio` 加载磁盘镜像
-
-!!! note "启动提示"
-
-    QEMU 启动 RISC-V 的第一阶段 boot 是 OpenSBI，在 7.0 版本以前需要通过 -bios 选项指定，后续高版本，QEMU 默认自动加载，无需手动指定。第二阶段，才是 U-Boot。
+* `-drive file=ubuntu-24.04.2-preinstalled-server-riscv64.img,format=raw,if=virtio` 加载磁盘镜像
 
 以上命令不必强制记忆，可以通过 qemu 的 help 命令查询。一般在生产环境，我们会使用脚本或者交互更友好的中间件或者上层软件来操作，比如 libvirt。
 
@@ -135,15 +177,15 @@ qemu-system-riscv64 \
 
 成功启动 Ubuntu 以后，将会看到以下打印信息，我们使用默认的用户名 ubuntu 来登录，并修改初始密码 ubuntu 为你需要的密码，操作如下：
 
-```bash
+```text
 ...
 [  OK  ] Started getty@tty1.service - Getty on tty1.
 [  OK  ] Reached target getty.target - Login Prompts.
-Ubuntu 25.04 ubuntu ttyS0
-ubuntu login: ubuntu # 输入用户名
-Password: ubuntu # 输入密码，之后会提示你修改初始密码
+Ubuntu 24.04.2 LTS ubuntu ttyS0
+ubuntu login: ubuntu  # 输入用户名
+Password: ubuntu      # 输入密码，之后会提示你修改初始密码
 ...
-Welcome to Ubuntu 25.04 (GNU/Linux 6.14.0-13-generic riscv64)
+Welcome to Ubuntu 24.04.2 LTS (GNU/Linux ... riscv64)
 ```
 
 !!! note "登录提示"
@@ -152,8 +194,43 @@ Welcome to Ubuntu 25.04 (GNU/Linux 6.14.0-13-generic riscv64)
 
 这样，我们就可以正常在 QEMU 中使用这个系统了。
 
+## 启动链详解：OpenSBI → U-Boot → GRUB → Linux 内核
+
+在 RISC-V 的 virt 机器上，一次完整的启动通常会经过 **OpenSBI → U-Boot → GRUB → Linux 内核**
+几个阶段：OpenSBI 是运行在 M 模式（Machine Mode）的固件，负责最底层的中断、时钟与 SBI 调用；
+它跳转到 S 模式（Supervisor Mode）的 U-Boot 之后，U-Boot 读取磁盘分区里的 GRUB，再由 GRUB
+加载 Linux 内核与 initramfs。
+
+在 QEMU 里，你可以决定"从哪一级开始交棒"，对应的就是下面三个参数：
+
+- **`-bios <文件>`：显式指定固件（OpenSBI 或 U-Boot 的 ELF）**。适合固件版本需要与 QEMU 版本
+  精确匹配、或要换成自己编译的 OpenSBI/U-Boot 的场景。注意 `virt` 机器默认就自带一份 OpenSBI
+  固件，**不写 `-bios` 时 QEMU 会自动加载它**，这是当前 QEMU 的正常行为；也就是说，只有当你
+  想用「别的固件」替换默认 OpenSBI 时，才需要显式写 `-bios`。
+- **`-kernel <文件>`：直接把内核或 U-Boot 的 ELF/镜像交给 QEMU 加载**。最常用于两种情况：一是
+  跳过固件与引导器直接启动 Linux 内核（配合 `-append` 传内核命令行，启动最快，适合内核开发）；
+  二是像本文这样把 U-Boot 交给 QEMU 加载，再由 U-Boot 去引导磁盘上的发行版。
+- **`-drive file=...`：纯磁盘引导**。把整块磁盘（含分区表、引导器、内核）交给固件与 U-Boot，
+  最接近真实硬件的行为，也是运行发行版镜像的常规用法；此时不需要 `-kernel`。
+
+简单记：**调试固件用 `-bios`，调试内核/引导器用 `-kernel`，验证真实发行版启动流程用 `-drive`。**
+
+## 想给 QEMU 提补丁，从这里开始
+
+QEMU 项目完全基于邮件列表协作（流程与 Linux 内核类似），没有 GitHub Pull Request 通道。
+第一次贡献时，按下面的顺序读一遍即可：
+
+1. **官方流程文档**：[`docs/devel/submit-a-patch-process.rst`](https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/submit-a-patch-process.rst)
+   规定了补丁格式、收件人获取方式与 Review 流程；
+2. **提交前自检**：在源码树里运行 `./scripts/checkpatch.pl YOUR_PATCH`，把报告出来的格式
+   问题改掉再发送；
+3. **确定收件人**：运行 `./scripts/get_maintainer.pl YOUR_PATCH`，它会根据你修改的文件给出
+   对应的 maintainer 与邮件列表，把结果填进 `--to` / `--cc`；
+4. **发送与讨论**：本目录的 [如何参与 QEMU 邮件列表讨论](2-send-email.md) 详细介绍了
+   `git send-email` 的配置、`b4` 工具链与回复邮件的礼仪。
+
 ## 参考资料
 
-[[1]: QEMU 官方文档](https://www.qemu.org/docs/master/system/index.html)
+1. [QEMU 官方文档](https://www.qemu.org/docs/master/system/index.html)
 
-[[2]: 模拟 RISCV 虚拟化](https://gevico.github.io/learning-qemu-docs/ch2/sec7/emulate-rvh/)
+2. [模拟 RISCV 虚拟化](https://gevico.github.io/learning-qemu-docs/ch2/sec7/emulate-rvh/)

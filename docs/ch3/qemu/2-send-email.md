@@ -4,6 +4,10 @@
 
     [@Zevorn(Chao Liu)](https://github.com/zevorn)
 
+!!! warning "环境与时效说明"
+
+    文中命令在 Ubuntu 22.04/24.04 上验证。邮件列表协作的具体要求以目标项目当前的贡献指南为准；本节的 smtp 配置示例仅用于本地验证，请勿在文档中记录真实密码或应用专用密码。
+
 在参与开源项目开发的过程中，向社区提交代码补丁（Patch）是常见的协作方式。许多成熟的开源项目
 （如 Linux Kernel、QEMU、Git 等）采用邮件列表（Mailing List）作为主要的代码审查与交流平台。
 与 GitHub Pull Request 不同，这类社区通常要求开发者通过电子邮件发送补丁。
@@ -17,31 +21,30 @@ git send-email 是 Git 提供的一个强大工具，允许你将 Git 提交直�
 
 ## 安装 Git Email
 
-ubuntu 默认不会安装完全版的 git，因此需要我们在安装 git 以后（ulan 默认安装了 git），
-再安装 git-email :
+Ubuntu 默认不会安装完整版的 git（`git` 本身通常已随系统安装，但 `git-email` 需要单独安装），
+因此还需要再装一次 `git-email`：
 
 ```bash
 sudo apt update
 sudo apt install git-email
 ```
 
-如果安装失败，比如遇到下面的问题：
+如果 `apt update` 报 `Release file` 404，通常是当前发行版已经 EOL（例如 Ubuntu 23.10
+`mantic`），仓库已被官方下线：请升级系统，或把镜像源换成仍在维护的版本，而不要继续使用
+已下线的仓库。
 
-```text
-Err:9 https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports mantic-security Release
-404  Not Found [IP: 101.6.15.130 443]
-Hit:10 https://ppa.launchpadcontent.net/obsproject/obs-studio/ubuntu mantic InRelease
-Hit:11 https://repo.waydro.id mantic InRelease
-Reading package lists... Done
+??? note "典型的 apt 404 报错（已 EOL 的发行版）"
 
-E: The repository 'https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports mantic Release' no longer has a Release file.
-N: Updating from such a repository can't be done securely, and is therefore disabled by default.
-N: See apt-secure(8) manpage for repository creation and user configuration details.
-E: The repository 'https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports mantic-updates Release' no longer has a Release file.
-...
-```
+    ```text
+    Err:9 https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports mantic-security Release
+    404  Not Found [IP: 101.6.15.130 443]
+    ...
+    E: The repository 'https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports mantic Release' no longer has a Release file.
+    N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+    E: The repository 'https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports mantic-updates Release' no longer has a Release file.
+    ```
 
-可以手动添加 Git 官方的 PPA，再次安装：
+如果需要更新的 Git 版本，也可以手动添加 Git 官方的 PPA，再次安装：
 
 ```bash
 sudo add-apt-repository ppa:git-core/ppa
@@ -49,77 +52,140 @@ sudo apt update
 sudo apt install git-email
 ```
 
-该 PPA 由 Git 社区维护，提供最新稳定版 Git 及其扩展组件，推荐长期使用。
+该 PPA 由 Git 社区维护，提供较新的稳定版 Git 及其扩展组件，推荐长期使用。
 
 ## 配置 Git Email
 
-首先我们需要准备一个邮箱，笔者使用的是 yeah.net 邮箱，另外 qq/foxmail 邮箱、网易邮箱、腾讯
-企业邮箱等等也是可以的。
+首先我们需要准备一个支持 SMTP 的邮箱。国内环境下推荐 **QQ 邮箱 / 163 邮箱 / 腾讯企业邮**：
+它们在国内网络下连通性好，也都提供"授权码 / 应用专用密码"机制。
 
-> PS: 如果是国内环境，不推荐使用 google 邮箱，需要翻墙。
+需要注意 Gmail：它在国内网络环境下不稳定，而且**已经不支持"低安全性应用密码"**（Less Secure
+Apps）。如果确实要用 Gmail 发补丁，必须先在 Google 账号里开启两步验证，再生成一个
+**应用专用密码（App Password）**，用它代替登录密码。
 
-需要开启邮箱的 smtp 服务，这个可以 google 找一下教程。注意事项如下：
+选定邮箱后，需要在邮箱网页端的设置里开启 SMTP 服务，并获取**应用专用密码 / 授权码**
+（不是邮箱的登录密码）。各家的 SMTP 主机与端口如下，具体以服务商当前的帮助文档为准：
 
-- 有一些邮箱会为第三方客户端设置独立的密码，这个需要先 copy 下来，后面需要用;
-- 需要关注邮箱支持的 smtp 加密协议是 stl 还是 ssl，或者都支持，这个后续配置的时候要用到。
+| 邮箱服务商 | SMTP 主机 | 端口与加密方式 | 备注 |
+| --- | --- | --- | --- |
+| QQ 邮箱 | `smtp.qq.com` | 465（`ssl`）/ 587（`tls`） | 需在设置中开启 SMTP 服务并获取授权码 |
+| 163 邮箱 | `smtp.163.com` | 465（`ssl`） | 需开启 SMTP 服务并使用客户端授权码 |
+| 腾讯企业邮 | `smtp.exmail.qq.com` | 465（`ssl`） | 使用客户端专用密码或登录密码 |
+| Gmail | `smtp.gmail.com` | 465（`ssl`）/ 587（`tls`） | 需先开启两步验证并生成 App Password |
 
-配置 git email 绑定自己的邮箱，这里推荐使用命令行，而不是直接修改 .gitconfig，避免配置出错：
+`sendemail.smtpEncryption` 只接受 `ssl`、`tls`、`none` 三个值（注意：写成 `stl` 是**拼写错误**，
+Git 会直接报错拒绝）。端口与取值的对应关系如下：
+
+| 端口 | 加密方式 | `sendemail.smtpEncryption` |
+| --- | --- | --- |
+| 465 | 隐式 SSL/TLS（SMTPS，连接建立即加密） | `ssl` |
+| 587 | STARTTLS（先明文建连，再升级为 TLS，提交端口） | `tls` |
+| 25 | STARTTLS（传统端口，服务商是否支持需确认） | `tls` |
+
+配置 git email 绑定自己的邮箱，这里推荐使用命令行，而不是直接修改 `.gitconfig`，避免配置出错：
 
 ```bash
-git config --global sendemail.smtpEncryption <ssl or stl>
-git config --global sendemail.smtpServer <your smtp address>
-git config --global sendemail.smtpServerPort 587
-git config --global sendemail.smtpUser <your email>
-git config --global sendemail.smtpPass = <your pass or smtp pass>
+git config --global sendemail.smtpEncryption ssl
+git config --global sendemail.smtpServer smtp.qq.com
+git config --global sendemail.smtpServerPort 465
+git config --global sendemail.smtpUser '<your email>'
+git config --global sendemail.smtpPass '<应用专用密码>'
 ```
 
-上述命令中的 `<>` 内部的部分，需要你按照自己的实际邮箱信息来填写。
+!!! tip "为什么密码要用单引号，且不能多写一个 `=`"
 
-配置完毕以后，可以 `cat ~/.gitconfig` 检查一下：
+    密码 / 授权码里常含 `!`、`$`、`\` 等会被 shell 解释的字符，用**单引号**包住可以避免被
+    shell 展开。另外 `git config` 的写法是 `key value`，中间**没有等号**：写成
+    `git config --global sendemail.smtpPass = 'xxx'` 会把密码真的设成 `= xxx`，发送时认证必然失败。
+
+上面的 `<>` 只是文档里的占位约定，实际执行时请替换成你的真实信息，并**去掉尖括号**（在 shell
+里 `<`、`>` 是重定向符号，保留它们会被 shell 当成重定向而不是参数）。配置完毕以后，可以
+`cat ~/.gitconfig` 检查一下：
 
 ```ini
 [sendemail]
-        smtpEncryption = <ssl or stl>
-        smtpServer = <your smtp address>
-        smtpServerPort = 587
+        smtpEncryption = ssl
+        smtpServer = smtp.qq.com
+        smtpServerPort = 465
         smtpUser = <your email>
         smtpPass = *****
 ```
 
-!!! tip "安全提示"
+!!! warning "不要把真实密码写进文档或仓库"
 
-    `.gitconfig` 中明文存储密码存在安全风险。若担心泄露，可考虑使用凭据助手或在每次发送时手
-    动输入密码（添加 --smtp-pass 参数交互输入）。
+    `.gitconfig` 中明文存储密码存在安全风险，也**不要**把含密码的配置粘贴到 Issue、文档或
+    聊天记录里。若担心泄露，可考虑使用凭据助手，或在每次发送时用 `--smtp-pass` 参数交互输入。
 
 ## 编辑补丁与发送
 
-常用的补丁生成命令：
+### 生成补丁
+
+生成补丁系列时，把提交范围、版本号与输出目录一次性写清楚：
 
 ```bash
-git format-patch HEAD~<number>     \
-    --subject-prefix="your prefix" \
-    --thread                       \
-    --cover-letter                 \
-    -s
+# 以 HEAD~3..HEAD 这 3 个提交生成 v2 补丁系列，输出到 outgoing/
+git format-patch -v2 --cover-letter --thread --subject-prefix='PATCH' -o outgoing/ HEAD~3
 ```
 
-- `--subject-prefix=`，可以为补丁插入统一的 prefix，一般写 PATCH or RFC 或者组合;
-- `--cover-letter` 生成一个序号为 0 的抬头文件，可以编辑它，增加一些补丁说明；
-- `-s` 为补丁插入邮箱签名
+参数说明：
 
-发送邮件到邮件列表的命令如下：
+- `-v2`：生成第二版补丁（Subject 前缀为 `[PATCH v2 ...]`）。初次提交时可以不写；
+- `--subject-prefix='PATCH'`：为补丁插入统一的 Subject 前缀，常见取值还有 `RFC`（征求意见稿）
+  或 `PATCH RFC` 这类组合，注意用引号包住；
+- `--cover-letter`：额外生成序号为 `0000` 的封面信（cover letter），用于写整个补丁系列的背景、
+  设计取舍与测试方法。它是**审查者读到的第一封邮件**，发送前请把模板里的占位内容替换成真实说明；
+- `--thread`：让补丁系列以同一个邮件线程发送（用 `--in-reply-to` 串起来），方便审查者按顺序阅读；
+- `-o outgoing/`：把生成的文件输出到 `outgoing/` 目录，避免污染工作区；
 
-以 qemu 为例，可以通过 `./scripts/get_maintainer.pl <patch-file>` 来获取发送对象和抄送对象，
+!!! warning "不要照抄 `HEAD~<number>`"
+
+    `<` 和 `>` 在 shell 中是**重定向符号**，`git format-patch HEAD~<number>` 会被 shell 当成
+    重定向而不是参数，命令直接失败。请写具体数字（如 `HEAD~3`），或使用 `main..HEAD` 这类范围
+    表达式。同理，下面命令示例里所有 `<...>` 占位符都**必须用单引号包住**，否则 shell 会把尖括号
+    当成重定向；唯一例外是 `--in-reply-to` 的 Message-Id——那里需要保留两侧尖括号（示例中已经用
+    单引号包好）。
+
+### 关于 DCO 与 Signed-off-by
+
+`Signed-off-by:` 对应 **DCO（Developer Certificate of Origin，开发者源证书）**，表示你有权提交
+这份代码，并且愿意以项目许可证分发它。它必须和你自己的署名一致，一般有三种落地方式：
+
+- **提交时签名（推荐）**：`git commit -s`，Git 会自动在 commit message 末尾追加
+  `Signed-off-by: 你的名字 <邮箱>`，把签名固化在提交里，后续每次 `format-patch` 都会带上；
+- **让 format-patch 默认补签名**：`git config --global format.signoff true`，此后
+  `git format-patch` 会自动加上该行；这是"忘记手动签名"的兜底；
+- **单次补签名**：`git format-patch -s ...`。注意 `-s` 只对**当次**生成的补丁生效，如果你在多
+  个版本之间来回切换、或者忘了写，很容易出现某一版缺少 `Signed-off-by:` 的情况——所以更推荐
+  直接用 `git commit -s` 把签名固化在提交里。
+
+如果补丁缺少 `Signed-off-by:`，`checkpatch.pl` 会报错，邮件列表也可能直接拒收。此时应回到提交
+阶段用 `git commit --amend -s` 补签名，再重新生成补丁。
+
+### 发送前自检三件套
+
+邮件一旦发出就无法撤回，发送前请务必完成以下三步：
+
+1. **`--dry-run` 预演**：只打印将要发送的邮件与收件人列表，不真正投递；
+2. **`--annotate` 逐封检查**：在编辑器里逐封确认 Subject、收件人与正文，改好再放行；
+3. **先发给自己**：把 `--to` 指向自己的邮箱完整跑一遍，确认能被正常收发和解析。
+
+以 QEMU 为例，可以通过 `./scripts/get_maintainer.pl PATCH_FILE` 来获取发送对象和抄送对象，
 具体发送邮件补丁的命令如下：
 
 ```bash
-git send-email   \
-    --to=<email> \
-    --cc=<email> \
-    <your-patch>
+# 1. 预演：只显示将要发送的邮件，不实际投递
+git send-email --dry-run \
+    --to='<your own email>' \
+    outgoing/*.patch
+
+# 2. 逐封检查后正式发送
+git send-email --annotate \
+    --to='<maintainer email>' \
+    --cc='<mailing list / reviewer email>' \
+    outgoing/*.patch
 ```
 
-邮件发送成功以后，终端会输出：
+发送成功以后，终端会输出：
 
 ```text
 Result: 250
@@ -127,10 +193,32 @@ Result: 250
 
 如果发送失败，可以在 git send-email 后面的参数选项里增加 `--smtp-debug 1` 排查失败原因。
 
-!!! note
+!!! note "首次发送与列表审核"
 
-    首次发送邮件，可以先发送给自己的邮箱，检查能否正常发送。有些开源社区邮件列表，第一次向其发
-    邮件，社区需要审核，如果没有在邮件列表中看到自己的邮件，请耐心等待一下。
+    首次发送邮件，可以先发送给自己的邮箱，检查能否正常发送。有些开源社区邮件列表，第一次向其
+    发邮件需要审核；如果没有立即在归档中看到自己的邮件，请耐心等待一下。
+
+### 发 v2：`--in-reply-to` 的正确用法
+
+社区一般要求**后续版本（v2、v3……）必须挂在同一个讨论线程里**，而不是新开一个孤立线程，否则
+审查者会丢失上下文。实现方式是用 `--in-reply-to` 指回上一版邮件的 `Message-Id`：
+
+```bash
+# v1 的 cover letter（或你要回复的那一封）的 Message-Id，注意保留两侧尖括号
+git send-email \
+    --in-reply-to='<v1 的 message-id>' \
+    --to='<maintainer email>' \
+    --cc=qemu-devel@nongnu.org \
+    outgoing/v2-*.patch
+```
+
+要点：
+
+- `--in-reply-to` 的值取自 v1 **cover letter** 的 `Message-Id`，不是你自己新补丁的 Message-Id；
+  可以在自己收到的 v1 邮件源码里找 `Message-Id:`，或从 lore 页面 URL 中截取；
+- 用 `git send-email` 时建议连尖括号一起给（形如 `--in-reply-to='<20240101.123456.abc@host>'`），
+  单个补丁文件时 Git 也能处理不带尖括号的写法，但带括号最稳妥；
+- 生成补丁时加上 `-v2`，再配合 `--in-reply-to`，收件人侧才会显示成同一个系列的 v2。
 
 ## 补丁 Tag 规范与自动化工具
 
@@ -151,7 +239,7 @@ Result: 250
 | `Reported-by:` | 问题最初的报告者 | 用于修复 Bug 时致谢报告者 |
 | `Suggested-by:` | 方案建议者 | 若思路源自他人讨论 |
 | `Co-developed-by:` | 共同开发者 | 必须与对应的 `Signed-off-by:` 配对出现 |
-| `Fixes:` | 修复的旧补丁 commit | 格式 `Fixes: <sha12> ("subject")` |
+| `Fixes:` | 修复的旧补丁 commit | 格式 `Fixes: SHA12 ("subject")` |
 | `Cc:` | 邮件抄送对象 | 希望其关注的人员 |
 | `Link:` | 相关讨论链接 | 例如 lore.kernel.org 的讨论链接 |
 
@@ -199,32 +287,23 @@ sudo apt install b4
 常用命令：
 
 ```bash
-# 【应用他人补丁】从 lore 拉取某个 message-id 对应的补丁系列，生成可供 git am 使用的 mbox。
-# 邮件线程中他人回复的 Reviewed-by / Tested-by 等 tag 会被汇总写入 mbox 的 commit message，
-# 但并不会修改你当前分支已有的 commit。典型用于 maintainer 把投递上来的补丁应用到自己分支。
+# 【应用他人补丁】从 lore 拉取某个 message-id 对应的补丁系列，输出可供 git am 使用的 mbox
 b4 am <message-id-or-lore-url>
 
-# 【更新本地补丁的 tag】作为贡献者投递了一版补丁后，收到 Reviewed-by / Tested-by 等回复时，
-# 准备 v2 前切回该补丁对应的本地分支运行下列命令。b4 会抓取 lore 上的回复，把新增的 trailer
-# 追加到本地对应的 commit message 中，从而避免手工整理，也避免遗漏：
+# 【收录他人回复中的 tag】准备 v2 之前，切回该补丁对应的本地分支执行
 b4 trailers -u
 
-# 【准备并发送自己的补丁系列】完整的贡献者发送流程，推荐按顺序执行：
-# 1) 基于当前分支创建补丁系列工作分支（后续命令默认作用于该分支）
-b4 prep -n <branch-name>
-# 2) 编辑 cover letter，替换其中的 EDITME 占位内容
-b4 prep --edit-cover
-# 3) 自动填充 To/Cc 收件人（内部会调用 get_maintainer.pl 等工具）
-b4 prep --auto-to-cc
-# 4) 送检：对补丁本身执行 checkpatch.pl 等检查，及时修正格式问题
-b4 prep --check
-# 5) 正式通过 git send-email 发送补丁系列
-b4 send
+# 【准备并发送自己的补丁系列】按顺序执行下面五步
+b4 prep -n <branch-name>   # 创建补丁系列工作分支
+b4 prep --edit-cover       # 编辑 cover letter，替换 EDITME 占位内容
+b4 prep --auto-to-cc       # 自动填充 To/Cc 收件人
+b4 prep --check            # 送检：checkpatch.pl 等检查
+b4 send                    # 通过 git send-email 正式发送
 ```
 
 !!! tip "如何获取 Message-Id"
 
-    上面多条命令都依赖 `<message-id>`。Message-Id 是每封邮件在 email 头部的唯一标识，
+    上面多条命令都依赖 `MESSAGE_ID`。Message-Id 是每封邮件在 email 头部的唯一标识，
     形如 `20240101.123456.abc@host`（以下几种获取方式中，使用时一般去掉两侧的 `<>`）。
     常见的获取方式：
 
@@ -245,9 +324,8 @@ b4 send
 
 !!! warning "发送前务必完成预检"
 
-    直接 `b4 prep -n` 后 `b4 send` 会带着**未填写的 cover letter**（含 `EDITME` 占位符）
-    和**空的收件人列表**把补丁发出去，常常导致邮件被社区忽略或被邮件列表拒收。请确保在
-    `b4 send` 之前依次完成 `--edit-cover`、`--auto-to-cc`、`--check` 三步。
+    `b4 send` 之前必须依次完成 `--edit-cover`、`--auto-to-cc`、`--check`，否则会把带着
+    `EDITME` 占位符和空收件人列表的补丁发出去。
 
 ### 自动化工具：patman
 
@@ -288,16 +366,15 @@ patman 还能抓取之前版本补丁收到的 review tag 自动延续到新版�
 
 ## 回复邮件
 
-### 手动回复邮件
+在 QEMU、Linux Kernel 这类邮件列表社区里，回复邮件的格式要求非常明确：
 
-手动回复邮件，也可以使用 git send-email 进行操作。且邮件格式须为“纯文本”格式。回复别人的邮件
-时，需要引用。一般使用符号 > 作为标记。
+- **一律采用"引用在下、回复在上"的 inline reply**：先贴出被回复的那几行引用，紧跟其后写你的回复；
+- **不要 top-post**（把自己要说的全部写在引用前面）——top-post 在这些社区明确不受欢迎，审查者
+  需要反复上下滚动才能对上上下文；
+- **不要发送 HTML 邮件**：邮件列表的过滤器通常会直接拒收，必须使用"纯文本"（plain text）格式；
+- **不要重排引用层级**：保持 `>` 的层级原样，只裁剪掉与本次回复无关的部分，不要重写别人的引用。
 
-在 QEMU 社区回复别人邮件，可以选择回复内容在顶部，下面放引用内容。即所谓“Top-Post”的方式。
-
-但现在更习惯，先贴引用内容，然后在下面写回复。
-
-两种方式都可以，但更推荐第二种，我们以此为例，进行展示：
+一个合规的回复长这样：
 
 ```text
 > This is a sample email.
@@ -307,102 +384,19 @@ blabla ...
 blabla ...
 ```
 
-我们可以使用 Linux 内核官方的邮件列表存档服务 lore 为例，进行说明。
+### 方式一：直接用 lore 页面给出的命令（推荐）
 
-首先在 lore 页面上搜索你想要的邮件列表，比如在搜索框键入 qemu，点击返回的 链接 进入，然后搜素
-自己想回的邮件标题，比如搜索：
+以 Linux 内核官方的邮件列表存档服务 lore 为例。在 lore 页面上搜索你想要的邮件列表（比如键入
+`qemu`），进入归档后搜索想回复的邮件标题，例如：
 
 ```text
 e1000e: Prevent crash from legacy interrupt firing after MSI-X enable
 ```
 
-会返回几个结果，定位到自己想回的某封邮件，点击进去以后，搜索 raw 并点击保存得到纯文本格式的原始邮件。
-
-接下来是编辑保存的文件：
-
-1. 删掉最上面的一大片的邮件头信息
-
-2. 保留邮件标题所在的行，并在原标题前面加上 Re: 即可
-
-    `“Subject: 原标题” -> "Subject: Re: 原标题"`
-
-3. 用符号标记 > 引用原文，自己回复的内容穿插于引用的内容之间，可以批量替换：
-
-    `sed -i -e 's/^/> /g' /path/to/the-patch-email`
-
-    注意：不要替换 Subject 所在邮件标题行
-
-最后我们回到 lore 的邮件页面，向下滚动，页面底部列出了用 git send-email 命令来回复这封邮件的命令：
-
-```bash
-  git send-email \
-    --in-reply-to='CACGkMEsYDPjPBNmAd=AmZQ2AY46weFC_u8PK=+CSCuUD6W9zYg@mail.gmail.com' \
-    --to=jasowang@redhat.com \
-    --cc=dmitry.fleytman@gmail.com \
-    --cc=lvivier@redhat.com \
-    --cc=michael.roth@amd.com \
-    --cc=odaki@rsg.ci.i.u-tokyo.ac.jp \
-    --cc=philmd@linaro.org \
-    --cc=qemu-devel@nongnu.org \
-    --cc=stefanha@redhat.com \
-    --cc=thuth@redhat.com \
-    /path/to/YOUR_REPLY
-```
-
-发送成功后，见到
+打开某封邮件后，拉到页面底部，lore 会把回复所需的命令和收件人**直接列出来**：
 
 ```text
-OK. Log says:
-Server: smtp.gmail.com
-...
-Result: 250
-```
-
-就表示邮件已经成功地发送出去了。
-
-手动回复方法虽然麻烦，但不要求使用者订阅邮件列表。
-
-### 邮箱客户端回复邮件
-
-邮前多数使用 UI 邮件客户端的默认格式都已经是 HTML 了，因此从客户端撰写邮件的时候需要注意切换成
-文本格式。我们以 Thunderbird 为例，修改邮件格式（plain text 或者 html 格式）。
-
-对于中文版的 Thunderbird：
-
-```text
-[工具 -> 账户设置 -> [账户名称] -> 通讯录] -> “以 HTML 格式编写消息”
-```
-
-对于英文版的 Thunderbird：
-
-```text
-Tools -> Account Settings -> [Account Name] -> Composition & Addressing -> Compose messages in HTML format
-```
-
-当用纯文本格式发送邮件时取消勾选此项即可，判断正在撰写的邮件是否为纯文本格式很简单，
-看【主题】下面是否有 HTML 格式工具栏即可。
-
-另外我们可以设置邮件列表的自动换行，方便网页端显示，我们以英文版本为例：
-
-```text
-Settings -> Gernal -> Config Editor -> 搜索：mailnews.wraplength，将其改为 80
-```
-
-大部分邮件列表，都支持 maito:link 操作，这样可以直接唤起本地邮箱客户端，进行邮件的快捷回复。
-
-我们以 lore.kernel.org 为例，下面是一封示例邮件，一般拉到邮件的末尾，会有一个 reply 选项：
-
-```text
-...
-     prev parent reply(首先点击这个)    other threads:[~2025-08-18  2:09 UTC|newest]
----
-
-Thread overview: 3+ messages / expand[flat|nested]  mbox.gz  Atom feed  top
-2025-08-07 11:08 [PATCH v2] e1000e: Prevent crash from legacy interrupt firing after MSI-X enable Laurent 
-...
 Reply instructions:
-
-...
 
 * Reply using the --to, --cc, and --in-reply-to
   switches of git-send-email(1):
@@ -411,28 +405,106 @@ Reply instructions:
     --in-reply-to='CACGkMEsYDPjPBNmAd=AmZQ2AY46weFC_u8PK=+CSCuUD6W9zYg@mail.gmail.com' \
     --to=jasowang@redhat.com \
     --cc=dmitry.fleytman@gmail.com \
-    ...
+    --cc=qemu-devel@nongnu.org \
     /path/to/YOUR_REPLY
 
   https://kernel.org/pub/software/scm/git/docs/git-send-email.html
 
 * If your mail client supports setting the In-Reply-To header
-  via mailto: links, try the mailto: link（然后点击这个）
+  via mailto: links, try the mailto: link
 Be sure your reply has a Subject: header at the top and a blank line before the message body.
 ```
 
-最后找到 `mailto: link` 点击它会自动使用本地邮箱客户端，比如使用 Thunderbird 回复邮件。
+把 `/path/to/YOUR_REPLY` 换成你自己的回复正文文件，原样执行即可。其中 `--in-reply-to` 的值就是
+被回复邮件的 `Message-Id`，**它保证你的回复挂进原线程，而不是新开一个孤立线程**。
+
+发送成功后，终端会输出：
+
+```text
+OK. Log says:
+Server: smtp.qq.com
+...
+Result: 250
+```
+
+这就表示邮件已经成功发出去了。
+
+### 方式二：用 b4 回复
+
+如果已经用 `b4` 管理补丁，可以让 b4 读取原邮件的 `Message-Id` 并直接生成回复：
+
+```bash
+# <msgid> 可以是去掉尖括号的 Message-Id，也可以直接给 lore 链接
+b4 send --reply-to <msgid>
+```
+
+### 方式三：用邮件客户端回复（Thunderbird）
+
+不想订阅邮件列表、也不想手动拼 `git send-email` 命令时，可以借助邮件客户端的
+**Reply to List（回复到邮件列表）** 功能。以 Thunderbird 为例：
+
+1. lore 邮件页面底部提供 `mailto:` 链接（"If your mail client supports setting the
+   In-Reply-To header via mailto: links" 那一行的 mailto 链接），点击它会唤起本地邮件客户端，
+   并自动带上 `In-Reply-To` 头与原始收件人；
+2. 在 Thunderbird 里也可以直接使用 `Reply to List`（回复到列表）按钮，按列表地址回复；
+3. 无论走哪条路，发送前都必须把撰写格式切回**纯文本**。
+
+对于中文版的 Thunderbird：
+
+```text
+工具 -> 账户设置 -> [账户名称] -> 通讯录 -> 取消勾选"以 HTML 格式编写消息"
+```
+
+对于英文版的 Thunderbird：
+
+```text
+Tools -> Account Settings -> [Account Name] -> Composition & Addressing -> 取消勾选 Compose messages in HTML format
+```
+
+当用纯文本格式发送邮件时取消勾选此项即可。判断正在撰写的邮件是否为纯文本格式很简单：
+看【主题】下面是否出现 HTML 格式工具栏。
+
+另外我们可以设置纯文本邮件的自动换行，方便网页端显示，以英文版为例：
+
+```text
+Settings -> General -> Config Editor -> 搜索 mailnews.wraplength，将其改为 80
+```
+
+!!! warning "再次强调：不要 top-post、不要发 HTML"
+
+    邮件列表过滤器会拒收 HTML 邮件，top-post 在 QEMU / kernel 风格社区也不受欢迎；请始终使用
+    纯文本 + inline reply。
+
+??? note "应急方案：手动下载 raw 邮件再回复"
+
+    只有在无法使用上述任何一种方式时，才考虑手动拼装回复。步骤：
+
+    1. 在 lore 邮件页面点击 `raw`，保存得到纯文本格式的原始邮件；
+    2. 删掉最上面一大段邮件头信息，但**保留 `Subject:` 那一行**，并在原标题前加上 `Re: `
+       （`Subject: 原标题` -> `Subject: Re: 原标题`）；
+    3. 用 `>` 标记引用原文，把自己的回复穿插在引用内容之间。批量加引用符号时可以用：
+
+       ```bash
+       # 注意：不要给 Subject 所在的标题行加上 > 前缀
+       sed -i -e 's/^/> /g' /path/to/the-patch-email
+       ```
+
+    4. 回到 lore 的邮件页面，向下滚动，页面底部会列出用 `git send-email` 回复这封邮件的完整
+       命令（含 `--in-reply-to`），把 `/path/to/YOUR_REPLY` 替换为你整理好的正文文件后执行。
+
+    手动回复方法虽然麻烦，但不要求使用者订阅邮件列表。另外注意：`mailto:` 是给邮件客户端用的
+    URI scheme，不要把它写进 `git send-email` 的 `--to=` 参数里。
 
 ## 参考资料
 
-[[1]: 正确使用邮件列表参与开源社区的协作](https://tinylab.org/mailing-list-intro/)
+1. [正确使用邮件列表参与开源社区的协作](https://tinylab.org/mailing-list-intro/)
 
-[[2]: Linux 内核中文文档翻译规范（补丁发送相关）](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/translations/zh_CN/how-to.rst)
+2. [Linux 内核中文文档翻译规范（补丁发送相关）](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/translations/zh_CN/how-to.rst)
 
-[[3]: thunderbird 发送纯文本邮件](https://www.cnblogs.com/darkmatter/p/3606819.html)
+3. [thunderbird 发送纯文本邮件](https://www.cnblogs.com/darkmatter/p/3606819.html)
 
-[[4]: b4 官方文档](https://b4.docs.kernel.org/)
+4. [b4 官方文档](https://b4.docs.kernel.org/)
 
-[[5]: patman 官方文档](https://docs.u-boot.org/en/latest/develop/patman.html)
+5. [patman 官方文档](https://docs.u-boot.org/en/latest/develop/patman.html)
 
-[[6]: Linux Kernel Submitting Patches（trailer 约定）](https://www.kernel.org/doc/html/latest/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes)
+6. [Linux Kernel Submitting Patches（trailer 约定）](https://www.kernel.org/doc/html/latest/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes)

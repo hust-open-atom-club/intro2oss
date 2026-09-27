@@ -129,7 +129,10 @@
 
 !!! example
     如果我们想创建一个如下布局的窗口，我们需要执行以下操作：
-    ![tmux 示例](../../assets/tmux_example.png)
+    ![tmux 分屏布局示例](../../assets/tmux_example.png)
+
+    图 1. tmux 的窗口与面板布局示例
+    {: .caption }
 
     ```bash
     tmux # 进入 tmux 环境
@@ -293,11 +296,17 @@ uv 是一个极快的 Python 包管理器和项目管理工具，由 Rust 编写
  安装 uv：
 
  ```bash
- # 使用 curl 安装（推荐）
- curl -LsSf https://astral.sh/uv/install.sh | sh
+ # 方式一：先下载安装脚本，阅读后再执行（推荐）
+ curl -LsSf -o uv-install.sh https://astral.sh/uv/install.sh
+ less uv-install.sh      # 确认脚本内容
+ sh uv-install.sh
 
- # 或使用 pip 安装
+ # 方式二：用 pip 安装
  pip install uv
+
+ # 方式三：用系统包管理器
+ brew install uv         # macOS
+ sudo apt install uv     # 部分 Linux 发行版已收录
  ```
 
  基本命令：

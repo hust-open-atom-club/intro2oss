@@ -1,5 +1,9 @@
 # Docker Compose 实践
 
+!!! note "主要作者"
+
+    CAICAII
+
 ## 从单容器到容器编排
 
 在前面的课程中，我们学习了如何使用 Docker 容器来运行单个服务。
@@ -32,23 +36,27 @@ Docker Compose 是一个用于定义和运行多容器 Docker 应用程序的工
 
 ## 实践项目：使用 docker compose 构建 Todo 应用
 
-在本章节中，我们通过一个最小可用的 Todo 应用来实战 Docker Compose 编排。示例完全基于官方镜像，并在容器启动时用命令动态生成所需配置与代码，不需要在本机创建除本文外的任何文件。
+在本章节中，我们通过一个最小可用的 Todo 应用来实战 Docker Compose 编排。示例使用官方镜像，其中后端采用真实工程结构（源码 + Dockerfile），前端与 Nginx 为了演示方便用容器内命令动态生成配置。
 
 ### 目标组件
 
 - **Nginx**：统一入口与反向代理 (对外 8080)
 - **前端**：CDN 版 React 静态页，由 Nginx 托管
-- **后端**：Node.js Express API (容器内 3001)
+- **后端**：Node.js Express API (容器内 3001)，由 `backend/Dockerfile` 构建
 - **数据库**：MongoDB (容器内 27017)
 
 ### 项目结构 (示意)
 
 ```text
-5_compose/
-└── docker-compose.yml    # Compose 配置（单文件示例）
+compose-demo/
+├── compose.yaml          # Compose 配置
+└── backend/
+    ├── Dockerfile        # 后端的构建文件
+    ├── package.json      # 后端依赖清单
+    └── server.js         # 后端源码
 ```
 
-### 3.3 架构图
+### 架构图
 
 ```text
                         ┌─────────────┐
@@ -73,10 +81,21 @@ Docker Compose 是一个用于定义和运行多容器 Docker 应用程序的工
 
 ### Docker Compose 配置
 
-将下列 `docker-compose.yml` 内容复制到你的工程中使用 (该 compose 通过容器内命令动态生成 `nginx.conf`、前端 `index.html` 与后端 `server.js`)：
+将下列 `compose.yaml` 内容复制到你的工程中使用。
+
+!!! note "为什么不再写 `version: \"3.9\"`"
+
+    Compose 文件顶层的 `version:` 字段来自早期的 Compose file format 规范。现在通用的
+    **Compose Spec** 已经把它废弃：写了它只会让 `docker compose` 打印 deprecation 警告，并不会
+    改变任何行为，所以本文不再写这个字段。
+
+!!! warning "请使用 `docker compose`，不要用 `docker-compose`"
+
+    `docker-compose`（**带连字符**）是 **Python 版 v1** 的实现，**已于 2023 年停止维护**，不再
+    获得安全更新。请使用 **Docker CLI v2 插件**：`docker compose`（**带空格**）。如果系统里两者
+    都存在，请以 `docker compose` 为准，并尽早卸载 v1。
 
 ```yaml
-version: "3.9"
 name: todo-app
 
 services:
@@ -87,8 +106,16 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - frontend
-      - backend
+      frontend:
+        condition: service_started
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     command: >-
       sh -c '
       cat > /etc/nginx/nginx.conf <<"EOF"
@@ -115,6 +142,12 @@ services:
   frontend:
     image: nginx:1.25-alpine
     container_name: todo_frontend
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     command: >-
       sh -c '
       cat > /usr/share/nginx/html/index.html <<"EOF"
@@ -176,61 +209,31 @@ services:
       EOF
       && nginx -g "daemon off;"'
 
-  # 后端：Node.js（运行时安装依赖并生成 server.js）
+  # 后端：真实的工程结构，源码与 Dockerfile 都在 ./backend 下
   backend:
-    image: node:18-alpine
+    build:
+      context: ./backend
+    image: todo-backend:local
     container_name: todo_backend
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/todos
       - PORT=3001
     depends_on:
-      - mongodb
-    command: >-
-      sh -c '
-      cat > server.js <<"EOF"
-      import express from "express";
-      import cors from "cors";
-      import { MongoClient, ObjectId } from "mongodb";
-      const app = express();
-      const port = process.env.PORT || 3001;
-      const mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/todos";
-      app.use(cors());
-      app.use(express.json());
-      const client = new MongoClient(mongoUri);
-      let collection;
-      async function init(){
-        await client.connect();
-        const db = client.db();
-        collection = db.collection("todos");
-      }
-      app.get("/health", (_req, res) => res.json({ ok: true }));
-      app.get("/todos", async (_req, res) => {
-        const items = await collection.find({}).sort({ _id: -1 }).toArray();
-        res.json(items);
-      });
-      app.post("/todos", async (req, res) => {
-        const doc = { title: String(req.body?.title ?? ""), completed: false };
-        const r = await collection.insertOne(doc);
-        res.status(201).json({ _id: r.insertedId, ...doc });
-      });
-      app.patch("/todos/:id", async (req, res) => {
-        const id = req.params.id; const body = req.body || {};
-        await collection.updateOne({ _id: new ObjectId(id) }, { $set: body });
-        const updated = await collection.findOne({ _id: new ObjectId(id) });
-        if(!updated) return res.status(404).json({ message:"Not Found" });
-        res.json(updated);
-      });
-      app.delete("/todos/:id", async (req, res) => {
-        const id = req.params.id;
-        await collection.deleteOne({ _id: new ObjectId(id) });
-        res.status(204).end();
-      });
-      init().then(()=> app.listen(port, () => console.log(`API listening on ${port}`)))
-        .catch(err => { console.error("Mongo connect error", err); process.exit(1); });
-      EOF
-      && npm init -y >/dev/null 2>&1 \
-      && npm i express@4 cors@2 mongodb@6 --silent \
-      && node server.js'
+      mongodb:
+        condition: service_healthy
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # 源码里提供了 /health 路由，用它做探活
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
 
   # 数据库：官方 MongoDB
   mongodb:
@@ -238,39 +241,162 @@ services:
     container_name: todo_mongodb
     volumes:
       - mongodb_data:/data/db
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
 volumes:
   mongodb_data:
 ```
 
+!!! note "`nginx` 与 `frontend` 内的 heredoc 只是演示"
+
+    上面把 `nginx.conf` 和 `index.html` 通过容器内命令内联生成，是为了让示例可以单文件运行、
+    便于教学。真实工程里应当把它们拆成独立文件与各自的 Dockerfile，用 `build:` 构建，而不要在
+    Compose 的 `command` 里拼源码——后端就是按正确做法展开的（见下一小节）。
+
+### 后端工程文件
+
+后端不应该把源码内联进 Compose 的 `command` 里。请在 `compose-demo/` 下创建 `backend/` 目录，
+放入下面三个文件。
+
+`backend/package.json`：
+
+```json
+{
+  "name": "todo-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "cors": "2.x",
+    "express": "4.x",
+    "mongodb": "6.x"
+  }
+}
+```
+
+!!! note "`\"type\": \"module\"` 不能省"
+
+    `server.js` 里用的是 ESM 的 `import` 语法。Node.js 只有在 package.json 声明
+    `"type": "module"`（或把文件命名为 `.mjs`）时才会按 ESM 解析，否则启动会直接报
+    `Cannot use import statement outside a module`。
+
+`backend/server.js`：
+
+```javascript
+import express from "express";
+import cors from "cors";
+import { MongoClient, ObjectId } from "mongodb";
+
+const app = express();
+const port = process.env.PORT || 3001;
+const mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/todos";
+
+app.use(cors());
+app.use(express.json());
+
+const client = new MongoClient(mongoUri);
+let collection;
+
+async function init(){
+  await client.connect();
+  const db = client.db();
+  collection = db.collection("todos");
+}
+
+app.get("/health", (_req, res) => res.json({ ok: true }));
+
+app.get("/todos", async (_req, res) => {
+  const items = await collection.find({}).sort({ _id: -1 }).toArray();
+  res.json(items);
+});
+
+app.post("/todos", async (req, res) => {
+  const doc = { title: String(req.body?.title ?? ""), completed: false };
+  const r = await collection.insertOne(doc);
+  res.status(201).json({ _id: r.insertedId, ...doc });
+});
+
+app.patch("/todos/:id", async (req, res) => {
+  const id = req.params.id; const body = req.body || {};
+  await collection.updateOne({ _id: new ObjectId(id) }, { $set: body });
+  const updated = await collection.findOne({ _id: new ObjectId(id) });
+  if(!updated) return res.status(404).json({ message:"Not Found" });
+  res.json(updated);
+});
+
+app.delete("/todos/:id", async (req, res) => {
+  const id = req.params.id;
+  await collection.deleteOne({ _id: new ObjectId(id) });
+  res.status(204).end();
+});
+
+init().then(()=> app.listen(port, () => console.log(`API listening on ${port}`)))
+  .catch(err => { console.error("Mongo connect error", err); process.exit(1); });
+```
+
+`backend/Dockerfile`：
+
+```dockerfile
+FROM node:22-alpine
+
+WORKDIR /app
+
+# 先复制依赖清单：依赖不变时这一层可以命中缓存
+COPY package.json ./
+RUN npm install --omit=dev
+
+# 再复制源码：改代码不会让上面的依赖层失效
+COPY server.js ./
+
+EXPOSE 3001
+
+CMD ["node", "server.js"]
+```
+
 ### 配置与代码说明
 
-- 统一入口 `nginx`：容器启动时写入 `nginx.conf` 并前台运行
-- 前端 `frontend`：容器启动时生成 `index.html`，通过 CDN 加载 React，无需构建工具
-- 后端 `backend`：容器启动时写入 `server.js`，随后安装依赖并运行
+- 统一入口 `nginx`：容器启动时写入 `nginx.conf` 并前台运行（演示写法，真实工程应拆成 Dockerfile）
+- 前端 `frontend`：容器启动时生成 `index.html`，通过 CDN 加载 React，无需构建工具（同上）
+- 后端 `backend`：由 `backend/Dockerfile` 构建成 `todo-backend:local` 镜像，源码与依赖清单都在
+  `backend/` 目录下，通过 `npm install --omit=dev` 安装依赖后运行
 - 数据库 `mongodb`：官方镜像，使用命名卷 `mongodb_data` 持久化数据
+- 所有服务都带 `restart: unless-stopped` 与日志大小限制（`max-size: 10m` / `max-file: 3`），
+  避免容器退出后不自愈、或日志无限增长把磁盘写满
 
 ### 服务解析
 
-1. nginx 服务：使用官方 `nginx:alpine` 镜像，对外暴露 `8080:80`，将 `/` 转发到 `frontend`，`/api` 转发到 `backend`
-1. frontend 服务：使用官方 `nginx:alpine`，启动时写入带 React CDN 的 `index.html`
-1. backend 服务：使用官方 `node:18-alpine`，生成 `server.js`，安装依赖后运行，连接 `mongodb`
-1. mongodb 服务：使用官方 `mongo:7` 镜像，使用命名卷 `mongodb_data` 持久化
+1. nginx 服务：使用官方 `nginx:1.25-alpine` 镜像，对外暴露 `8080:80`，将 `/` 转发到 `frontend`，`/api` 转发到 `backend`；通过 `depends_on` 等 `backend` 健康后再启动
+1. frontend 服务：使用官方 `nginx:1.25-alpine`，启动时写入带 React CDN 的 `index.html`
+1. backend 服务：使用 `backend/Dockerfile` 从 `node:22-alpine` 构建，安装依赖后运行 `server.js`，连接 `mongodb`；自带 `/health` 探活
+1. mongodb 服务：使用官方 `mongo:7` 镜像，使用命名卷 `mongodb_data` 持久化；健康检查用 `mongosh --eval "db.adminCommand('ping')"` 判断是否就绪
 
 ### 网络与数据
 
 - 网络：默认 bridge 网络，服务间通过服务名互访 (`nginx`、`frontend`、`backend`、`mongodb`)
 - 数据：使用命名卷 `mongodb_data` 持久化 MongoDB 数据
+- 依赖顺序：`backend` 用 `depends_on: mongodb: condition: service_healthy` 等待数据库就绪，
+  而不是只等容器"被创建"；`nginx` 则等 `backend` 健康、`frontend` 启动
 
 ### 使用说明
 
-1. 在后台启动服务：
+1. 在后台启动服务（第一次运行需要构建后端镜像）：
 
 ```bash
-docker compose up -d
+docker compose up -d --build
 ```
 
-2. 查看服务状态：
+2. 查看服务状态（`STATUS` 列出现 `healthy` 说明健康检查已通过）：
 
 ```bash
 docker compose ps
@@ -294,7 +420,7 @@ docker compose down
 5. 重新拉取镜像并重建容器：
 
 ```bash
-docker compose pull && docker compose up -d --force-recreate
+docker compose pull && docker compose up -d --build --force-recreate
 ```
 
 6. 重启单个服务：
@@ -308,4 +434,4 @@ docker compose restart frontend
 本地开发 (如 VS Code) 直接在浏览器打开 `http://localhost:8080` 即可访问 Todo 应用。
 
 - 使用 VS Code Dev Containers/Remote - Containers 时，`8080` 端口通常会自动转发；也可在 Ports 面板手动添加端口转发
-- 若端口被占用，可在 `docker-compose.yml` 中将 `8080:80` 改为其他可用端口 (如 `30080:80`)，然后重新启动：`docker compose up -d`
+- 若端口被占用，可在 `compose.yaml` 中将 `8080:80` 改为其他可用端口 (如 `30080:80`)，然后重新启动：`docker compose up -d`
