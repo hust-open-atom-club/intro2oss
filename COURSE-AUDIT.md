@@ -66,18 +66,16 @@ nav 覆盖                    50 / 50，无未纳入、无死链
 
 ### 评审后续修正（Codex review）
 
-PR 提交后，仓库配置的 Codex 评审先后提出 7 条意见（4 条 P2 + 2 条 P1 + 1 条 P2），已全部处理：
+PR 提交后，仓库配置的 Codex 评审先后进行了 7 轮，共提出 **31 条意见**（2 条 P1 + 29 条 P2），已全部处理并逐条回复。按类别归纳：
 
-| 意见 | 处理 |
-|------|------|
-| fork PR 的修复流程需要可写凭据（P2） | fork 触发的 `pull_request` 事件 token 恒为只读，因此不再承诺自动修复 PR，改为运行摘要 + 只打包修改文件的 artifact；权限收敛为 `contents: write` |
-| 安装脚本不应下载到受版本控制的路径（P2） | 改到 `$RUNNER_TEMP`，`.gitignore` 兜底，删除被误提交的脚本；回推改用 `git add -u` |
-| MySQL 示例口令不一致（P2） | 显式 `export` 变量并在所有登录命令复用；说明首次初始化后该变量被忽略、重用数据卷必须同口令 |
-| 不应要求 Apache-2.0 的修改继续采用 Apache-2.0（P2） | 按第 4 节改写：可采用不同条款，只需保留声明/`NOTICE`、附许可证、标注修改 |
-| Compose 示例 `command: >-` 导致 heredoc 失效（P1） | 删除全部内联 heredoc，新增 `nginx/`、`frontend/` 构建上下文与真实文件 |
-| Compose 会对 `${API_BASE}`、`$host` 做插值（P1） | 随上一条一并解决（配置与页面成为独立文件，不再经过 YAML 插值）；并新增警告框解释三个坑 |
-| `push` 事件下自动修复条件恒为假（P2） | 显式区分 `push`（回推 `github.ref_name`）与 `pull_request`（仅本仓库 head 分支） |
-| Ubuntu 24.04 应使用 deb822 启用 deb-src（P2） | 改为修改 `Types: deb deb-src`（含 22.04 对照与 `apt-cache showsrc` 验证） |
+| 类别 | 主要问题 | 处理 |
+|------|----------|------|
+| CI（4 条） | fork PR 的 token 恒为只读，却承诺自动修复 PR；安装脚本被 `git add -A` 误提交；`push` 事件下判断条件恒真 | 安装脚本改到 `$RUNNER_TEMP` 并加 `.gitignore` 兜底；fork PR 改为运行摘要 + 只打包修改文件的 artifact；权限收敛为 `contents: write`；显式区分 `push` / `pull_request` |
+| 许可证事实（14 条） | Apache-2.0 被当成 copyleft；Apache-2.0 与 GPLv3 被误判为不兼容；Llama 被写成 Apache-2.0；Nginx 被写成 `BSD-3-Clause`；Git 与 Nextcloud 的 `only`/`or-later` 写反；MPL 的源码范围与次级许可证条件两次写错；AGPL 第 13 条被"内部分发"错误豁免；ODbL 义务不全 | 逐条按许可证原文修正（§1.12/§3.2/§3.3/§4.4、GPLv3 第 11 条、AGPL 第 13 条），并把兼容性矩阵统一为完整 SPDX 标识符 |
+| Docker / QEMU（8 条） | `command: >-` 折叠换行导致 heredoc 失效；Compose 变量插值破坏配置与前端；只读根文件系统与 `--user`、capabilities 三个示例起不来；`WORKDIR` 属主导致 Jupyter 无法保存；Docker Desktop 的 host networking 被写成"不生效"；QEMU 源码仓库未按 24.04 的 deb822 格式启用 | 改为真实构建上下文（新增 `nginx/`、`frontend/` 的 Dockerfile 与文件）；补齐可写目录与 capabilities；改用官方非 root 变体；按 `Types: deb deb-src` 改写；host networking 补版本与开关 |
+| Git / Linux（4 条） | 误提交到 `main` 的恢复流程缺"重置 main"这一步；`git merge` 被声称一定产生合并提交；`7z` 混用了包装器语法；静态链接结论缺分发前提 | 补 `git reset --hard upstream/main`（含风险提示）；说明 `--ff` 快进与 `--no-ff`；改为 `7z x`/`7z a`；题设与答案补上"对外分发"前提 |
+
+所有修正均已通过 `mkdocs build`（零告警）、`autocorrect --lint`（无问题）与站内链接检查，CI 的 `build`、`markdown-lint` 均为 success。**本机没有 Docker，容器级运行未做验证**，Docker 示例的静态一致性（构建上下文、`COPY` 源文件、路由与端口映射）已用脚本核对。
 
 ### 仍需你决策的事项
 
