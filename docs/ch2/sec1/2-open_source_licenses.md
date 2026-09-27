@@ -58,8 +58,8 @@
 |----------------------|----------|----------|----------|
 | `MIT` | 保留版权声明与许可证文本 | 无明文条款 | React、Rails、Node.js |
 | `ISC` | 同 MIT，措辞更简 | 无明文条款 | OpenBSD 部分组件 |
-| `BSD-2-Clause` | 保留版权声明与免责声明 | 无明文条款 | 部分 BSD 工具 |
-| `BSD-3-Clause` | 增加"不得用作者名义背书"条款 | 无明文条款 | Go、Nginx |
+| `BSD-2-Clause` | 保留版权声明与免责声明 | 无明文条款 | Nginx、部分 BSD 工具 |
+| `BSD-3-Clause` | 增加"不得用作者名义背书"条款 | 无明文条款 | Go |
 | `Apache-2.0` | 保留声明与 `NOTICE`、标注修改、附许可证 | **明文专利授权 + 专利报复终止**；不授予商标权 | Android、Kubernetes、Kafka |
 
 !!! warning "Apache-2.0 不是 copyleft"
@@ -87,10 +87,16 @@ copyleft 的效力范围被限定在文件的边界或库的边界内。
 
 | 许可证 | 特点 | 典型项目 |
 |--------|------|----------|
-| `GPL-2.0-only` | 无明文专利条款（FSF 主张含隐含许可）；与 `Apache-2.0` 不兼容 | Linux 内核 |
-| `GPL-2.0-or-later` | 允许按后续版本使用 | Git、部分 GNU 工具 |
+| `GPL-2.0-only` | 无明文专利条款（FSF 主张含隐含许可）；与 `Apache-2.0` 不兼容 | Linux 内核、Git |
+| `GPL-2.0-or-later` | 允许按后续版本使用 | VLC、部分 GNU 工具 |
 | `GPL-3.0-only` / `GPL-3.0-or-later` | 明文专利授权、反 Tivoization、终止与补救条款；与 `Apache-2.0` 兼容 | Bash、GIMP |
-| `AGPL-3.0-only` | 在 GPLv3 基础上增加**第 13 条网络交互条款** | Nextcloud、MongoDB（历史版本）、Grafana（历史版本） |
+| `AGPL-3.0-only` / `AGPL-3.0-or-later` | 在 GPLv3 基础上增加**第 13 条网络交互条款** | Nextcloud（`AGPL-3.0-or-later`）、Grafana（历史版本） |
+
+!!! tip "`only` 与 `or-later` 必须逐个项目确认"
+
+    同一系列的不同项目可能采用不同写法：Linux 内核与 Git 都是 `GPL-2.0-only`，而 VLC 是
+    `GPL-2.0-or-later`；Nextcloud 声明的是 `AGPL-3.0-or-later`。上表的"典型项目"只用于帮助记忆，
+    **实际判断请打开该项目的 `LICENSE` / `COPYING` 或源码文件头的 SPDX 标识符**。
 
 !!! danger "Linux 内核停留在 GPLv2"
 
@@ -172,9 +178,9 @@ graph TD
 | `Apache-2.0` + `GPL-3.0-only` / `GPL-3.0-or-later` | ✅ 兼容 | GPLv3 第 11 条的专利条款与 Apache-2.0 不冲突，组合作品可按 GPLv3 分发 |
 | `Apache-2.0` + `GPL-2.0-only` | ❌ 不兼容 | Apache-2.0 的专利与免责要求附加了 GPLv2 不允许的条件 |
 | `GPL-2.0-only` + `GPL-3.0-only` / `GPL-3.0-or-later` | ❌ 不兼容 | `GPL-2.0-only` 不允许按后续版本使用 |
-| `MPL-2.0` + `GPL-2.0-or-later` / `GPL-3.0-only` / `AGPL-3.0-only` | ✅ **有条件**兼容 | 未标注 `Incompatible With Secondary Licenses` 的 MPL-2.0 文件，可依 §3.3 的次级许可证条款改按 GPL / LGPL / AGPL 分发；**标注了该声明的文件不适用**，需逐个文件确认。次级许可证的范围是 "GPL 2.0 or later"，因此 `GPL-2.0-only` 不在此列 |
+| `MPL-2.0` + `GPL-2.0-or-later` / `GPL-3.0-or-later` / `LGPL-2.1-or-later` / `AGPL-3.0-or-later` | ✅ **有条件**兼容 | 未标注 `Incompatible With Secondary Licenses` 的 MPL-2.0 文件，可依 §3.3 的次级许可证条款改按 GPL / LGPL / AGPL 分发；**标注了该声明的文件不适用**，需逐个文件确认。§3.3 给出的是"GPL 2.0 or later / LGPL 2.1 or later / AGPL 3.0 or later"，因此 `GPL-2.0-only`、`GPL-3.0-only`、`AGPL-3.0-only` 都不在此列 |
 | `MIT` / `BSD-3-Clause` + 任意 copyleft | ✅ 兼容 | 宽松许可证不附加冲突条件，组合作品按 copyleft 履行义务 |
-| `GPL-3.0-only` / `GPL-3.0-or-later` + `AGPL-3.0-only` | ⚠️ 单向 | GPLv3 第 13 条允许与 AGPLv3 组合；反向（AGPL 代码并入 GPLv3-only 作品）不成立 |
+| `GPL-3.0-only` / `GPL-3.0-or-later` + `AGPL-3.0-only` / `AGPL-3.0-or-later` | ⚠️ 单向 | GPLv3 第 13 条允许与 AGPLv3 组合；反向（AGPL 代码并入 GPLv3-only 作品）不成立 |
 | `SSPL-1.0` / `BUSL-1.1` / `Elastic-2.0` + 任何开源许可证 | ❌ 不可视为开源组合 | 它们不是开源许可证，组合后整体不再是开源作品 |
 
 !!! warning "链接不等于组合"
@@ -242,8 +248,8 @@ SPDX 标识符是描述许可证的**标准短名**，用于包元数据、源�
 | Apache 2.0 | `Apache-2.0` | `Apache 2`、`ASL2` |
 | GPLv2 | `GPL-2.0-only` 或 `GPL-2.0-or-later` | `GPLv2`（无法区分 only/or-later） |
 | GPLv3 | `GPL-3.0-only` 或 `GPL-3.0-or-later` | `GPLv3` |
-| LGPLv3 | `LGPL-3.0-only` | `LGPLv3` |
-| AGPLv3 | `AGPL-3.0-only` | `AGPL` |
+| LGPLv3 | `LGPL-3.0-only` 或 `LGPL-3.0-or-later` | `LGPLv3` |
+| AGPLv3 | `AGPL-3.0-only` 或 `AGPL-3.0-or-later` | `AGPL` |
 | MPL 2.0 | `MPL-2.0` | `MPL2` |
 
 !!! tip "为什么必须区分 only 与 or-later"

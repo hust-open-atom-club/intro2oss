@@ -42,7 +42,7 @@
 | 5 | Go | BSD 3-Clause "New" or "Revised" License | |
 | 6 | Mozilla Firefox | Mozilla Public License 2.0 | |
 | 7 | glibc | GNU Lesser General Public License v2.1 or later | |
-| 8 | Nextcloud | GNU Affero General Public License v3.0 | |
+| 8 | Nextcloud | GNU Affero General Public License v3.0（or later） | |
 | 9 | OpenTofu | Mozilla Public License 2.0 | |
 | 10 | Valkey | BSD 3-Clause "New" or "Revised" License | |
 
@@ -55,7 +55,7 @@
     5. `BSD-3-Clause`
     6. `MPL-2.0`
     7. `LGPL-2.1-or-later`
-    8. `AGPL-3.0-only`
+    8. `AGPL-3.0-or-later`
     9. `MPL-2.0`
     10. `BSD-3-Clause`
 
@@ -72,8 +72,8 @@
 | 3 | 修改 `LGPL-2.1-or-later` 的 glibc 并以动态链接方式使用 |
 | 4 | 基于 `Apache-2.0` 的 Kubernetes 制作闭源发行版并对外销售 |
 | 5 | 修改 `GPL-2.0-only` 的 Linux 内核驱动，随硬件出货 |
-| 6 | **原样**运行 `AGPL-3.0-only` 的 Nextcloud，供员工在内网使用（未修改源代码） |
-| 7 | 修改 `AGPL-3.0-only` 的 Nextcloud，部署为对外提供服务的 SaaS |
+| 6 | **原样**运行 `AGPL-3.0-or-later` 的 Nextcloud，供员工在内网使用（未修改源代码） |
+| 7 | 修改 `AGPL-3.0-or-later` 的 Nextcloud，部署为对外提供服务的 SaaS |
 | 8 | 把 `BUSL-1.1` 的 Terraform 打包成托管服务对外售卖 |
 | 9 | 修改 `MPL-2.0` 的 Firefox 中某一个源文件后分发整个浏览器 |
 | 10 | 使用 `ODbL-1.0` 的 OpenStreetMap 数据生成衍生数据库并公开提供 |
@@ -88,7 +88,7 @@
     6. **未修改时不触发第 13 条的源码提供义务。** AGPLv3 第 13 条的表述是"**if you modify the Program**"——它针对的是**修改后的版本**在用户通过网络与之交互时生效。因此原样部署并不自动产生源码义务（但仍须遵守许可证的其它条款、保留声明）。**关键在"是否修改"，不在"是否对外"。**
     7. **必须向使用者提供对应源码。** 第 13 条的触发条件是"修改 + 用户通过网络与之交互"，**没有内外部之分**：修改后的版本必须向所有通过网络使用它的用户（**包括公司内网的员工**）显著提供获取对应源码的机会，**且不以分发二进制文件为前提**。"只在内网用""没有对外发布"都不是豁免理由。
     8. **不被允许。** BUSL-1.1 是 source-available 许可证，不是开源许可证；它限制把软件作为竞争性服务提供。需要与版权方另行取得商业授权。
-    9. **只有被修改的那个文件需要以 MPL-2.0 提供源码；其他文件可以保持闭源。** 这就是"文件级 copyleft"的含义。
+    9. **需要提供所有 MPL 覆盖文件的源码，但不包括你自己的独立文件。** MPL-2.0 §3.2 规定：分发可执行版本时，必须提供**全部 Covered Software**（即所有以 MPL 授权的文件，无论你是否修改过）的 Source Code Form；你不能只提供自己改过的那一个文件。同时，MPL 的 copyleft **不扩散**到你新增的、不属于 Covered Software 的文件——它们可以作为 Larger Work 的一部分保持闭源。这才是"文件级 copyleft"的准确含义。
     10. **衍生数据库必须以 ODbL-1.0 提供**（或与之兼容的许可证），并保留署名。若只是"生产性使用"（例如用地图数据做分析报告），通常不触发。
 
 ## 四、练习 C：兼容性判断
@@ -108,7 +108,7 @@
     1. **兼容。** 宽松许可证不附加冲突条件，组合后整体按 `GPL-3.0-only` 履行义务，并保留 MIT 声明。
     2. **不兼容。** `Apache-2.0` 的专利与免责条款附加了 GPLv2 不允许的额外限制；`GPL-2.0-only` 又无法按 v3 使用。**处理方式**：① 请版权方提供例外授权（如 Linux 内核的 GPLv2 例外条款）；② 用独立进程/RPC 隔离，使两者不构成同一衍生作品；③ 替换为 `GPL-2.0` 兼容的组件。
     3. **不兼容。** `GPL-2.0-only` 明确不允许按后续版本使用，因此无法与 v3 代码链接。**处理方式**：① 取得把该组件按 `or-later` 授权的许可；② 替换为 `GPL-2.0-or-later` 版本或 `MIT`/`Apache-2.0` 组件。
-    4. **兼容。** MPL-2.0 含次级许可证条款，允许把 MPL 代码用于 GPL 项目（被修改的 MPL 文件仍须以 MPL 提供）。
+    4. **有条件兼容。** MPL-2.0 §3.3 的次级许可证条款允许把 MPL 代码用于 GPL / LGPL / AGPL 项目，**前提是该 MPL 文件没有标注 `Incompatible With Secondary Licenses`**（需逐个文件检查头部声明）；§3.3 给出的是 "GPL 2.0 or later / LGPL 2.1 or later / AGPL 3.0 or later"，因此 `GPL-2.0-only`、`GPL-3.0-only`、`AGPL-3.0-only` 都不适用。
     5. **不可以称为开源。** SSPL 未通过 OSD，不是开源许可证。**处理方式**：① 替换为 `AGPL-3.0` 等真正的开源组件；② 明确项目定位为 source-available 并如实描述，不得声称开源。
 
 ## 五、练习 D：综合场景（固件产品）

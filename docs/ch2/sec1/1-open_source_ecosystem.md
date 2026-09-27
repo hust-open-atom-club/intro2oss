@@ -260,7 +260,7 @@ Firefox 深知，单打独斗赢不了帝国。于是，它将源代码公开，
 | 项目 | 许可证变更 | 社区分叉 | 结果与启示 |
 |------|-----------|---------|-----------|
 | Terraform（HashiCorp） | MPL-2.0 → BUSL-1.1（2023 年 8 月，覆盖其多个产品） | OpenTofu | 分叉项目由 Linux 基金会托管，继续以 MPL-2.0 发布。许可证变更会把用户与贡献者推向分叉。 |
-| Redis（Redis Ltd.） | BSD-3-Clause → RSALv2 / SSPLv1 双许可（2024 年 3 月） | Valkey | 由 Linux 基金会托管、多家云厂商参与共建。单一公司主导的项目在变更许可证后可能出现整体生态迁移。 |
+| Redis（Redis Ltd.） | BSD-3-Clause → RSALv2 / SSPLv1 双许可（2024 年 3 月）；Redis 8 起又增加 AGPLv3 选项 | Valkey | 由 Linux 基金会托管、多家云厂商参与共建。单一公司主导的项目在变更许可证后可能出现整体生态迁移。 |
 | Elasticsearch / Kibana | Apache-2.0 → SSPL / ELv2（自 7.11 起），2024 年新增 AGPLv3 选项 | OpenSearch | 把 OSI 批准的 AGPLv3 重新纳入可选许可，成为公司修复社区关系的常用手段。 |
 | MongoDB | AGPLv3 → SSPL（2018 年） | 无同名分叉，但促成了其他文档数据库方案的兴起 | “云厂商把开源软件直接作为托管服务出售”是触发许可证变更的常见商业动机。 |
 
