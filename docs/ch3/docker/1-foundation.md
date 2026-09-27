@@ -235,9 +235,22 @@ docker run --user 1000:1000 nginx:1.25.3
 挂载或声明的可写位置：
 
 ```bash
-# 根文件系统只读，需要写入的 /tmp 用 tmpfs 放在内存里
-docker run --read-only --tmpfs /tmp nginx:1.25.3
+# 根文件系统只读；需要写入的目录用 tmpfs 放在内存里。
+# 官方 nginx 镜像启动时要写 /var/cache/nginx（临时目录）与 /var/run（PID 文件），
+# 只挂 /tmp 会以 "Read-only file system" 退出。
+docker run --read-only \
+  --tmpfs /tmp \
+  --tmpfs /var/cache/nginx \
+  --tmpfs /var/run \
+  nginx:1.25.3
 ```
+
+!!! tip "只读根文件系统要先问清镜像需要写哪里"
+
+    不同镜像需要写入的路径并不相同。做法是先跑一次，按报错补挂可写目录：例如
+    `docker run --read-only <镜像> ...` 报 `Read-only file system: /var/cache/nginx`，
+    就加 `--tmpfs /var/cache/nginx`。正规镜像通常会在文档里说明非 root / 只读运行的要求
+    （例如提供 `nginx-unprivileged` 这类专门适配的变体）。
 
 **3. 按最小权限裁剪 capabilities。** Linux capabilities 把 root 的特权拆成了若干细项，容器默认
 仍带有不少能力。做法是先全部丢掉，再加回真正需要的：

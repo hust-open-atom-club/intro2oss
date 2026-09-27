@@ -283,8 +283,13 @@ docker run --rm -it \
 也可以用更简短的 `--tmpfs` 写法：
 
 ```bash
-# 根文件系统只读时，用 tmpfs 提供唯一可写的 /tmp
-docker run --read-only --tmpfs /tmp nginx:1.25-alpine
+# 根文件系统只读时，用 tmpfs 提供容器真正需要的可写目录
+# （官方 nginx 镜像要写 /var/cache/nginx 与 /var/run）
+docker run --read-only \
+  --tmpfs /tmp \
+  --tmpfs /var/cache/nginx \
+  --tmpfs /var/run \
+  nginx:1.25-alpine
 ```
 
 要点：
