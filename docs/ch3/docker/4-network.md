@@ -145,12 +145,15 @@ Host 网络移除了容器和 Docker 主机之间的网络隔离，直接使用�
 - 没有网络隔离
 - 端口直接绑定到主机上
 
-!!! warning "`--network host` 在 Docker Desktop（macOS / Windows）上不生效"
+!!! warning "`--network host` 在 Docker Desktop 上需要额外开启"
 
-    `--network host` 只在 **Linux 原生 Docker** 上真正生效：容器直接复用宿主机的网络命名空间。
-    而在 Docker Desktop 上，容器实际跑在一台轻量虚拟机里，`host` 指向的是**那台虚拟机**而不是你的
-    宿主机，因此在 macOS 上通常无法通过 `--network host` 直接占用宿主机端口（Windows 使用 WSL2
-    后端时行为也不一致）。macOS / Windows 上请改用 `-p` 显式发布端口：
+    `--network host` 在 **Linux 原生 Docker** 上开箱即用：容器直接复用宿主机的网络命名空间。
+    Docker Desktop（macOS / Windows）早期版本**不支持**该模式——容器实际跑在一台轻量虚拟机里，
+    `host` 指向的是那台虚拟机而不是你的宿主机。
+
+    **Docker Desktop 4.34 及以上**可以在 `Settings → Resources → Network` 中启用
+    **host networking**，启用后 Linux 容器即可用 `--network host` 直接访问宿主机服务（宿主机也能
+    访问容器监听的端口）。若你的版本较旧或没有开启该开关，请改用 `-p` 显式发布端口：
 
     ```bash
     docker run -d --name nginx-port -p 80:80 my-nginx
