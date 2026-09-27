@@ -93,10 +93,19 @@ git push origin main                # 把同步后的 main 推回自己的 fork�
 `--ff-only` 是一个安全阀。如果你曾把提交直接做在本地 `main` 上，它会拒绝合并并提示分叉，而不是悄悄制造一个合并提交。此时应先把那些提交移到功能分支：
 
 ```bash
-git switch -c fix/brief-description   # 当前提交随新分支带走
+git switch -c fix/brief-description   # 在当前提交上创建分支，先把提交保住
 git switch main
-git merge --ff-only upstream/main     # 现在 main 可以干净地跟上上游
+git reset --hard upstream/main        # 让本地 main 重新指向 upstream/main
+git merge --ff-only upstream/main     # 再确认一次可以快进
 ```
+
+!!! danger "`git reset --hard` 会丢弃未提交的修改"
+
+    这里的 `--hard` 是必要的：`git switch -c` 只是**新建**一个分支，它不会移动 `main`，
+    因此本地 `main` 仍然指向那个误提交，单靠 `--ff-only` 永远无法快进。
+    执行前请确认：① 误提交已经在上一步的分支上保住了（`git log fix/brief-description` 能看到它）；
+    ② 工作区没有未提交的改动（先 `git status` / `git stash push -u`）。
+    如果不希望用 `--hard`，也可以直接重建分支：`git branch -f main upstream/main`。
 
 ### GitHub 网页上的“Sync fork”
 

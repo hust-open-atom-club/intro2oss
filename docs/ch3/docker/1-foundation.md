@@ -223,13 +223,24 @@ Docker 在各平台上的安装方式并不相同：
 容器"能用"不等于"安全"。以下几件事是容器上生产前的底线：
 
 **1. 不要以 root 运行进程。** 容器默认以 root 运行，一旦容器内的进程被攻破、或挂载了宿主机的
-目录，影响会被放大。在 Dockerfile 里用 `USER` 切换到非 root 用户（见
-[自定义镜像之 Dockerfile 详解](2-dockerfile.md)），或在运行时指定：
+目录，影响会被放大。首选做法是在 Dockerfile 里用 `USER` 切换到非 root 用户
+（见[自定义镜像之 Dockerfile 详解](2-dockerfile.md)），或直接使用上游提供的非 root 变体：
 
 ```bash
-# 以 UID 1000 运行，覆盖镜像里的默认用户
-docker run --user 1000:1000 nginx:1.25.3
+# 官方 nginx 镜像默认以 root 启动、监听 80 端口，并要写 /var/cache/nginx
+# 与 /var/run/nginx.pid。只加 --user 覆盖 UID 会同时踩到三个坑：
+# 目录不可写、无权绑定 80 端口、PID 文件写不进去，容器会直接退出。
+# 正确做法是使用官方提供的非 root 变体：它已把缓存/PID 目录与监听端口
+# （8080）都调整好。
+docker run -p 8080:8080 nginxinc/nginx-unprivileged:1.25-alpine
 ```
+
+!!! warning "`--user` 不是"以非 root 运行"的通用开关"
+
+    能否直接覆盖 UID，取决于**镜像是否为非 root 场景准备过**：目录权限、监听端口、
+    PID 文件位置都要能配合。自己没有把握时，优先选择上游提供的非 root 变体
+    （如 `nginxinc/nginx-unprivileged`、`bitnami/*` 系列），或在构建阶段自己用
+    `USER` + 调整目录与端口，而不是运行时硬加 `--user`。
 
 **2. 尽量使用只读根文件系统。** 加上 `--read-only` 后，容器无法写自己的根文件系统，只保留显式
 挂载或声明的可写位置：
