@@ -305,7 +305,7 @@ nav 覆盖                    50 / 50，无未纳入、无死链
 | 4 | **文件名拼写错误** | `2-the-missing-semeste-of-your-CS-education.md`（缺 `r`），`mkdocs.yml` 与正文同步了这个错名 | 重命名为 `...-semester-...` 并同步 nav |
 | 5 | **残留旧编号** | `# 4.1.3.2 Git 分布式版本控制工作原理`、`# 4.1.3.2 Git 辅助本地项目开发`、`### 3.3 架构图` | 去掉遗留编号 |
 | 6 | **导览与正文比例失衡** | `terminology.md`（276 字）、`rules.md`（213 字）要承担"本节导览"，而正文约 2.1 万字；`ch2/index.md` 本身是正文缩写版，且留下"各协议类型比较""核心职能""案例与思考"三处空标题 | 导览升级为"学习目标 + 内容地图 + 课时切分 + 自测"；`ch2/index.md` 改为映射表 |
-| 7 | **章节编号体系不一** | 第零/一/二/三/四章，但内部有"拓展 Git 进阶""拓展 Docker"等游离节点 | 统一为"章 - 节-目"三级，拓展内容集中到附录或独立栏目 |
+| 7 | **章节编号体系不一** | 第零/一/二/三/四章，但内部有"拓展 Git 进阶""拓展 Docker"等游离节点 | 统一为"章 - 节 - 目"三级，拓展内容集中到附录或独立栏目 |
 | 8 | **`docs/includes/` 不存在** | `mkdocs.yml:76-79` auto_append `includes/man.md`、`includes/authors.md`，实际无此目录（`pymdownx.snippets` 默认静默忽略） | 要么创建这两个文件，要么删除配置 |
 | 9 | **同一概念三处名称不一** | `# 一些常用的 Linux 工具`（正文）vs `常用命令与工具`（nav）vs `常用 Linux 工具`（`ch3/index.md`）；`Git 进阶理论` vs nav `Git 底层理论`；`Git 暂存区与提交` vs nav `暂存区操作` | 统一标题与 nav |
 | 10 | **文件命名风格不一** | `2-Control-Process.md` 为 Title-Case，同目录其余为 kebab-case（`1-rebase-merge.md`、`4-help-open.md`） | 用 `git mv` 统一为 `2-control-process.md`（注意大小写不敏感文件系统） |
