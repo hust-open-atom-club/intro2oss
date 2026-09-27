@@ -256,9 +256,23 @@ docker run --read-only \
 仍带有不少能力。做法是先全部丢掉，再加回真正需要的：
 
 ```bash
-# 丢光所有 capability，只加回绑定低端口所需的 NET_BIND_SERVICE
-docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE nginx:1.25.3
+# 丢光所有 capability，只加回这个镜像真正需要的三项：
+#   NET_BIND_SERVICE —— 绑定 80 等低端口
+#   SETGID / SETUID  —— 官方镜像的 root master 进程要切换到 nginx worker 用户
+docker run --cap-drop=ALL \
+  --cap-add=NET_BIND_SERVICE \
+  --cap-add=SETGID \
+  --cap-add=SETUID \
+  nginx:1.25.3
 ```
+
+!!! tip "更彻底的做法是用非 root 镜像"
+
+    上面这份清单是**跟着镜像走的**：官方 nginx 镜像以 root 启动 master 进程，所以必须保留
+    `SETGID`/`SETUID`（少了它们会以 `setgid(nginx) failed (1: Operation not permitted)` 退出）。
+    如果改用非 root 变体（如 `nginx-unprivileged`）并监听 8080 这类高位端口，连
+    `NET_BIND_SERVICE`、`SETGID`、`SETUID` 都不再需要，这也说明**"最小权限"没有通用答案，
+    要按镜像的实际行为确定**。
 
 **4. 不要用 `--privileged`。** `--privileged` 会关闭几乎所有隔离，等价于把宿主机 root 交给容器，
 只应出现在明确知道后果的调试场景。
