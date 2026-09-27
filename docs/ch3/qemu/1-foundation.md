@@ -59,15 +59,23 @@ sudo apt install opensbi qemu-system-misc u-boot-qemu
 ??? note "点击展开：从源码编译安装"
 
     ```bash
-    # 备份 sources.list 文件
-    sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+    # 1) 启用 deb-src 源码仓库，然后安装构建依赖
+    #
+    # Ubuntu 24.04 及以后使用 deb822 格式，仓库配置在
+    # /etc/apt/sources.list.d/ubuntu.sources，/etc/apt/sources.list 里通常
+    # 只有一段迁移说明。需要把该文件里的 "Types: deb" 改成
+    # "Types: deb deb-src"（改之前先备份）。
+    sudo cp /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.bak
+    sudo sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
 
-    # 启用 deb-src 源（将所有 deb 源对应的 deb-src 源解锁）
-    sudo sed -i '/^# deb-src /s/^# //' /etc/apt/sources.list
-    sudo apt-get update
-    sudo apt update && sudo apt build-dep qemu
+    # Ubuntu 22.04 及更早版本使用传统 sources.list：
+    #   sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+    #   sudo sed -i '/^# deb-src /s/^# //' /etc/apt/sources.list
 
-    # 拉取 QEMU 代码
+    sudo apt update
+    sudo apt build-dep qemu
+
+    # 2) 拉取 QEMU 代码
     git clone https://gitlab.com/qemu-project/qemu.git
 
     cd qemu
@@ -78,6 +86,19 @@ sudo apt install opensbi qemu-system-misc u-boot-qemu
     # 只编译 riscv64 目标，比全量编译快得多
     ninja -C build qemu-system-riscv64
     ```
+
+    !!! note "为什么 `apt build-dep` 会找不到源码"
+
+        `apt build-dep` 需要**源码仓库**（`deb-src` / `Types: deb-src`）。Ubuntu 24.04 的
+        `/etc/apt/sources.list` 里通常只剩迁移说明，真正生效的仓库在
+        `/etc/apt/sources.list.d/ubuntu.sources`，所以对旧文件执行 `sed` 不会添加任何源码仓库，
+        `apt build-dep qemu` 会直接失败。修改 `Types` 行后可用下面的命令确认源码仓库已生效：
+
+        ```bash
+        apt-cache showsrc qemu | head -5
+        ```
+
+        若没有任何输出，说明源码仓库仍未启用；检查 `Types` 行并重新执行 `sudo apt update`。
 
     !!! tip "git clone 的几种写法"
 
