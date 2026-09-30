@@ -465,24 +465,35 @@ docker compose logs mongodb
 docker compose down
 ```
 
-5. 重新拉取基础镜像并重建容器：
+5. 更新镜像并重建容器。这里要分两步，因为"更新镜像"对两类服务含义不同：
 
 ```bash
-# --ignore-buildable：跳过那些要由本地构建的服务（本文的 nginx/frontend/backend
-# 用的是 todo-*:local 这种仅供本地的镜像名，注册表里并不存在，直接 pull 会失败，
-# 而 && 一旦断开，后面的 up --build 就不会执行）
-docker compose pull --ignore-buildable && docker compose up -d --build --force-recreate
+# 1) 更新自建服务的基础镜像并重新构建：
+#    --pull 会为 Dockerfile 里的每个 FROM 尝试拉取较新的镜像。
+#    如果只做第 2 步，这三个服务会一直复用本地缓存里的旧基础镜像。
+docker compose build --pull
+
+# 2) 拉取来自注册表的服务镜像（本例只有 mongodb），跳过本地构建的服务：
+#    三个自建服务用的是 todo-*:local 这种仅供本地的镜像名，注册表里不存在，
+#    不加 --ignore-buildable 会拉取失败并返回非零状态。
+docker compose pull --ignore-buildable
+
+# 3) 重建并启动容器
+docker compose up -d --force-recreate
 ```
 
-!!! tip "为什么需要 `--ignore-buildable`"
+!!! tip "两个选项分别在解决什么"
 
-    只要 compose 文件里某个服务写了 `build:`，`docker compose pull` 就会尝试去注册表拉取它的
-    `image:` 名。本文三个服务的镜像是 `todo-nginx:local` / `todo-frontend:local` /
-    `todo-backend:local`，注册表里当然没有，pull 会报错并返回非零状态——因为用了 `&&`，
-    本该负责构建的 `up -d --build` 就再也不会执行。加上 `--ignore-buildable` 就只拉
-    `mongo:7` 这类真正来自注册表的镜像（本机实测：`todo-nginx:local` 与
-    `todo-frontend:local` 显示 `Skipped Image can be built`，`mongo:7` 正常拉取，随后
-    `up -d --build` 四个容器全部就绪）。
+    - **`pull --ignore-buildable`**：只要 compose 文件里某个服务写了 `build:`，
+      `docker compose pull` 就会尝试去注册表拉取它的 `image:` 名。本例的
+      `todo-nginx:local` / `todo-frontend:local` / `todo-backend:local` 在注册表里不存在，
+      pull 会报错；若用 `&&` 串起后续命令，后面就再也不会执行。加上该选项后，本机实测
+      前两个显示 `Skipped Image can be built`，只正常拉取 `mongo:7`。
+    - **`build --pull`**：`pull --ignore-buildable` 跳过了自建服务，所以它们 `FROM`
+      的基础镜像（`node:22-alpine`、`nginx:1.25-alpine`）**不会**被更新，`up --build`
+      可能继续用缓存中的旧镜像。`docker compose build --pull` 才会为每个 `FROM` 去注册表
+      解析较新的镜像（本机实测输出 `load metadata for docker.io/library/nginx:1.25-alpine`
+      与 `node:22-alpine`），随后重建出的容器全部就绪、网关返回 HTTP 200。
 
 6. 重启单个服务：
 
