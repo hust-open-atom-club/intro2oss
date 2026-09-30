@@ -299,7 +299,7 @@ GitHub 通过 **Pull Request（PR）** 和 **Issue 跟踪系统**，将代码协
 
 ##### 微软收购 GitHub 的争议与影响  
 
-GitHub 于 2018 年 6 月被微软以 **75 亿美元**收购（[Microsoft 官方公告](https://news.microsoft.com/source/2018/06/04/microsoft-to-acquire-github-for-7-5-billion/)，2018-06-04；[GitHub 官方博客](https://github.blog/2018-06-04-github-joins-microsoft/) 同日发布）。需要区分的是，Git 本身由 Linus Torvalds 于 2005 年创建，是一个由社区维护的分布式版本控制系统，不属于任何公司；被收购的是承载代码托管与协作业务的 GitHub 平台。
+微软于 **2018 年 6 月 4 日宣布**达成以 **75 亿美元**收购 GitHub 的协议（[Microsoft 官方公告](https://news.microsoft.com/source/2018/06/04/microsoft-to-acquire-github-for-7-5-billion/)，2018-06-04），并于 **2018 年 10 月 26 日完成收购**（[Microsoft 完成收购公告](https://blogs.microsoft.com/blog/2018/10/26/microsoft-completes-github-acquisition/)，2018-10-26）。需要区分的是，Git 本身由 Linus Torvalds 于 2005 年创建，是一个由社区维护的分布式版本控制系统，不属于任何公司；被收购的是承载代码托管与协作业务的 GitHub 平台。
 
 积极影响：资本赋能与生态整合
 

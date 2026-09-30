@@ -193,13 +193,15 @@ docker run -d \
 
 # 等数据库真正就绪再连接：docker run -d 只是把容器放到后台，不会等 MySQL 初始化完成，
 # 首次启动（要初始化数据目录）通常需要十几秒，立刻连接会得到 "Can't connect to MySQL server"。
-# 最多等 2 分钟；超时就打印状态与日志后退出，避免在无限循环里空等。
+# 通过 TCP 执行查询，避开初始化期间只开放 socket 的临时服务，并确认口令可用。
+# 最多尝试 40 次，每次连接超时 2 秒，失败后间隔 3 秒；耗尽次数时打印状态与日志后退出。
 for i in $(seq 1 40); do
-  if docker exec mysql_db mysqladmin ping -uroot -p"$MYSQL_ROOT_PASSWORD" --silent >/dev/null 2>&1; then
+  if docker exec mysql_db mysql --protocol=TCP -h127.0.0.1 --connect-timeout=2 \
+      -uroot -p"$MYSQL_ROOT_PASSWORD" -e 'SELECT 1' >/dev/null 2>&1; then
     echo "MySQL 已就绪（等待 ${i} 次）"; break
   fi
   if [ "$i" -eq 40 ]; then
-    echo "MySQL 在 120 秒内未就绪，请检查下面两项：" >&2
+    echo "MySQL 尝试 40 次后仍未就绪，请检查下面两项：" >&2
     docker ps -a --filter name=mysql_db >&2
     docker logs --tail 30 mysql_db >&2
     exit 1
@@ -210,6 +212,14 @@ done
 # 进入容器创建测试数据（口令必须与上面的变量一致）
 docker exec -it mysql_db mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -h127.0.0.1
 ```
+
+!!! note "为什么用 TCP 查询检查就绪"
+
+    [官方 MySQL 镜像的初始化脚本](https://github.com/docker-library/mysql/blob/master/8.4/docker-entrypoint.sh)
+    会先启动禁用 TCP 的临时服务，完成初始化后再关闭它并启动正式服务。默认使用 socket 的探测
+    可能误把临时服务当作已经就绪；而且
+    [`mysqladmin ping`](https://dev.mysql.com/doc/refman/8.4/en/mysqladmin.html) 即使收到认证失败也会
+    返回成功。通过 TCP 执行 `SELECT 1`，才能同时确认正式服务已接受连接、口令能通过认证。
 
 进入 MySQL 交互界面后（`mysql>` 是 MySQL 自己的提示符，不是 shell 提示符）：
 
@@ -246,11 +256,12 @@ docker run -d \
 
 # 同样要等服务就绪（这一步同样存在竞态，不能紧接着就连接），同样带上超时与失败诊断
 for i in $(seq 1 40); do
-  if docker exec mysql_db2 mysqladmin ping -uroot -p"$MYSQL_ROOT_PASSWORD" --silent >/dev/null 2>&1; then
+  if docker exec mysql_db2 mysql --protocol=TCP -h127.0.0.1 --connect-timeout=2 \
+      -uroot -p"$MYSQL_ROOT_PASSWORD" -e 'SELECT 1' >/dev/null 2>&1; then
     echo "MySQL 已就绪（等待 ${i} 次）"; break
   fi
   if [ "$i" -eq 40 ]; then
-    echo "MySQL 在 120 秒内未就绪，请检查下面两项：" >&2
+    echo "MySQL 尝试 40 次后仍未就绪，请检查下面两项：" >&2
     docker ps -a --filter name=mysql_db2 >&2
     docker logs --tail 30 mysql_db2 >&2
     exit 1
@@ -292,7 +303,7 @@ docker run -d \
     --mount type=bind,src=$(pwd)/nginx-content,dst=/usr/share/nginx/html,readonly \
     nginx:1.25-alpine
 
-# 内存文件系统：数据只放在内存里
+# 内存文件系统：不写入容器可写层；宿主机启用 swap 时仍可能换出到磁盘
 docker run -d \
     --mount type=tmpfs,dst=/tmp \
     nginx:1.25-alpine
@@ -312,11 +323,13 @@ docker run -d \
 解密后的凭据。这时可以用 `tmpfs` 挂载：它把数据放在内存里，容器停止后内容立即消失，也不会出现
 在镜像层或数据卷中。
 
-!!! warning "tmpfs 不等于"绝不落盘"
+!!! warning "tmpfs 不等于绝不落盘"
 
     当宿主机启用了 **swap** 时，`tmpfs` 中的页面仍可能被换出到磁盘。因此 `tmpfs` 能保证的是
     "不写入容器的可写层或数据卷"，**不能**单独作为"敏感数据绝不落盘"的保证。如果确实有这个要求，
-    还必须在宿主机层面禁用 swap 或使用加密的 swap（Docker 文档也提醒了这一点）。
+    至少还必须在宿主机层面禁用 swap，并排查休眠等其他写盘机制。**加密 swap 仍会把数据写入磁盘**，
+    它保护的是落盘内容的机密性，不能满足"绝不落盘"的要求。参见
+    [Docker 官方 tmpfs 文档](https://docs.docker.com/engine/storage/tmpfs/)。
 
 ```bash
 # 把一个 16MB 的内存文件系统挂到容器的 /run/secrets

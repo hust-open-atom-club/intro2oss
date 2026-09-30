@@ -629,9 +629,7 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
 
   - `7z`和`rar`
 
-      `7z` 格式和 `rar` 格式都用 7-Zip 处理。注意 `p7zip` 只是**软件包名**（Debian/Ubuntu 上是 `p7zip-full`），安装后实际执行的命令是 `7z`。它通常不会被自动安装，需要先用包管理器安装。
-
-      用法：`7z [options] file1 file2 ...`
+      本节使用 7-Zip 的 [`7z` 命令](https://manpages.debian.org/bookworm/p7zip-full/7z.1.en.html)。若系统没有该命令，先通过包管理器安装提供它的软件包。部分发行版还提供名为 [`p7zip` 的包装脚本](https://manpages.debian.org/bookworm/p7zip/p7zip.1.en.html)，它与 `7z` 的语法不同，不能混用。
 
       `7z` 采用**命令式**语法：`7z <命令> [选项] <归档> [文件...]`，压缩与解压对应不同的命令。
 

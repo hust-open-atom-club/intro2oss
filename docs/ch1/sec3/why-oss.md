@@ -259,7 +259,7 @@ B. **开源完美适配无限游戏规则**
 #### **对公司：从“烧钱打仗”到“共建生态”**
 
 * **创新成本大减**：对于**研发费**：华为的 OpenHarmony 开源项目，吸引了大量企业和开发者共同建设，显著降低了生态建设成本；对于**试错费**：特斯拉 2014 年开源电动车专利，让全球供应链一起验证技术路线，加速了整个行业的成熟。
-* **抓住“网络效应”**：RedHat 公司以开源 Linux 为基础，提供企业级服务和支持，2019 年被 IBM 以 340 亿美元收购（[IBM 官方公告](https://newsroom.ibm.com/2019-07-09-IBM-Closes-Landmark-Acquisition-of-Red-Hat-for-34-Billion-Defines-Open-Hybrid-Cloud-Future)，2019-07-09）。这证明了“开源 → 成为标准 → 提供服务”是一条成功之路。
+* **抓住“网络效应”**：RedHat 公司以开源 Linux 为基础，提供企业级服务和支持，2019 年被 IBM 以 340 亿美元收购（[IBM 官方公告](https://uk.newsroom.ibm.com/2019-07-09-IBM-Closes-Landmark-Acquisition-of-Red-Hat-for-34-Billion-Defines-Open-Hybrid-Cloud-Future)，2019-07-09）。这证明了“开源 → 成为标准 → 提供服务”是一条成功之路。
 * **人才磁铁**：GitLab 公司采用全员远程 + 开源协作模式，得以在全球范围内招募开发者，显著扩大了可选的人才范围。
 
 #### **对世界：从“技术垄断”到“数字公地”**

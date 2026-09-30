@@ -41,7 +41,7 @@
 - **许可证事实**：Apache-2.0 表述为宽松 + 专利条款（不再称"弱传染"）、GPLv3 专利授权、OpenSSL 从 LGPL 示例中移除、Redis 改为"曾为 BSD-3-Clause，现为 AGPLv3"、Linux 内核明确为 `GPL-2.0-only`、SSPL 改为"基于 AGPLv3 第 13 条改写"、FSF 1985、GPLv1 1989、Sun/Oracle 收购 MySQL 时间线。
 - **技术性错误**：`sendemail.smtpEncryption stl`→`ssl/tls`（含端口对照表）、`smtpPass =` 多余等号、QEMU 镜像版本四处不一致统一为 24.04.2、`-smp 32`→`4`、SSH clone 改 HTTPS、Docker Jupyter 示例删除关闭认证与 XSRF 并只绑回环、Compose 删除废弃的 `version` 字段并改名 `compose.yaml`、镜像 tag 全面更新、`git checkout --`→`git restore`、`reset --hard` 补 danger、`xtm4z`→`z/x/m`、`p7zip`→`7z`、`yum`→`dnf`、SHA-1"加密"表述修正、新增 PAT 小节（此前全库 0 次）。
 - **命令占位符**：`docker stop <container_id>` 这类写法在 bash 中会触发重定向，约 50 行改为 `CONTAINER_ID` 形式（HTML 标签、邮箱、`#include` 与"讲解该隐患"的原文均保留）。
-- **仓库工程**：16 MB WAV → 2.7 MB MP3（−83%，引用同步更新）；`actions/setup-python` v4→v5；CI 中 `curl | sh` 改为"下载 → 打印 → 执行"（与课程自身的安全口径一致）；修复 fork PR 无法回推导致的静默失败（改为同仓库才回推，fork 走自动修复 PR）并上传修复产物为 artifact；`AGENTS.md` 按当前结构重写。
+- **仓库工程**：16 MB WAV → 2.7 MB MP3（−83%，引用同步更新）；`actions/setup-python` v4→v5；CI 中 `curl | sh` 改为"下载 → 打印 → 执行"（打印不构成来源或完整性校验）；修复 fork PR 无法回推导致的静默失败（仅向本仓库分支回推，fork PR 通过 artifact 与运行摘要获取修复）并上传修复产物为 artifact；`AGENTS.md` 按当前结构重写。
 - **口径统一**：全库唯一残留的 `curl | sh` 只剩两处"反面示例"说明文字。
 
 ### C 第 3 次课许可证内容（已完成）
@@ -66,7 +66,7 @@ nav 覆盖                    50 / 50，无未纳入、无死链
 
 ### 评审后续修正（Codex review）
 
-PR 提交后，仓库配置的 Codex 评审先后进行了 7 轮，共提出 **31 条意见**（2 条 P1 + 29 条 P2），已全部处理并逐条回复。按类别归纳：
+以下表格记录 PR 提交后早期评审的修正概况，不代表当前评审意见总数；完整意见及后续处理以 [PR #185 的评审线程](https://github.com/hust-open-atom-club/intro2oss/pull/185)为准。
 
 | 类别 | 主要问题 | 处理 |
 |------|----------|------|

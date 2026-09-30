@@ -447,16 +447,13 @@ Result: 250
 
 这就表示邮件已经成功发出去了。
 
-### 方式二：用 b4 回复
+!!! note "b4 send 用于发送补丁系列"
 
-如果已经用 `b4` 管理补丁，可以让 b4 读取原邮件的 `Message-Id` 并直接生成回复：
+    [`b4 send` 的官方命令说明](https://b4.docs.kernel.org/en/latest/contributor/send.html#command-line-flags)
+    没有 `--reply-to` 选项。即使用 `b4` 管理补丁，回复某封审查邮件时也可以使用上面的
+    `git send-email --in-reply-to` 方法，或下面的邮件客户端方法。
 
-```bash
-# Message-Id 必须用单引号包住：去掉引号的话，shell 会把 < > 当成重定向符号直接报语法错误
-b4 send --reply-to '<msgid-or-lore-url>'
-```
-
-### 方式三：用邮件客户端回复（Thunderbird）
+### 方式二：用邮件客户端回复（Thunderbird）
 
 不想订阅邮件列表、也不想手动拼 `git send-email` 命令时，可以借助邮件客户端的
 **Reply to List（回复到邮件列表）** 功能。以 Thunderbird 为例：
