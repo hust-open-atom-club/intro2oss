@@ -209,12 +209,24 @@ Result: 250
 版本的区分靠**标题里的版本号**和 cover letter 中的变更日志，而不是靠回信关系：
 
 ```bash
-# -v2 会生成带版本号的标题，例如 [PATCH v2 0/3] ...
-git send-email -v2 \
+# 先用 format-patch 生成 v2：-v2 是 format-patch 的选项，
+# 它把版本号写进标题（[PATCH v2 0/3] ...）与文件名
+git format-patch -v2 --cover-letter -o outgoing/ <base>
+
+# 再发送生成好的文件：版本号已经在文件里，发送命令不必再传 -v2
+git send-email \
     --to='<maintainer email>' \
     --cc=qemu-devel@nongnu.org \
     outgoing/v2-*.patch
 ```
+
+!!! tip "`-v2` 属于 `format-patch`，也可以直接交给 `send-email`"
+
+    `git send-email` 的用法是 `git send-email [<options>] (<file>|<directory>)...` 或
+    `git send-email [<options>] <format-patch-options>`——也就是说，**当参数是提交范围时，
+    它可以接受 `git format-patch` 的选项**（例如直接 `git send-email -v2 <revision range>`
+    让它内部调用 `format-patch`）。但本节这种"先把补丁生成到 `outgoing/`、再逐个发送文件"的
+    用法中，版本号已经写进文件和标题，发送时再传 `-v2` 只是多余，容易被误读为"发送阶段才决定版本"。
 
 要点：
 
