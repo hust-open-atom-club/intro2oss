@@ -211,7 +211,7 @@ Result: 250
 ```bash
 # 先用 format-patch 生成 v2：-v2 是 format-patch 的选项，
 # 它把版本号写进标题（[PATCH v2 0/3] ...）与文件名
-git format-patch -v2 --cover-letter -o outgoing/ <base>
+git format-patch -v2 --cover-letter -o outgoing/ HEAD~3
 
 # 再发送生成好的文件：版本号已经在文件里，发送命令不必再传 -v2
 git send-email \
