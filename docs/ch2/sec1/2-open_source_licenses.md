@@ -1,4 +1,4 @@
-# 开源协议：数字世界的宪法
+# 📋 开源协议：数字世界的宪法
 
 !!! note "主要作者"
     [@Dreadful-Me](https://github.com/Dreadful-Me)

@@ -1,21 +1,369 @@
 :root {
     --md-primary-fg-color: #6AB2F2;
+    --md-accent-fg-color: #FF6B6B;
+    --md-typeset-a-color: #4A90D9;
+}
+
+/* ============================================
+   1. 全局 Typography & 滚动条增强
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--md-default-bg-color--light);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(106, 178, 242, 0.4);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--md-primary-fg-color);
+}
+
+.md-typeset h1 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--md-primary-fg-color) 0%, #4A90D9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.8em;
+}
+
+.md-typeset h2 {
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, var(--md-primary-fg-color), transparent) 1;
+    padding-bottom: 0.3em;
+    margin-top: 1.5em;
+}
+
+.md-typeset h3 {
+    font-weight: 600;
+    color: var(--md-typeset-a-color);
+}
+
+/* ============================================
+   2. Admonition 增强
+   ============================================ */
+
+.md-typeset .admonition {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    border-left-width: 4px;
+}
+
+.md-typeset .admonition:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+}
+
+.md-typeset .admonition.note { border-left-color: #448AFF; }
+.md-typeset .admonition.tip { border-left-color: #00BFA5; }
+.md-typeset .admonition.warning { border-left-color: #FF9100; }
+.md-typeset .admonition.danger { border-left-color: #FF5252; }
+.md-typeset .admonition.success { border-left-color: #69F0AE; }
+.md-typeset .admonition.info { border-left-color: #00B0FF; }
+.md-typeset .admonition.example { border-left-color: #E040FB; }
+.md-typeset .admonition.abstract { border-left-color: #00B8D4; }
+
+.md-typeset details {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease;
+}
+
+.md-typeset details:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.md-typeset details summary {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ============================================
+   3. 表格增强
+   ============================================ */
+
+.md-typeset table {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset table thead {
+    background: linear-gradient(135deg, var(--md-primary-fg-color), #4A90D9);
+}
+
+.md-typeset table thead th {
+    color: white;
+    font-weight: 600;
+    padding: 12px 16px;
+    border: none;
+}
+
+.md-typeset table tbody tr:nth-child(even) {
+    background-color: var(--md-code-bg-color);
+}
+
+.md-typeset table tbody tr:hover {
+    background-color: rgba(106, 178, 242, 0.08);
+    transition: background-color 0.2s ease;
+}
+
+.md-typeset table tbody td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* ============================================
+   4. 代码块增强
+   ============================================ */
+
+.md-typeset pre {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.md-typeset code {
+    border-radius: 4px;
+    padding: 0.2em 0.4em;
+    font-size: 0.9em;
+}
+
+.highlight .linenos {
+    background-color: var(--md-code-bg-color);
+    border-right: 1px solid var(--md-default-fg-color--lightest);
+    color: var(--md-default-fg-color--light);
+}
+
+/* ============================================
+   5. 图片与媒体增强
+   ============================================ */
+
+.md-typeset img {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 100%;
+}
+
+.md-typeset img:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .caption {
-    font-size: 0.94em;
-    color: gray;
-    margin-top: -10px;
+    font-size: 0.9em;
+    color: var(--md-default-fg-color--light);
+    margin-top: -6px;
+    margin-bottom: 1.5em;
     text-align: center;
-}   
+    font-style: italic;
+}
 
-/* Markdown Preview Plugin Styles */
+/* ============================================
+   6. 引用块增强
+   ============================================ */
+
+.md-typeset blockquote {
+    border-left: 4px solid var(--md-primary-fg-color);
+    background: linear-gradient(90deg, rgba(106, 178, 242, 0.05), transparent);
+    border-radius: 0 8px 8px 0;
+    padding: 1em 1.2em;
+    font-style: italic;
+    color: var(--md-default-fg-color--light);
+}
+
+/* ============================================
+   7. 按钮与链接增强
+   ============================================ */
+
+.md-typeset .md-button {
+    border-radius: 6px;
+    padding: 0.5em 1.2em;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.md-typeset .md-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.md-typeset .md-button--primary {
+    background: linear-gradient(135deg, var(--md-primary-fg-color), #4A90D9);
+    border: none;
+}
+
+.md-typeset a {
+    transition: color 0.2s ease;
+    text-decoration: none;
+}
+
+.md-typeset a:hover {
+    color: var(--md-accent-fg-color);
+}
+
+/* ============================================
+   8. 列表增强
+   ============================================ */
+
+.md-typeset ul li::marker {
+    color: var(--md-primary-fg-color);
+}
+
+.md-typeset ol li::marker {
+    color: var(--md-primary-fg-color);
+    font-weight: 600;
+}
+
+.md-typeset .task-list-item {
+    transition: background-color 0.2s ease;
+    border-radius: 4px;
+    padding: 0.2em 0.4em;
+}
+
+.md-typeset .task-list-item:hover {
+    background-color: rgba(106, 178, 242, 0.05);
+}
+
+/* ============================================
+   9. 卡片 / 网格布局支持
+   ============================================ */
+
+.md-typeset .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.5em 0;
+}
+
+.md-typeset .grid.cards {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.md-typeset .grid.cards > * {
+    background: var(--md-default-bg-color);
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 12px;
+    padding: 1.2em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+.md-typeset .grid.cards > *:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+    border-color: rgba(106, 178, 242, 0.3);
+}
+
+.md-typeset .grid.cards > * > :first-child {
+    margin-top: 0;
+    font-weight: 600;
+    color: var(--md-primary-fg-color);
+}
+
+/* ============================================
+   10. Mermaid 图表容器增强
+   ============================================ */
+
+.mermaid {
+    background: var(--md-default-bg-color) !important;
+    border-radius: 8px;
+    padding: 1em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================
+   11. 标签页 (Tabs) 增强
+   ============================================ */
+
+.md-typeset .tabbed-set {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .tabbed-labels {
+    background: var(--md-code-bg-color);
+    border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .tabbed-labels > label {
+    font-weight: 600;
+    padding: 0.6em 1.2em;
+    transition: all 0.2s ease;
+}
+
+.md-typeset .tabbed-labels > label:hover {
+    color: var(--md-primary-fg-color);
+    background: rgba(106, 178, 242, 0.05);
+}
+
+.md-typeset .tabbed-labels > label.md-tab__active {
+    color: var(--md-primary-fg-color);
+    border-bottom: 2px solid var(--md-primary-fg-color);
+}
+
+/* ============================================
+   12. 导航与页脚增强
+   ============================================ */
+
+.md-footer {
+    background: linear-gradient(135deg, var(--md-primary-fg-color), #4A90D9);
+}
+
+.md-header {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   13. 渐入动画
+   ============================================ */
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.md-typeset > * {
+    animation: fadeInUp 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+.md-typeset > *:nth-child(1) { animation-delay: 0.05s; }
+.md-typeset > *:nth-child(2) { animation-delay: 0.1s; }
+.md-typeset > *:nth-child(3) { animation-delay: 0.15s; }
+.md-typeset > *:nth-child(4) { animation-delay: 0.2s; }
+.md-typeset > *:nth-child(5) { animation-delay: 0.25s; }
+.md-typeset > *:nth-child(6) { animation-delay: 0.3s; }
+.md-typeset > *:nth-child(7) { animation-delay: 0.35s; }
+.md-typeset > *:nth-child(8) { animation-delay: 0.4s; }
+
+/* ============================================
+   14. Markdown Preview Plugin 样式保留
+   ============================================ */
+
 .markdown-preview-container {
     margin: 1.5em 0;
     border: 1px solid var(--md-default-fg-color--lighter);
-    border-radius: 0.2rem;
+    border-radius: 0.5rem;
     background-color: var(--md-code-bg-color);
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .markdown-preview-wrapper {
@@ -40,7 +388,7 @@
 }
 
 .markdown-preview-header {
-    background-color: var(--md-default-fg-color--lightest);
+    background: linear-gradient(135deg, var(--md-primary-fg-color--lightest), var(--md-code-bg-color));
     padding: 0.5rem 1rem;
     font-weight: 600;
     font-size: 0.9rem;
@@ -114,7 +462,6 @@
     white-space: pre;
 }
 
-/* Responsive design */
 @media screen and (max-width: 768px) {
     .markdown-preview-wrapper {
         flex-direction: column;
@@ -140,4 +487,21 @@
     .markdown-preview-right .markdown-preview-content {
         white-space: normal;
     }
+}
+
+/* ============================================
+   15. 深色模式兼容
+   ============================================ */
+
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > * {
+    background: var(--md-default-bg-color);
+    border-color: var(--md-default-fg-color--lightest);
+}
+
+[data-md-color-scheme="slate"] .md-typeset table thead {
+    background: linear-gradient(135deg, #4A90D9, #357ABD);
+}
+
+[data-md-color-scheme="slate"] .md-typeset blockquote {
+    background: linear-gradient(90deg, rgba(106, 178, 242, 0.08), transparent);
 }

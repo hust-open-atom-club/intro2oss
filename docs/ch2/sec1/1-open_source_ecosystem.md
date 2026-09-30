@@ -1,4 +1,4 @@
-# 开源生态：共享代码的数字家园
+# 🌱 开源生态：共享代码的数字家园
 
 !!! note "主要作者"
     [@Dreadful-Me](https://github.com/Dreadful-Me)

@@ -1,136 +1,182 @@
-# 开源软件通识课程
+<div align="center">
 
-欢迎大家来到华科开放原子开源俱乐部的《开源软件通识课程》内部培训课程。本课程将秉持“以开源方式来建设开源课程”的指导方针，带同学们一起畅游开源软件的海洋。
+<!-- Logo / Banner -->
+<img src="docs/assets/logo.png" alt="Intro2OSS Logo" width="120">
 
-带领俱乐部成员认识开源软件经历如下的不同阶段：
+# :earth_asia: 开源软件通识课程
 
----
+**以开源方式建设开源课程** · 带你从零开始畅游开源世界
 
-### **S0：无意识使用阶段**
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hust-open-atom-club/intro2oss/ci.yml?style=flat-square&logo=github&label=CI)](https://github.com/hust-open-atom-club/intro2oss/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Material for MkDocs](https://img.shields.io/badge/Material_for_MkDocs-526CFE?style=flat-square&logo=MaterialForMkDocs&logoColor=white)](https://squidfunk.github.io/mkdocs-material/)
+[![GitHub contributors](https://img.shields.io/github/contributors/hust-open-atom-club/intro2oss?style=flat-square)](https://github.com/hust-open-atom-club/intro2oss/graphs/contributors)
 
-> **目标**：认识到开源已融入生活，了解自己日常使用的开源软件。
+[:rocket: 在线预览](https://oss.openatom.club/) · [:books: 课程文档](https://oss.openatom.club/) · [:handshake: 参与贡献](https://github.com/hust-open-atom-club/intro2oss/blob/main/CONTRIBUTING.md)
 
-* **开源无处不在**
-  * 举例说明：现代科技中广泛应用的开源软件，例如 Android 系统（基于 Linux），浏览器（如 Chrome 和 Firefox），办公工具（如 LibreOffice），以及其他开发工具（如 Git、Vim、Node.js）。
-  * 说明开源如何成为现代技术的基石：手机、服务器、云计算、大数据、人工智能等领域。
-* **参考任务：**
-  * 列举自己日常使用的一些开源软件，并尝试查找它们的开源主页或仓库。
-  * 调研一个开源项目的背景，了解它在行业中的应用（如 Linux、Kubernetes）。
-
----
-
-### **S1：了解开源阶段**
-
-> **目标**：初步了解开源的概念、历史、许可证及其影响，培养开源安全意识。
-
-* **开源是什么？**
-  * **开源是一种软件类型**：定义开源软件，与闭源软件对比。
-  * **开源是一种软件开发方式**：举例开源协作的特点，如社区贡献、代码开放。
-  * **开源是一种协作与创新模式**：讲解如何通过开源实现跨组织协作和技术创新。
-  * **开源是一种产业生态**：开源如何驱动技术演进和形成商业生态（如红帽的成功案例）。
-* **开源历史**
-  * 时间线和重要节点：Unix -> GNU -> Linux -> Git -> Github。
-  * 自由软件运动与 Richard Stallman 的贡献。
-  * 开源运动的兴起与 Open Source Initiative (OSI)。
-* **开源许可证**
-  * 介绍许可证的作用和开源定义（Open Source Definition）。
-  * **常见开源许可证：**
-    * Copyleft：GPL、AGPL 等。
-    * Permissive：MIT、Apache-2.0、BSD。
-    * 禁用场景：禁止与专利冲突等。
-  * **如何选择许可证**？举例如何根据项目需求选择适当的许可证。
-* **开源安全**
-  * 开源软件供应链安全：了解漏洞传播机制（如 Log4j 漏洞案例）。
-  * 安全最佳实践：开源软件的审计和管理（如使用 Dependabot）。
-* **参考任务：**
-  1. 创建 Github 帐号，初始化一个简单的项目（如 README 文件）。
-  2. 为该项目选择一个开源许可证，并撰写一段文字解释选择理由。
+</div>
 
 ---
 
-### **S2：拥抱开源阶段**
+## :sparkles: 这是什么？
 
-> **目标**：开始使用开源软件，初步了解开源项目的协作模式。
+本项目是由 [**华中科技大学开放原子开源俱乐部**](https://hust.openatom.club/) 主导编写的《开源软件通识课程》开源教程。
 
-* **开源协作模式**
-  * **如何贡献**：Issue、Pull Request、Code Review。
-  * **工具与平台**：使用 Github、Gitlab 等托管平台。
-  * **开源项目工作流**：了解从 Issue 到 PR 的完整流程。
-* **开源软件的替代方案**
-  * 举例：用 Linux 替代 Windows，用 LibreOffice 替代 Microsoft Office，用 GIMP 替代 Photoshop，用 VLC 替代商业播放器。
-  * **选择适合的发行版：**
-    * 桌面发行版：Ubuntu、Deepin、OpenEuler。
-    * 服务器发行版：CentOS Stream、Alpine。
-* **活动组织**
-  * 了解和参与开源社区活动：如 Linux 101、OpenEuler 社区活动等。
-  * 通过参与活动了解更多开源工具和资源。
-* **参考任务：**
-  1. 找到一个可以替换闭源工具的开源软件，并将其应用到日常工作中。
-  2. 记录切换开源软件的过程、问题和解决方案，撰写一篇博客分享。
+我们秉持 **"以开源方式来建设开源课程"** 的理念，将课程内容完全开源在 GitHub 上，希望为高校开源教育贡献一份力量，帮助更多同学从"开源消费者"成长为"开源贡献者"。
+
+> :bulb: **核心理念**
+> 
+> 开源不仅是代码的开放，更是一种协作制度、一种知识共享的文化、一种影响现代技术世界的组织方式。
 
 ---
 
-### **S3：贡献开源阶段**
+## :dart: 你将收获什么？
 
-> **目标**：学习开源基础技能并通过代码或文档的贡献实践开源。
+本课程将带领你经历从 **无意识使用** 到 **领导开源社区** 的五个阶段：
 
-* **开源基础技能**
-  * **Git 学习：**
-    * Git 的基本操作（clone、commit、push、pull、merge 等）。
-    * Git 的原理：分支、HEAD 指针、合并冲突等概念。
-    * 进阶技能：使用 Git 提交签名、提交模板。
-  * **代码托管平台：**
-    * Github、Gitlab、Gitee 等的使用技巧。
-    * 项目管理功能：Issue、Milestone、Wiki。
-  * **如何写好一个 commit message：**
-    * Linux Kernel Patch。
-    * Conventional Commits。
-    * RustSBI 项目的 commit message 规范。
-  * **文档撰写：**
-* **计算机基础知识**
-  * The Missing Semester of Your CS Education。
-  * **不同方向的简单介绍与开源项目：**
-    * 系统开发：Linux Kernel、QEMU。
-    * Web 开发：React、Vue。
-    * 网络：WireGuard、Cilium。
-    * 数据分析：Pandas、Jupyter。
-    * 人工智能：TensorFlow、PyTorch。
-  * 找到适合自己的方向并选择活跃的开源项目。
-* **表达与交流的重要性**
-  * 如何清晰表达问题和想法。
-  * 如何有效进行跨文化交流。
-* **学会如何提问**
-  * 如何查找资料：善用 Google 和 Stack Overflow。
-  * 提问的基本规范：明确描述问题、给出复现步骤。
-* **参考任务：**
-  1. 学习使用 Git，完成一次 Fork 并提交 PR 的流程。
-  2. 选择一个开源项目，通过贡献文档或代码提交一个 PR。
+| 阶段 | 状态 | 目标 | 关键词 |
+|:---:|:---:|:---|:---|
+| **S0** | :white_check_mark: | 认识到开源已融入生活，了解日常使用的开源软件 | `感知` `发现` |
+| **S1** | :white_check_mark: | 理解开源的概念、历史、许可证及安全影响 | `认知` `理论` |
+| **S2** | :white_check_mark: | 开始使用开源软件，了解开源项目的协作模式 | `实践` `协作` |
+| **S3** | :white_check_mark: | 掌握 Git 等基础技能，通过代码或文档贡献开源 | `贡献` `技能` |
+| **S4** | :construction: | 成为开源项目领导者，掌握社区治理与合规能力 | `领导` `治理` |
 
 ---
 
-### **S4：领导开源阶段**
+## :books: 课程大纲
 
-> **目标**：成为开源项目的领导者，掌握社区管理和开源治理能力。
+<details>
+<summary><b>:seedling: S0 · 无意识使用阶段</b> — 发现身边的开源</summary>
 
-* **开源社区及其管理**
+- 开源无处不在：Android、浏览器、开发工具等
+- 开源如何成为现代技术的基石
+- **任务**：列举日常使用的开源软件，调研一个开源项目的背景
 
-  * 如何组织和维护开源社区：Code of Conduct、贡献者指南。
-  * 如何吸引和管理贡献者：鼓励多样性和贡献。
-* **开源社区安全治理**
+</details>
 
-  * 如何处理安全问题（如 CVE 报告）。
-  * 如何保护社区免受恶意代码或行为影响。
-* **开源社区合规**
+<details>
+<summary><b>:herb: S1 · 了解开源阶段</b> — 建立系统认知</summary>
 
-  * 合规流程的重要性：知识产权管理、许可证合规。
-  * 如何进行开源项目的合规审计。
-* **参考任务：**
+- **开源是什么？** 软件类型、开发方式、创新模式、产业生态
+- **开源历史**：Unix → GNU → Linux → Git → GitHub
+- **开源许可证**：Copyleft (GPL) vs Permissive (MIT/Apache/BSD)
+- **开源安全**：供应链安全、漏洞传播机制、最佳实践
+- **任务**：创建 GitHub 项目并选择合适的开源许可证
 
-  1. 创建一个开源项目，撰写清晰的 README 和贡献者指南。
-  2. 通过自己的开源项目吸引其他人贡献并管理他们的贡献。
-  3. 如果不想长期维护，可以将项目捐献到俱乐部。
+</details>
 
+<details>
+<summary><b>:deciduous_tree: S2 · 拥抱开源阶段</b> — 参与协作实践</summary>
 
-### **贡献指南**
-如果 commit 时候遇到 md 格式问题，在对应的 action run 底下会有一个 artifact，保存了所有的 log 和对应的 autofix
-commit message 中尽量不要出现中文，以及相同的 commit 可以合并成一个。
+- **协作模式**：Issue、Pull Request、Code Review
+- **开源替代方案**：Linux、LibreOffice、GIMP、VLC
+- **发行版选择**：Ubuntu、Deepin、openEuler、CentOS Stream
+- **社区活动**：Linux 101、openEuler 社区活动
+- **任务**：用开源软件替换一个闭源工具并撰写博客
+
+</details>
+
+<details>
+<summary><b>:evergreen_tree: S3 · 贡献开源阶段</b> — 掌握硬核技能</summary>
+
+- **Git 训练营**：clone/commit/push/merge/rebase、Patch 提交
+- **代码托管平台**：GitHub/GitLab/Gitee 使用技巧
+- **文档与表达**：Commit Message 规范、Markdown、跨文化交流
+- **计算机基础**：The Missing Semester of Your CS Education
+- **多方向实践**：Linux Kernel、QEMU、Docker、Web 开发、AI
+- **任务**：完成一次 Fork → PR 流程，提交第一个贡献
+
+</details>
+
+<details>
+<summary><b>:crown: S4 · 领导开源阶段</b> — 引领社区发展</summary>
+
+- **社区管理**：Code of Conduct、贡献者指南、吸引多样性贡献
+- **安全治理**：CVE 报告处理、恶意代码防护
+- **合规审计**：知识产权管理、许可证合规
+- **任务**：创建并维护自己的开源项目
+
+</details>
+
+---
+
+## :rocket: 快速开始
+
+### 在线阅读
+
+直接访问课程网站，无需安装任何东西：
+
+```bash
+https://oss.openatom.club/
+```
+
+### 本地预览
+
+```bash
+# 1. 克隆仓库
+git clone https://github.com/hust-open-atom-club/intro2oss.git
+cd intro2oss
+
+# 2. 安装依赖
+pip install -r requirements.txt
+
+# 3. 启动本地服务
+mkdocs serve
+
+# 4. 浏览器打开 http://127.0.0.1:8000
+```
+
+---
+
+## :hammer_and_wrench: 技术栈
+
+- **[MkDocs](https://www.mkdocs.org/)** — 静态站点生成器
+- **[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)** — 主题与 UI 组件
+- **[Mermaid](https://mermaid.js.org/)** — 图表绘制
+- **[PyMdown Extensions](https://facelessuser.github.io/pymdown-extensions/)** — Markdown 语法扩展
+
+---
+
+## :handshake: 参与贡献
+
+我们欢迎任何形式的贡献！
+
+- :memo: 修正 typo 或内容错误
+- :books: 补充章节内容或案例
+- :globe_with_meridians: 翻译工作
+- :bug: 提交 Issue 反馈问题
+
+详细贡献指南请查看 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
+
+> :warning: **Commit 提示**
+> 
+> - commit message 中尽量不要出现中文
+> - 相同的 commit 可以合并成一个
+> - 如遇 Markdown 格式问题，可在对应 Action Run 中下载 artifact 查看 log 和 autofix
+
+---
+
+## :busts_in_silhouette: 贡献者
+
+感谢所有为本课程付出努力的朋友们！
+
+<a href="https://github.com/hust-open-atom-club/intro2oss/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=hust-open-atom-club/intro2oss" alt="Contributors" />
+</a>
+
+---
+
+## :scroll: 许可证
+
+本教程内容采用 [**MIT License**](https://opensource.org/licenses/MIT) 开源。
+
+你可以自由使用、修改和再分发本教程的内容，只需在衍生作品中保留原始版权声明即可。
+
+---
+
+<div align="center">
+
+Made with :heart: by <a href="https://hust.openatom.club/">HUST Open Atom Club</a>
+
+</div>
