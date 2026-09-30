@@ -368,7 +368,7 @@ patman 还能抓取之前版本补丁收到的 review tag 自动延续到新版�
 
 在 QEMU、Linux Kernel 这类邮件列表社区里，回复邮件的格式要求非常明确：
 
-- **一律采用"引用在下、回复在上"的 inline reply**：先贴出被回复的那几行引用，紧跟其后写你的回复；
+- **一律采用 inline reply（引用在上、回复在下）**：先贴出被回复的那几行引用，紧跟其后写你的回复；这既不是"全部回复写在最前"的 top-post，也不是把回复堆在整封信末尾；
 - **不要 top-post**（把自己要说的全部写在引用前面）——top-post 在这些社区明确不受欢迎，审查者
   需要反复上下滚动才能对上上下文；
 - **不要发送 HTML 邮件**：邮件列表的过滤器通常会直接拒收，必须使用"纯文本"（plain text）格式；
@@ -485,8 +485,9 @@ Settings -> General -> Config Editor -> 搜索 mailnews.wraplength，将其改�
     3. 用 `>` 标记引用原文，把自己的回复穿插在引用内容之间。批量加引用符号时可以用：
 
        ```bash
-       # 注意：不要给 Subject 所在的标题行加上 > 前缀
-       sed -i -e 's/^/> /g' /path/to/the-patch-email
+       # 只为正文加引用符号，跳过 Subject 标题行
+       # （/^Subject:/! 表示"对不匹配该正则的行执行后面的替换"）
+       sed -i -e '/^Subject:/!s/^/> /' /path/to/the-patch-email
        ```
 
     4. 回到 lore 的邮件页面，向下滚动，页面底部会列出用 `git send-email` 回复这封邮件的完整
