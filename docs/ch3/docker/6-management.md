@@ -128,8 +128,7 @@ lsof -i :8080
 
 1. **换一个宿主机端口**：把 `-p 8080:80` 改成 `-p 30080:80`（容器内端口不用动）；
 2. **停掉占用端口的那个进程/容器**：用 `docker ps` 找到占用者后 `docker stop`；
-3. 用 `--network host` 之类的方式绕过——注意这只在 Linux 原生 Docker 上有效
-   （见 [Docker 网络管理详解](4-network.md)）。
+3. 用 `--network host` 之类的方式绕过——在 Linux 原生 Docker 上有效；Docker Desktop 上容器共享的是那台轻量虚拟机的网络命名空间，容器之间仍会争用端口，但通常访问不到宿主机上的服务（见 [Docker 网络管理详解](4-network.md)）。
 
 ### 分支三：磁盘写满（`no space left on device`）
 
