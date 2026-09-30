@@ -121,9 +121,10 @@ sudo apt install opensbi qemu-system-misc u-boot-qemu
 
     说明：
 
-    - **QEMU 9.0 及以后使用 meson/ninja 构建系统**，源码树里的 `./configure` 已经是一个兼容
-      包装脚本：它解析传统参数后仍会生成 `build/` 目录并调用 ninja。因此 `make -j$(nproc)`
-      （会转发给 ninja）和 `ninja -C build` 都可以用，后者更直接。
+    - **QEMU 自 5.2 起采用 Meson/Ninja 构建系统**（[QEMU 5.2.0 官方发布公告](https://www.qemu.org/2020/12/08/qemu-5-2-0/)，2020-12-08）。
+      `./configure` 负责环境检查并调用 Meson 生成构建规则，随后由 Ninja 执行构建。
+      QEMU 的 Makefile 包装了 Ninja 及固件、测试等其他构建步骤，详见[官方构建系统文档](https://www.qemu.org/docs/master/devel/build-system.html)。
+      本文只构建 RISC-V 模拟器，可直接使用上面的 `ninja -C build qemu-system-riscv64` 命令。
     - `--enable-debug` 保留调试符号并关闭优化，`--enable-debug-tcg` 额外为 TCG 打开断言检查，
       二者配合 GDB 调试 QEMU 源码时很有用（代价是运行明显变慢）。
     - 只做 RISC-V 相关开发时，用 `--target-list=riscv64-softmmu` 限制目标架构可以显著缩短编译时间。

@@ -729,7 +729,12 @@ Windows 里，我们可以使用设备管理器（devmgmt.msc）、磁盘管理�
     当指定`-r <id/name>`时，会切换到相应终端
     当指定`-XS <id/name> <command>`时，会在对于会话中执行命令
     若想从终端中分离，可以同时按下`Ctrl+A+D`按键
-    若想结束一个终端，可以执行`screen -XS <session-id> quit`
+    若想结束一个终端，先用 `screen -ls` 查看会话 ID，再将 `screen -XS SESSION_ID quit` 中的 `SESSION_ID` 替换为目标会话 ID。
+
+    !!! warning "结束会话会终止其中的任务"
+
+        执行前确认会话 ID 无误，并确认会话中没有需要继续运行的任务或尚未保存的工作。
+
     !!! note
         screen 工具由于维护不佳，导致出现了[许多漏洞](https://security.opensuse.org/2025/05/12/screen-security-issues.html)。在可能的情况下，我们更加推荐使用 tmux。关于这个工具的详情，请参考下一节的“[常用的开源工具](../tools/1-useful-oss.md)”篇目
 

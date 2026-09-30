@@ -214,7 +214,7 @@ PR 页面底部的 **Checks** 区列出了所有自动检查。点击具体条�
 | 代码或测试错误 | 断言失败、异常堆栈、`FAILED` | 按项目文档运行同一测试命令 |
 | 格式检查不通过 | `would reformat`、lint 报出行号、markdownlint 错误 | 本地运行项目的格式化或 lint 命令后提交修正 |
 | 许可证头缺失 | 新文件被提示缺少 SPDX / License header | 按项目既有文件补上文件头 |
-| DCO 缺失 | `Expected "Signed-off-by"`、DCO 检查红叉 | 用 `git rebase --signoff <base>` 补签后强制更新个人分支 |
+| DCO 缺失 | `Expected "Signed-off-by"`、DCO 检查红叉 | 仅在自己使用的个人分支中，把 `BASE` 替换为本次贡献的基准提交，用 `git rebase --signoff BASE` 补签；再按前文的历史改写警告用 `git push --force-with-lease` 更新 |
 | 偶发失败（flaky） | 与本 PR 无关的模块超时，重跑一次通过 | 本地重复运行确认；确认无关就在 PR 中说明 |
 
 ### 本地复现的基本步骤

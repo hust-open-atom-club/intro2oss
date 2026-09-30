@@ -150,6 +150,8 @@ git commit --amend
 
 如果错误出在**更早**的提交上（例如第 2 个提交漏了一个文件，而后面又提交了三次），不必手工记忆每个哈希。`--fixup` 和 `--autosquash` 是配套的三件套：
 
+下面的 `SHA` 需要替换为要修补的提交哈希，`SHA^` 表示它的父提交；本例假设要修补的不是仓库的首次提交。
+
 ```bash
 # 1. 照常修改文件并暂存
 git add path/to/file
@@ -204,6 +206,6 @@ git reset --soft HEAD~1
 2. 使用 `git add -p` 只暂存一处修改。
 3. 用 `git diff` 和 `git diff --staged` 解释剩余修改分别位于哪个区域。
 4. 创建一次聚焦提交，再用 `git show --stat` 和 `git show` 检查结果。
-5. 故意再提交一个小的修补，用 `git commit --fixup <sha>` 加 `git rebase -i --autosquash <sha>^` 把它合并回原提交，最后用 `git log --oneline` 确认只剩一条记录。
+5. 记下第 4 步提交的哈希，用它替换下面的 `SHA`。再做一个小的修补并暂存，用 `git commit --fixup SHA` 创建修补提交。若前面还保留了其他未提交改动，先用 `git stash push -u` 保存。然后用 `git rebase -i --autosquash SHA^` 把修补合并回原提交，若使用了 stash，再用 `git stash pop` 取回改动。最后用 `git log --oneline` 和 `git show` 确认修补已合入，且没有独立的 `fixup!` 提交。
 
 完成后，你应当能够准确说明“下一次提交将包含什么”，而不是依赖试错来操作 Git。

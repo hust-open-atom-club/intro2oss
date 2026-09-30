@@ -161,25 +161,43 @@ git format-patch -v2 --cover-letter --thread --subject-prefix='PATCH' -o outgoin
 如果补丁缺少 `Signed-off-by:`，`checkpatch.pl` 会报错，邮件列表也可能直接拒收。此时应回到提交
 阶段用 `git commit --amend -s` 补签名，再重新生成补丁。
 
-### 发送前自检三件套
+### 预演、自测与正式发送
 
-邮件一旦发出就无法撤回，发送前请务必完成以下三步：
+邮件一旦发出就无法撤回，请按以下顺序操作：
 
-1. **`--dry-run` 预演**：只打印将要发送的邮件与收件人列表，不真正投递；
-2. **`--annotate` 逐封检查**：在编辑器里逐封确认 Subject、收件人与正文，改好再放行；
-3. **先发给自己**：把 `--to` 指向自己的邮箱完整跑一遍，确认能被正常收发和解析。
+1. **`--dry-run` 预演**：只打印邮件与收件人列表，不真正投递；
+2. **真正发给自己**：不带 `--dry-run`，用 `--annotate` 逐封检查 Subject、收件人与正文，确认后发到自己的邮箱；
+3. **确认收信后再正式发送**：先在自己的收件箱检查邮件、补丁内容与线程关系，再向维护者和邮件列表投递。
 
-以 QEMU 为例，可以通过 `./scripts/get_maintainer.pl PATCH_FILE` 来获取发送对象和抄送对象，
-具体发送邮件补丁的命令如下：
+先完成预演和自测，下面两条命令的收件人都应替换为自己的真实邮箱：
 
 ```bash
 # 1. 预演：只显示将要发送的邮件，不实际投递
 git send-email --dry-run \
+    --no-to --no-cc --no-bcc --suppress-cc=all \
     --to='<your own email>' \
     outgoing/*.patch
 
-# 2. 逐封检查后正式发送
-git send-email --annotate \
+# 2. 真正发给自己：检查每封邮件，确认最终收件人列表中只有自己的邮箱
+git send-email --annotate --confirm=always \
+    --no-to --no-cc --no-bcc --suppress-cc=all \
+    --to='<your own email>' \
+    outgoing/*.patch
+```
+
+!!! note "自测时检查最终收件人列表"
+
+    按 [Git 官方文档](https://git-scm.com/docs/git-send-email)，`--dry-run` 不会实际发送邮件，
+    不能验证 SMTP 投递或收件箱中的显示效果。上面的 `--no-to`、`--no-cc`、`--no-bcc` 清空配置中的
+    默认收件人，`--suppress-cc=all` 关闭自动抄送。补丁头部或自定义收件人命令仍可能带入其他地址，
+    因此必须逐封核对 `--confirm=always` 显示的最终列表；若出现他人地址，先取消并检查来源，修正后重新预演。
+
+**停在这里检查自己的收件箱**：确认所有邮件已经收到、正文与补丁没有乱码、线程关系正确。
+自测成功后，再通过 `./scripts/get_maintainer.pl PATCH_FILE` 获取 QEMU 维护者和抄送对象，执行正式投递：
+
+```bash
+# 3. 仅在自测收信确认后，逐封检查并正式发送
+git send-email --annotate --confirm=always \
     --to='<maintainer email>' \
     --cc='<mailing list / reviewer email>' \
     outgoing/*.patch
@@ -224,7 +242,7 @@ git send-email \
 
     `git send-email` 的用法是 `git send-email [<options>] (<file>|<directory>)...` 或
     `git send-email [<options>] <format-patch-options>`——也就是说，**当参数是提交范围时，
-    它可以接受 `git format-patch` 的选项**（例如直接 `git send-email -v2 <revision range>`
+    它可以接受 `git format-patch` 的选项**（例如直接 `git send-email -v2 HEAD~3`
     让它内部调用 `format-patch`）。但本节这种"先把补丁生成到 `outgoing/`、再逐个发送文件"的
     用法中，版本号已经写进文件和标题，发送时再传 `-v2` 只是多余，容易被误读为"发送阶段才决定版本"。
 
