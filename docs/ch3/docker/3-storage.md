@@ -182,6 +182,12 @@ docker run -d \
   -v mysql_data:/var/lib/mysql \
   mysql:8.4
 
+# 等数据库真正就绪再连接：docker run -d 只是把容器放到后台，不会等 MySQL 初始化完成，
+# 首次启动（要初始化数据目录）通常需要十几秒，立刻连接会得到 "Can't connect to MySQL server"。
+until docker exec mysql_db mysqladmin ping -uroot -p"$MYSQL_ROOT_PASSWORD" --silent >/dev/null 2>&1; do
+  echo "等待 MySQL 就绪…"; sleep 3
+done
+
 # 进入容器创建测试数据（口令必须与上面的变量一致）
 docker exec -it mysql_db mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -h127.0.0.1
 ```
@@ -218,6 +224,11 @@ docker run -d \
   -e MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" \
   -v mysql_data:/var/lib/mysql \
   mysql:8.4
+
+# 同样要等服务就绪（这一步同样存在竞态，不能紧接着就连接）
+until docker exec mysql_db2 mysqladmin ping -uroot -p"$MYSQL_ROOT_PASSWORD" --silent >/dev/null 2>&1; do
+  echo "等待 MySQL 就绪…"; sleep 3
+done
 
 # 验证数据是否存在
 docker exec -it mysql_db2 \
