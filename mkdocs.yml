@@ -11,6 +11,40 @@ extra_css:
 
 plugins:
   - search
+  # 保留旧 URL：本次评审把 ch3 的目录从 sec0..sec5 重组为
+  # writing/git/linux/docker/qemu/tools，若不重定向，书签、搜索结果与外部链接会全部 404。
+  - redirects:
+      redirect_maps:
+        # 第一节 Markdown（原 ch3/sec0）
+        ch3/sec0/1-basic.md: ch3/writing/1-basic.md
+        ch3/sec0/2-advanced.md: ch3/writing/2-advanced.md
+        # 第二节 Git 与平台协作（原 ch3/sec1）
+        ch3/sec1/index.md: ch3/git/index.md
+        ch3/sec1/subsec1/1-git-introduction.md: ch3/git/1-introduction.md
+        ch3/sec1/subsec1/2-code-hosting-platforms.md: ch3/git/platform/index.md
+        ch3/sec1/subsec2/1-basic-configuration.md: ch3/git/3-basic-configuration.md
+        ch3/sec1/subsec2/2-staging.md: ch3/git/4-staging.md
+        ch3/sec1/subsec2/3-commit-message.md: ch3/git/5-commit-message.md
+        ch3/sec1/subsec3/1-rebase-merge.md: ch3/git/advanced/1-rebase-merge.md
+        ch3/sec1/subsec3/2-Control-Process.md: ch3/git/advanced/2-control-process.md
+        ch3/sec1/subsec3/3-advanced-theory.md: ch3/git/advanced/3-advanced-theory.md
+        ch3/sec1/subsec3/4-help-open.md: ch3/git/advanced/4-help-local.md
+        ch3/sec1/subsec3/5-participate-in.md: ch3/git/6-participate-in.md
+        # 第三节 Linux 命令行（原 ch3/sec2）
+        ch3/sec2/4-other-commands.md: ch3/linux/1-commands.md
+        # 拓展 Docker（原 ch3/sec3）
+        ch3/sec3/1_foundation.md: ch3/docker/1-foundation.md
+        ch3/sec3/2_dockerfile.md: ch3/docker/2-dockerfile.md
+        ch3/sec3/3_storage.md: ch3/docker/3-storage.md
+        ch3/sec3/4_network.md: ch3/docker/4-network.md
+        ch3/sec3/5_compose.md: ch3/docker/5-compose.md
+        ch3/sec3/6_management.md: ch3/docker/6-management.md
+        # 拓展 QEMU（原 ch3/sec4）
+        ch3/sec4/1-qemu-foundation.md: ch3/qemu/1-foundation.md
+        ch3/sec4/2-qemu-send-email.md: ch3/qemu/2-send-email.md
+        # 拓展效率工具（原 ch3/sec5）
+        ch3/sec5/1-useful-oss.md: ch3/tools/1-useful-oss.md
+        ch3/sec5/2-the-missing-semeste-of-your-CS-education.md: ch3/tools/2-missing-semester.md
   - mkdocs-audio
   - md-preview:
       enable: true
