@@ -434,8 +434,8 @@ Result: 250
 如果已经用 `b4` 管理补丁，可以让 b4 读取原邮件的 `Message-Id` 并直接生成回复：
 
 ```bash
-# <msgid> 可以是去掉尖括号的 Message-Id，也可以直接给 lore 链接
-b4 send --reply-to <msgid>
+# Message-Id 必须用单引号包住：去掉引号的话，shell 会把 < > 当成重定向符号直接报语法错误
+b4 send --reply-to '<msgid-or-lore-url>'
 ```
 
 ### 方式三：用邮件客户端回复（Thunderbird）
