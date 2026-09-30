@@ -485,9 +485,9 @@ Settings -> General -> Config Editor -> 搜索 mailnews.wraplength，将其改�
     3. 用 `>` 标记引用原文，把自己的回复穿插在引用内容之间。批量加引用符号时可以用：
 
        ```bash
-       # 只为正文加引用符号，跳过 Subject 标题行
-       # （/^Subject:/! 表示"对不匹配该正则的行执行后面的替换"）
-       sed -i -e '/^Subject:/!s/^/> /' /path/to/the-patch-email
+       # 只引用"头部之后"的正文：1,/^$/ 覆盖从第 1 行到第一个空行（含）的范围，
+       # 因此 Subject 行与它后面那个分隔空行都保持原样，只有正文被加上 >
+       sed -i -e '1,/^$/!s/^/> /' /path/to/the-patch-email
        ```
 
     4. 回到 lore 的邮件页面，向下滚动，页面底部会列出用 `git send-email` 回复这封邮件的完整
