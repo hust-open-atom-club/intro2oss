@@ -41,7 +41,7 @@
 - **许可证事实**：Apache-2.0 表述为宽松 + 专利条款（不再称"弱传染"）、GPLv3 专利授权、OpenSSL 从 LGPL 示例中移除、Redis 改为"曾为 BSD-3-Clause，现为 AGPLv3"、Linux 内核明确为 `GPL-2.0-only`、SSPL 改为"基于 AGPLv3 第 13 条改写"、FSF 1985、GPLv1 1989、Sun/Oracle 收购 MySQL 时间线。
 - **技术性错误**：`sendemail.smtpEncryption stl`→`ssl/tls`（含端口对照表）、`smtpPass =` 多余等号、QEMU 镜像版本四处不一致统一为 24.04.2、`-smp 32`→`4`、SSH clone 改 HTTPS、Docker Jupyter 示例删除关闭认证与 XSRF 并只绑回环、Compose 删除废弃的 `version` 字段并改名 `compose.yaml`、镜像 tag 全面更新、`git checkout --`→`git restore`、`reset --hard` 补 danger、`xtm4z`→`z/x/m`、`p7zip`→`7z`、`yum`→`dnf`、SHA-1"加密"表述修正、新增 PAT 小节（此前全库 0 次）。
 - **命令占位符**：`docker stop <container_id>` 这类写法在 bash 中会触发重定向，约 50 行改为 `CONTAINER_ID` 形式（HTML 标签、邮箱、`#include` 与"讲解该隐患"的原文均保留）。
-- **仓库工程**：16 MB WAV → 2.7 MB MP3（−83%，引用同步更新）；`actions/setup-python` v4→v5；CI 中 `curl | sh` 改为"下载 → 打印 → 执行"（打印不构成来源或完整性校验）；修复 fork PR 无法回推导致的静默失败（仅向本仓库分支回推，fork PR 通过 artifact 与运行摘要获取修复）并上传修复产物为 artifact；`AGENTS.md` 按当前结构重写。
+- **仓库工程**：16 MB WAV → 2.7 MB MP3（−83%，引用同步更新）；`actions/setup-python` v4→v5；CI 中 `curl | sh` 改为"下载 → 打印 → 执行"（打印不构成来源或完整性校验）；仅由 `push` 作业向本仓库分支回推格式修复，避免与 PR 作业重复写入；所有 PR 通过 artifact 与运行摘要获取修复，fork PR 由贡献者自行提交；`AGENTS.md` 按当前结构重写。
 - **口径统一**：全库唯一残留的 `curl | sh` 只剩两处"反面示例"说明文字。
 
 ### C 第 3 次课许可证内容（已完成）
@@ -70,7 +70,7 @@ nav 覆盖                    50 / 50，无未纳入、无死链
 
 | 类别 | 主要问题 | 处理 |
 |------|----------|------|
-| CI（4 条） | fork PR 的 token 恒为只读，却承诺自动修复 PR；安装脚本被 `git add -A` 误提交；`push` 事件下判断条件恒真 | 安装脚本改到 `$RUNNER_TEMP` 并加 `.gitignore` 兜底；fork PR 改为运行摘要 + 只打包修改文件的 artifact；权限收敛为 `contents: write`；显式区分 `push` / `pull_request` |
+| CI（4 条） | fork PR 的 token 恒为只读，却承诺自动修复 PR；安装脚本被 `git add -A` 误提交；`push` 事件下判断条件恒真 | 安装脚本改到 `$RUNNER_TEMP` 并加 `.gitignore` 兜底；所有 PR 提供运行摘要 + 只打包修改文件的 artifact；权限收敛为 `contents: write`；仅 `push` 作业回推，避免与 PR 作业重复写入 |
 | 许可证事实（14 条） | Apache-2.0 被当成 copyleft；Apache-2.0 与 GPLv3 被误判为不兼容；Llama 被写成 Apache-2.0；Nginx 被写成 `BSD-3-Clause`；Git 与 Nextcloud 的 `only`/`or-later` 写反；MPL 的源码范围与次级许可证条件两次写错；AGPL 第 13 条被"内部分发"错误豁免；ODbL 义务不全 | 逐条按许可证原文修正（§1.12/§3.2/§3.3/§4.4、GPLv3 第 11 条、AGPL 第 13 条），并把兼容性矩阵统一为完整 SPDX 标识符 |
 | Docker / QEMU（8 条） | `command: >-` 折叠换行导致 heredoc 失效；Compose 变量插值破坏配置与前端；只读根文件系统与 `--user`、capabilities 三个示例起不来；`WORKDIR` 属主导致 Jupyter 无法保存；Docker Desktop 的 host networking 被写成"不生效"；QEMU 源码仓库未按 24.04 的 deb822 格式启用 | 改为真实构建上下文（新增 `nginx/`、`frontend/` 的 Dockerfile 与文件）；补齐可写目录与 capabilities；改用官方非 root 变体；按 `Types: deb deb-src` 改写；host networking 补版本与开关 |
 | Git / Linux（4 条） | 误提交到 `main` 的恢复流程缺"重置 main"这一步；`git merge` 被声称一定产生合并提交；`7z` 混用了包装器语法；静态链接结论缺分发前提 | 补 `git reset --hard upstream/main`（含风险提示）；说明 `--ff` 快进与 `--no-ff`；改为 `7z x`/`7z a`；题设与答案补上"对外分发"前提 |

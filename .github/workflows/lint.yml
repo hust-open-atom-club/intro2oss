@@ -3,16 +3,15 @@ name: Lint
 on:
   push:
     branches:
-      - '*'
+      - '**'
   pull_request:
     branches:
-      - '*'
+      - '**'
     paths:
       - '**/*.md'
 
-# 只需要写权限，用于把自动修复回推到**本仓库**分支。
-# 来自 fork 的 pull_request 事件拿到的 GITHUB_TOKEN 始终是只读的，
-# 因此 fork PR 不做自动回推，改为提供 artifact 与运行摘要。
+# 写权限仅用于 push 事件向本仓库分支回推修复。
+# 所有 pull_request 事件只提供 artifact 与运行摘要，避免与 push 作业重复回推。
 permissions:
   contents: write
 
@@ -62,7 +61,7 @@ jobs:
             echo "No changes detected."
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
           else
-            echo "Changes detected. Preparing to commit..."
+            echo "Changes detected. Preparing fixes..."
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -71,7 +70,7 @@ jobs:
       - name: Package fixes
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
-          git diff --name-only -z | xargs -0 tar --null -T - -czf "$RUNNER_TEMP/autocorrect-fixes.tgz"
+          git diff --name-only -z | tar --null -T - -czf "$RUNNER_TEMP/autocorrect-fixes.tgz"
           ls -l "$RUNNER_TEMP/autocorrect-fixes.tgz"
 
       - name: Upload fixes as artifact
@@ -82,36 +81,30 @@ jobs:
           path: ${{ runner.temp }}/autocorrect-fixes.tgz
           retention-days: 7
 
-      # 只在能够回推的情况下提交：
-      #   - push 事件：推送目标就是本仓库的分支，可以直接回推；
-      #   - pull_request 事件：仅当 head 分支来自本仓库时才可以
-      #     （fork 的分支权限不在本仓库手里，fork PR 的 token 恒为只读）。
-      # 注意 push 事件下 github.event.pull_request 为 null，必须显式区分事件类型。
+      # 同一提交可能同时触发 push 和 pull_request；只允许 push 作业回推，
+      # 防止两次运行从同一提交生成不同修复提交，导致后回推的作业非快进失败。
       # 使用 `git add -u` 而不是 `git add -A`，避免把无关的未跟踪文件带入提交。
       - name: Commit and push fixes
-        if: steps.check_changes.outputs.has_changes == 'true' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository)
+        if: steps.check_changes.outputs.has_changes == 'true' && github.event_name == 'push'
+        env:
+          TARGET_REF: ${{ github.ref_name }}
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
           git add -u
           git commit -m "Auto fix formatting by autocorrect [ci skip]"
-          if [ "${{ github.event_name }}" = "push" ]; then
-            target_ref="${{ github.ref_name }}"
-          else
-            target_ref="${{ github.event.pull_request.head.ref }}"
-          fi
-          echo "回推到分支: $target_ref"
-          git push origin "HEAD:$target_ref"
+          echo "回推到分支: $TARGET_REF"
+          git push origin "HEAD:$TARGET_REF"
 
-      # fork PR：默认 token 既不能推送也不能发表评论，因此在运行摘要中说明如何应用修复。
-      - name: Explain how to apply fixes (fork PR only)
-        if: steps.check_changes.outputs.has_changes == 'true' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+      # PR 作业不回推；对本仓库与 fork PR 都说明如何获取修复。
+      - name: Explain how to apply fixes (PR only)
+        if: steps.check_changes.outputs.has_changes == 'true' && github.event_name == 'pull_request'
         run: |
           {
             echo "### autocorrect 发现了格式问题"
             echo ""
-            echo "本 PR 来自 fork。出于安全设计，fork 触发的 \`pull_request\` 事件拿到的"
-            echo "\`GITHUB_TOKEN\` 是只读的，工作流既不能回推到你的分支，也不能在这里留言。"
+            echo "PR 检查只提供修复文件；本仓库分支由对应的 \`push\` 运行负责自动回推。"
+            echo "请先刷新并同步 PR 分支，检查修复是否已应用。fork PR 需要贡献者自行提交修复。"
             echo ""
             echo "请下载本次运行的 \`autocorrect-fixes\` artifact 覆盖对应文件，"
             echo "或在仓库根目录执行 \`autocorrect --fix .\` 后重新提交。"
