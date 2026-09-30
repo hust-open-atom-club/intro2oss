@@ -145,21 +145,28 @@ Host 网络移除了容器和 Docker 主机之间的网络隔离，直接使用�
 - 没有网络隔离
 - 端口直接绑定到主机上
 
-!!! warning "`--network host` 在 Docker Desktop 上需要额外开启"
+!!! warning "`--network host` 在 Docker Desktop 上与 Linux 原生不同"
 
     `--network host` 在 **Linux 原生 Docker** 上开箱即用：容器直接复用宿主机的网络命名空间。
-    Docker Desktop（macOS / Windows）早期版本**不支持**该模式——容器实际跑在一台轻量虚拟机里，
-    `host` 指向的是那台虚拟机而不是你的宿主机。
+    而在 Docker Desktop（macOS / Windows）上，容器实际跑在一台轻量虚拟机里，`host` 指向的是
+    **那台虚拟机**而不是你的宿主机，因此两者行为并不相同：
 
-    **Docker Desktop 4.34 及以上**可以在 `Settings → Resources → Network` 中启用
-    **host networking**，启用后 Linux 容器即可用 `--network host` 直接访问宿主机服务（宿主机也能
-    访问容器监听的端口）。若你的版本较旧或没有开启该开关，请改用 `-p` 显式发布端口：
+    - **容器之间仍然会争用端口**，所以下面的"端口冲突"演示在 Docker Desktop 上也能复现；
+    - 但容器通常**访问不到宿主机上的服务**。
+
+    本仓库在 Docker Desktop 29.8.1（`HostNetworkingEnabled = false`）上实测：两个 `host` 网络
+    容器争用 80 端口时，第二个报 `bind() to 0.0.0.0:80 failed (98: Address already in use)`；
+    而容器内访问宿主机的 `http://127.0.0.1:18099` 失败。
+
+    需要从容器访问宿主机服务时，跨平台更可靠的做法是用 `host.docker.internal`，或用 `-p` 显式
+    发布端口；Docker Desktop 4.34 及以上也可以在 `Settings → Resources → Network` 中开启
+    **host networking**（以本机实测为准）：
 
     ```bash
     docker run -d --name nginx-port -p 80:80 my-nginx
     ```
 
-    下面这段"端口冲突"的演示适用于 **Linux 原生环境，或已启用 host networking 的 Docker Desktop 4.34+**：两种情况都让容器直接复用宿主机网络，因此第二个容器会因端口被占用而启动失败。
+    下面这段"端口冲突"的演示在 **Linux 原生环境与 Docker Desktop 上都成立**：两者的 `host` 网络都会让容器共用同一套端口（Linux 上是宿主机网络命名空间，Docker Desktop 上是那台轻量虚拟机的命名空间），因此第二个容器会因端口被占用而启动失败。
 
 实践案例：**使用 Host 网络运行 Nginx 服务器**
 

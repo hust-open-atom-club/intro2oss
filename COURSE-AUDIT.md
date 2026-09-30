@@ -75,7 +75,22 @@ PR 提交后，仓库配置的 Codex 评审先后进行了 7 轮，共提出 **3
 | Docker / QEMU（8 条） | `command: >-` 折叠换行导致 heredoc 失效；Compose 变量插值破坏配置与前端；只读根文件系统与 `--user`、capabilities 三个示例起不来；`WORKDIR` 属主导致 Jupyter 无法保存；Docker Desktop 的 host networking 被写成"不生效"；QEMU 源码仓库未按 24.04 的 deb822 格式启用 | 改为真实构建上下文（新增 `nginx/`、`frontend/` 的 Dockerfile 与文件）；补齐可写目录与 capabilities；改用官方非 root 变体；按 `Types: deb deb-src` 改写；host networking 补版本与开关 |
 | Git / Linux（4 条） | 误提交到 `main` 的恢复流程缺"重置 main"这一步；`git merge` 被声称一定产生合并提交；`7z` 混用了包装器语法；静态链接结论缺分发前提 | 补 `git reset --hard upstream/main`（含风险提示）；说明 `--ff` 快进与 `--no-ff`；改为 `7z x`/`7z a`；题设与答案补上"对外分发"前提 |
 
-所有修正均已通过 `mkdocs build`（零告警）、`autocorrect --lint`（无问题）与站内链接检查，CI 的 `build`、`markdown-lint` 均为 success。**本机没有 Docker，容器级运行未做验证**，Docker 示例的静态一致性（构建上下文、`COPY` 源文件、路由与端口映射）已用脚本核对。
+所有修正均已通过 `mkdocs build`（零告警）、`autocorrect --lint`（无问题）与站内链接检查，CI 的 `build`、`markdown-lint` 均为 success。
+
+**容器级实测（Docker 29.8.1 / Docker Desktop，本机执行）**：本节所有 Docker 示例都已实际运行验证，修正前后的对比结果如下。
+
+| 文档中的示例 | 修正前 | 修正后 |
+|--------------|--------|--------|
+| 只读根文件系统（`1-foundation.md`、`3-storage.md`） | ❌ `mkdir() "/var/cache/nginx/client_temp" failed (30: Read-only file system)` | ✅ 容器正常运行 |
+| capabilities（`1-foundation.md`） | ❌ `chown("/var/cache/nginx/client_temp", 101) failed (1: Operation not permitted)` | ✅ 需 `NET_BIND_SERVICE + SETGID + SETUID + CHOWN`（实测这四项齐备才启动） |
+| 官方镜像直接 `--user`（`1-foundation.md`） | ❌ `mkdir() ... failed (13: Permission denied)` | ✅ 改用 `nginxinc/nginx-unprivileged`，`--cap-drop=ALL` 零能力亦可运行，HTTP 200 |
+| Compose Todo 项目（`5-compose.md`） | ❌ 内联 heredoc 因换行折叠与变量插值无法启动 | ✅ 4 个容器全部就绪（backend/mongodb healthy）；页面 200、`/api/todos` 完整 CRUD（201/200/200/204）、`down` 后重新 `up` 数据仍在（命名卷持久化） |
+| Jupyter 非 root 工作目录（`2-dockerfile.md`） | ❌ `touch: cannot touch '/notebooks/new.ipynb': Permission denied` | ✅ `WRITE_OK`，`/notebooks` 属主为 `jupyter:jupyter` |
+| MySQL 口令与持久化（`3-storage.md`） | ❌ 变量未定义 + 登录用硬编码口令 | ✅ 同一变量登录成功；删容器后复用同一卷，`SELECT * FROM users` 仍返回原数据 |
+| host 网络（`4-network.md`） | 笼统写"在 macOS 上不生效" | ✅ 实测：两个 `host` 网络容器争用 80 端口复现 `bind() ... Address already in use`；`HostNetworkingEnabled = false` 时容器访问宿主机 `127.0.0.1:18099` 失败。文档已按这一差异改写 |
+
+> 注：本机 Docker 的 buildx 状态目录默认在 `~/.docker/buildx`，在受限沙箱下需要设置 `BUILDX_CONFIG` 才能构建；这是执行环境的限制，不影响文档内容。
+
 
 ### 仍需你决策的事项
 

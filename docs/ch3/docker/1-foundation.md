@@ -267,15 +267,30 @@ docker run --read-only \
 仍带有不少能力。做法是先全部丢掉，再加回真正需要的：
 
 ```bash
-# 丢光所有 capability，只加回这个镜像真正需要的三项：
+# 丢光所有 capability，只加回这个镜像真正需要的四项（下面这组已实测可用）：
 #   NET_BIND_SERVICE —— 绑定 80 等低端口
-#   SETGID / SETUID  —— 官方镜像的 root master 进程要切换到 nginx worker 用户
+#   SETGID / SETUID  —— root master 进程要切换到 nginx worker 用户
+#   CHOWN            —— 把 /var/cache/nginx 下的临时目录改属主给 worker 用户
 docker run --cap-drop=ALL \
   --cap-add=NET_BIND_SERVICE \
   --cap-add=SETGID \
   --cap-add=SETUID \
+  --cap-add=CHOWN \
   nginx:1.25.3
 ```
+
+!!! tip "这四项是逐个试出来的"
+
+    少任何一项都会在启动阶段失败，而且报错指向不同的地方：
+
+    | 缺少的能力 | 典型报错 |
+    |------------|----------|
+    | `CHOWN` | `chown("/var/cache/nginx/client_temp", 101) failed (1: Operation not permitted)` |
+    | `SETGID` / `SETUID` | 切换到 worker 用户时失败（`setgid(...)` / `setuid(...)`） |
+    | `NET_BIND_SERVICE` | 绑定 80 端口时 `Permission denied` |
+
+    所以"最小权限"不是照抄一份清单，而是**先 `--cap-drop=ALL` 跑一次、按报错逐个加回**。
+    这份清单依赖具体镜像，换镜像（或换非 root 变体）后要重新确认。
 
 !!! tip "更彻底的做法是用非 root 镜像"
 
