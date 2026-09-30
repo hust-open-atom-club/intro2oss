@@ -134,11 +134,22 @@ git push origin main
 cd /path/to/your/project-folder
 ```
 
-- 使用 `git init` 初始化一个新的 Git 仓库，这会创建一个隐藏的 `.git` 文件夹，Git 就能在这个文件夹中管理你的项目版本了：
+- 使用 `git init` 初始化一个新的 Git 仓库，这会创建一个隐藏的 `.git` 文件夹，Git 就能在这个文件夹中管理你的项目版本了。**显式指定分支名**：
 
 ```bash
-git init
+git init -b main
 ```
+
+!!! tip "为什么要写 `-b main`"
+
+    不配置的情况下，`git init` 的默认分支名是 **`master`**（不是 `main`）。如果这里生成了
+    `master`，后面固定要执行的 `git push -u origin main` 就会报
+    `src refspec main does not match any`，整条流程走不下去。
+
+    两种做法任选其一：① 初始化时显式写 `git init -b main`（本节采用，最省事）；
+    ② 配置一次全局默认（见 [Git 基础配置](../3-basic-configuration.md) 中的
+    `init.defaultBranch`）。若仓库已经用 `master` 初始化过了，可以用 `git branch -M main`
+    改名后再推送。
 
 执行后会显示：
 
