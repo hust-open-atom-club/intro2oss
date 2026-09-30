@@ -131,14 +131,23 @@ curl http://localhost:8082
 
 完成实验后，可以进行清理：
 
+!!! danger "下面的命令会永久删除数据"
+
+    这条清理流程会删除本次实验创建的容器、命名卷 `nginx_data` 以及本地目录
+    `nginx-content`，**内容不可恢复**。执行前请确认：
+
+    - 你确实在实验目录下（`pwd`），`rm -rf nginx-content` 只作用于本节创建的那个目录；
+    - `nginx_data` 与 `nginx-content` 中没有你后来放进去、还想保留的内容；
+    - 如果卷名与其它项目重名，请先 `docker volume ls` 确认，不要直接照抄。
+
 ```bash
-# 清理容器
+# 清理本次实验的容器（只会删掉这些名字的容器）
 docker rm -f web-default web-volume web-volume-2 web-bind web-bind-2
 
-# 清理卷
+# 清理本次实验创建的命名卷（其中的数据将永久丢失）
 docker volume rm nginx_data
 
-# 清理本地目录
+# 清理本次实验创建的本地目录（确认当前目录是实验目录后再执行）
 rm -rf nginx-content
 ```
 
