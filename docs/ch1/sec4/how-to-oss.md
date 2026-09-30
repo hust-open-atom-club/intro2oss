@@ -32,7 +32,7 @@
 
 | **渠道类型** | **代表入口** | **适合人群** |
 |--------------|--------------|--------------|
-| 学生开源实习 | Google Summer of Code（GSoC），每年有上百个开源组织参与（每年届次与组织数量都会变化，以 [官方项目归档](https://summerofcode.withgoogle.com/archive) 为准） | 能投入整个假期完成长周期项目的在校学生 |
+| 学生开源实习 | Google Summer of Code（GSoC），每年有来自许多开源组织的项目（届次与组织名单以 [官方项目归档](https://summerofcode.withgoogle.com/archive) 为准） | 能投入整个假期完成长周期项目的在校学生 |
 | 学生开源活动 | OSPP 开源之夏；Hacktoberfest（每年 10 月，曾因“垃圾 PR 刷量”调整规则，允许以贡献树代替 PR） | 想低成本体验一次贡献的学生 |
 | 科技公司开源计划 | 微软 OSS 奖学金计划；华为开源人才培养计划；腾讯开源联盟 TOSA；阿里云开发者社区与达摩院 PAI | 希望接触企业级项目与实习通道的学生 |
 | 企业主导的开源社区 | OpenHarmony（贡献者来自医疗、交通等多个行业）、openEuler、openGauss（开放原子基金会 / Gitee） | 操作系统、数据库、嵌入式方向 |
