@@ -193,8 +193,18 @@ docker run -d \
 
 # 等数据库真正就绪再连接：docker run -d 只是把容器放到后台，不会等 MySQL 初始化完成，
 # 首次启动（要初始化数据目录）通常需要十几秒，立刻连接会得到 "Can't connect to MySQL server"。
-until docker exec mysql_db mysqladmin ping -uroot -p"$MYSQL_ROOT_PASSWORD" --silent >/dev/null 2>&1; do
-  echo "等待 MySQL 就绪…"; sleep 3
+# 最多等 2 分钟；超时就打印状态与日志后退出，避免在无限循环里空等。
+for i in $(seq 1 40); do
+  if docker exec mysql_db mysqladmin ping -uroot -p"$MYSQL_ROOT_PASSWORD" --silent >/dev/null 2>&1; then
+    echo "MySQL 已就绪（等待 ${i} 次）"; break
+  fi
+  if [ "$i" -eq 40 ]; then
+    echo "MySQL 在 120 秒内未就绪，请检查下面两项：" >&2
+    docker ps -a --filter name=mysql_db >&2
+    docker logs --tail 30 mysql_db >&2
+    exit 1
+  fi
+  echo "等待 MySQL 就绪…（$i/40）"; sleep 3
 done
 
 # 进入容器创建测试数据（口令必须与上面的变量一致）
@@ -234,9 +244,18 @@ docker run -d \
   -v mysql_data:/var/lib/mysql \
   mysql:8.4
 
-# 同样要等服务就绪（这一步同样存在竞态，不能紧接着就连接）
-until docker exec mysql_db2 mysqladmin ping -uroot -p"$MYSQL_ROOT_PASSWORD" --silent >/dev/null 2>&1; do
-  echo "等待 MySQL 就绪…"; sleep 3
+# 同样要等服务就绪（这一步同样存在竞态，不能紧接着就连接），同样带上超时与失败诊断
+for i in $(seq 1 40); do
+  if docker exec mysql_db2 mysqladmin ping -uroot -p"$MYSQL_ROOT_PASSWORD" --silent >/dev/null 2>&1; then
+    echo "MySQL 已就绪（等待 ${i} 次）"; break
+  fi
+  if [ "$i" -eq 40 ]; then
+    echo "MySQL 在 120 秒内未就绪，请检查下面两项：" >&2
+    docker ps -a --filter name=mysql_db2 >&2
+    docker logs --tail 30 mysql_db2 >&2
+    exit 1
+  fi
+  echo "等待 MySQL 就绪…（$i/40）"; sleep 3
 done
 
 # 验证数据是否存在
