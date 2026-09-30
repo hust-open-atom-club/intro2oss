@@ -105,7 +105,14 @@ git merge --ff-only upstream/main     # 再确认一次可以快进
     因此本地 `main` 仍然指向那个误提交，单靠 `--ff-only` 永远无法快进。
     执行前请确认：① 误提交已经在上一步的分支上保住了（`git log fix/brief-description` 能看到它）；
     ② 工作区没有未提交的改动（先 `git status` / `git stash push -u`）。
-    如果不希望用 `--hard`，也可以直接重建分支：`git branch -f main upstream/main`。
+    如果不希望用 `--hard`，可以改用 `git branch -f`——但要注意**它不能作用于已检出的分支**：
+    此时 `main` 正在被当前工作区使用，直接执行会报
+    `fatal: cannot force update the branch 'main' used by worktree`。正确顺序是先切回刚才的功能分支：
+
+    ```bash
+    git switch fix/brief-description   # 先离开 main
+    git branch -f main upstream/main   # 现在可以移动 main 了
+    ```
 
 ### GitHub 网页上的“Sync fork”
 
