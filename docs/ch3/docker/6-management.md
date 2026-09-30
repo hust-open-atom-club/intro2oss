@@ -124,11 +124,16 @@ ss -lntp | grep :8080
 lsof -i :8080
 ```
 
-处理方式有三种，按推荐顺序排列：
+处理方式有两种，按推荐顺序排列：
 
 1. **换一个宿主机端口**：把 `-p 8080:80` 改成 `-p 30080:80`（容器内端口不用动）；
-2. **停掉占用端口的那个进程/容器**：用 `docker ps` 找到占用者后 `docker stop`；
-3. 用 `--network host` 之类的方式绕过——在 Linux 原生 Docker 上有效；Docker Desktop 上容器共享的是那台轻量虚拟机的网络命名空间，容器之间仍会争用端口，但通常访问不到宿主机上的服务（见 [Docker 网络管理详解](4-network.md)）。
+2. **停掉占用端口的那个进程/容器**：用 `docker ps` 找到占用者后 `docker stop`。
+
+!!! warning "`--network host` 不是端口冲突的解决办法"
+
+    不要想着"用 `--network host` 绕过端口占用"：这个模式让容器进程**直接绑定宿主机端口**，
+    端口被占用时同样会以 `address already in use` 启动失败（[Docker 网络管理详解](4-network.md)
+    里的两个 `host` 网络 Nginx 实验，正是用第二个容器启动失败来说明这一点）。
 
 ### 分支三：磁盘写满（`no space left on device`）
 
