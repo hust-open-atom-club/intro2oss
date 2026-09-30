@@ -208,9 +208,18 @@ Docker 在各平台上的安装方式并不相同：
 - **macOS**：Docker Desktop 会在后台启动一台轻量 Linux 虚拟机来跑 Engine。因此 macOS 上
   `--network host` 之类依赖"宿主机网络栈"的特性行为与 Linux 不一致。
 
-此外，Docker Desktop 的许可需要留意：**对员工数超过 250 人、或年收入超过 1000 万美元的商业
-组织，Docker Desktop 需要付费订阅**；高校教学与个人使用是免费的。如果你所在的组织属于需要付费
-的范围，又想避免授权问题，可以考虑这些替代方案：
+此外，Docker Desktop 的许可需要留意。按 Docker 官方《Docker Desktop license agreement》页面
+（依据 [Docker Subscription Service Agreement](https://www.docker.com/legal/docker-subscription-service-agreement)，
+本页内容查证于 2026-09）：
+
+- **免费**：小型企业（员工数少于 250 人、**且**年收入少于 1000 万美元，两个条件需同时满足）、
+  个人使用、教育用途、非商业开源项目；
+- **需要付费订阅**：较大规模组织中的职业使用、**政府机构**、超出免费额度的商业使用。
+
+也就是说，**员工数达到 250 人或年收入达到 1000 万美元**（任一条件成立）的商业组织不再属于
+免费的小型企业范围。许可条款可能调整，实际使用时请以官方页面为准。
+
+如果你所在的组织属于需要付费的范围，又想避免授权问题，可以考虑这些替代方案：
 
 - **Podman**：命令行与 Docker 高度兼容（`alias docker=podman` 基本可用），支持 rootless 容器，
   且无 Docker Desktop 的桌面端许可限制；
