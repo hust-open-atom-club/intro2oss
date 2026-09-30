@@ -96,7 +96,7 @@ PR 提交后，仓库配置的 Codex 评审先后进行了 7 轮，共提出 **3
 
 1. **27 个文件仍无署名框**。git 历史无法可靠推断：多数文件由 5 位以上贡献者各提交 1 次，最长者也只有 2 次提交。**我不建议按"提交次数最多"自动填写**，请由章节负责人自述。已有的 23 处中，5 处来自文件内已有的"本节作者"声明，9 处来自单一作者独占全部提交的文件（其中 `yxw`、`yinchunyuan`、`CAICAII` 等来自 git 作者名，若与 GitHub 账号不一致请更正）。
 2. **许可证事实需联网复核**：欧盟 CRA 的分阶段生效日期、SPDX 兼容性矩阵中的边界情形（MPL-2.0 与 GPL 的双向性、EPL-2.0 的次级许可证条款）、MulanPSL-2.0 获 OSI 批准的年份。
-3. **站点 URL 已变化**：`docs/ch3/` 下全部页面路径变更（如 `/ch3/sec1/subsec1/1-git-introduction/` → `/ch3/git/1-introduction/`）。若有外链或书签，需要在部署侧做重定向。
+3. ~~**站点 URL 已变化**~~：已于本轮解决。`docs/ch3/` 下的路径重组后，引入 `mkdocs-redirects` 并在 `mkdocs.yml` 中配置 24 条 `redirect_maps`，覆盖旧树的全部页面（如 `/ch3/sec1/subsec1/1-git-introduction/` → `/ch3/git/1-introduction/`）；`requirements.txt` 已加入该依赖。构建后逐个核对：24 个旧路径页面均生成且指向新地址。
 4. **`neofetch` 的维护状态**：据报告上游已停止维护，但本环境无法联网确证，故未替换。
 5. **提交拆分**：当前暂存区**混合了会话前你已有的未提交重构**（`docs/course/`、`README.md`、`Assignment.md`、`mkdocs.yml`、`ch3/index.md`、`ch4/index.md`、`docs/index.md`、`ch99/abouts.md` 等）与本次改造。建议按下列分组拆分提交，或先 `git reset` 自行整理：
    - 你的课程设计层：`docs/course/*`、`README.md`、`Assignment.md`、`docs/index.md`、`ch99/abouts.md`
