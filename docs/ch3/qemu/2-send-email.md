@@ -198,15 +198,19 @@ Result: 250
     首次发送邮件，可以先发送给自己的邮箱，检查能否正常发送。有些开源社区邮件列表，第一次向其
     发邮件需要审核；如果没有立即在归档中看到自己的邮件，请耐心等待一下。
 
-### 发 v2：`--in-reply-to` 的正确用法
+### 发 v2：新版本要另开线程
 
-社区一般要求**后续版本（v2、v3……）必须挂在同一个讨论线程里**，而不是新开一个孤立线程，否则
-审查者会丢失上下文。实现方式是用 `--in-reply-to` 指回上一版邮件的 `Message-Id`：
+重发补丁系列时**不要**用 `--in-reply-to` 把它挂到上一版下面。[QEMU 官方提交指南](https://www.qemu.org/docs/master/devel/submitting-a-patch.html)的原文是：
+
+> Patches are easier to find if they start a new top-level thread, rather than being buried
+> in-reply-to another existing thread.
+> （补丁如果开启**新的顶层线程**，会比埋在另一个已有线程里更容易被找到。）
+
+版本的区分靠**标题里的版本号**和 cover letter 中的变更日志，而不是靠回信关系：
 
 ```bash
-# v1 的 cover letter（或你要回复的那一封）的 Message-Id，注意保留两侧尖括号
-git send-email \
-    --in-reply-to='<v1 的 message-id>' \
+# -v2 会生成带版本号的标题，例如 [PATCH v2 0/3] ...
+git send-email -v2 \
     --to='<maintainer email>' \
     --cc=qemu-devel@nongnu.org \
     outgoing/v2-*.patch
@@ -214,11 +218,12 @@ git send-email \
 
 要点：
 
-- `--in-reply-to` 的值取自 v1 **cover letter** 的 `Message-Id`，不是你自己新补丁的 Message-Id；
-  可以在自己收到的 v1 邮件源码里找 `Message-Id:`，或从 lore 页面 URL 中截取；
-- 用 `git send-email` 时建议连尖括号一起给（形如 `--in-reply-to='<20240101.123456.abc@host>'`），
-  单个补丁文件时 Git 也能处理不带尖括号的写法，但带括号最稳妥；
-- 生成补丁时加上 `-v2`，再配合 `--in-reply-to`，收件人侧才会显示成同一个系列的 v2。
+- 每个版本都是**独立的顶层线程**。若把 v2 挂在 v1 下面，不同版本会混在同一线程里，Patchwork
+  与审查者都难以判断哪一封才是当前版本；
+- 变更日志（v1 → v2 改了什么）写在 cover letter 里，通常在 `---` 之后、diffstat 之前；
+- `--in-reply-to` 的正确用途是**回复某封具体邮件**（例如回答审查意见、在某个补丁下追问），
+  此时它的值取自被回复邮件的 `Message-Id`，建议连两侧尖括号一起给（形如
+  `--in-reply-to='<20240101.123456.abc@host>'`）。
 
 ## 补丁 Tag 规范与自动化工具
 
