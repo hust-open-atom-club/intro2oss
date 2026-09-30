@@ -177,10 +177,15 @@ docker run -d \
     --network host \
     my-nginx
 
-# 直接通过主机的 80 端口访问
+# 从宿主机访问 80 端口。
+# 注意：这一步只在【Linux 原生 Docker】或【已启用 host networking 的 Docker Desktop 4.34+】
+# 上成立。Docker Desktop 默认（HostNetworkingEnabled = false）时，Nginx 监听的是那台轻量
+# 虚拟机的 host 网络，宿主机的 localhost:80 并不会转发给它，这一步会连接失败——
+# 此时请跳过本行，直接做下面的端口冲突验证。
 curl http://localhost:80
 
-# 因为使用了 host 网络，容器直接使用主机的 80 端口，所以当我们再次启动一个 Nginx 容器时，会报端口冲突的错误
+# 因为使用了 host 网络，容器直接占用该网络命名空间的 80 端口，所以当我们再次启动一个 Nginx
+# 容器时，会报端口冲突的错误。这一步在 Linux 原生与 Docker Desktop 上都能复现。
 docker run -d \
     --name nginx-host-2 \
     --network host \
