@@ -78,12 +78,12 @@ intro2oss/
 `mkdocs.yml` 的 `nav` 段显式声明了站点目录。**新增任何 `.md` 文件后必须同步更新 `nav`**，否则页面不会出现在站点导航中。可以用下面的命令自查：
 
 ```bash
-# 列出未纳入 nav 的 Markdown 文件（应输出为空）
+# 列出未纳入 nav 的 Markdown 文件（应输出 []；若非空，说明新增文件后忘了同步 nav）
 python3 - <<'EOF'
 import re, pathlib
 lines = open('mkdocs.yml').read().splitlines()
 nav = '\n'.join(lines[lines.index('nav:')+1:]).split('extra_javascript')[0]
-refs = set(re.findall(r':\s*([\w\-/.]+\\.md)', nav))
+refs = set(re.findall(r':\s*([\w\-/.]+\.md)', nav))
 allmd = {str(p.relative_to('docs')) for p in pathlib.Path('docs').rglob('*.md')}
 print(sorted(allmd - refs))
 EOF
