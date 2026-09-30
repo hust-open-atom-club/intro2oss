@@ -212,9 +212,9 @@ Oh My Zsh 是一个开源的、社区驱动的框架，用于管理 Zsh 配置�
  ```bash
  omz plugin list # 查看插件列表
 
- omz plugin info <name> # 查看插件详情
+ omz plugin info '<name>'   # 查看插件详情
 
- omz plugin enable <name> # 启用插件
+ omz plugin enable '<name>' # 启用插件
  ```
 
  常用插件介绍：
@@ -232,7 +232,7 @@ Oh My Zsh 是一个开源的、社区驱动的框架，用于管理 Zsh 配置�
  ```bash
  omz theme list # 查看主题列表
 
- omz theme set <name> # 设置主题
+ omz theme set '<name>'     # 设置主题
  ```
 
  一些受欢迎的主题：

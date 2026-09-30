@@ -288,13 +288,14 @@ sudo apt install b4
 
 ```bash
 # 【应用他人补丁】从 lore 拉取某个 message-id 对应的补丁系列，输出可供 git am 使用的 mbox
-b4 am <message-id-or-lore-url>
+# 占位符必须用单引号包住：< > 在 shell 里是重定向符号，不加引号会在 b4 启动前就报语法错误
+b4 am '<message-id-or-lore-url>'
 
 # 【收录他人回复中的 tag】准备 v2 之前，切回该补丁对应的本地分支执行
 b4 trailers -u
 
 # 【准备并发送自己的补丁系列】按顺序执行下面五步
-b4 prep -n <branch-name>   # 创建补丁系列工作分支
+b4 prep -n '<branch-name>'   # 创建补丁系列工作分支（占位符同样要加引号）
 b4 prep --edit-cover       # 编辑 cover letter，替换 EDITME 占位内容
 b4 prep --auto-to-cc       # 自动填充 To/Cc 收件人
 b4 prep --check            # 送检：checkpatch.pl 等检查
