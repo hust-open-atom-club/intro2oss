@@ -1,132 +1,51 @@
-# 开源贡献基础技能导览  
+# 完成开源贡献
 
-!!! note "主要作者"  
-    [@Dreadful_Me](https://github.com/Dreadful_Me)
+本章聚焦一个具体目标：帮助你把想法转化为一项符合社区规范、可以被真实项目评审的贡献。
 
-## 🚀 开启 Git 与协作之旅
+## 课堂必修
 
-本章将带您系统掌握开源贡献全流程技能，从 Git 基础到高级协作，从个人项目管理到社区级贡献，通过渐进式学习路径成长为合格的开源贡献者。  
+### 协作写作
 
-## Markdown 基础技能
+先学习 [Markdown 基本语法](writing/1-basic.md)，掌握标题、列表、链接、图片、引用、代码和表格。需要编写公式、图表或复杂页面时，再查阅 [Markdown 进阶语法](writing/2-advanced.md)。
 
-!!! note 基本语法
-    在这里，你将学习：
+### Git 与平台协作
 
-    1. 使用分级**标题**，学会用不同量级的标题来展现层次；
+按以下顺序完成学习：
 
-    2. 对不同的语句使用不同的**强调**方式来达成不同的目的；
+1. [Git 简介](git/1-introduction.md)：理解仓库、提交、分支和分布式版本控制。
+2. [代码托管平台简介](git/platform/index.md)：认识仓库、Issue、Fork 和 Pull Request；随后完成[注册与熟悉平台](git/platform/practice-register.md)、[创建并管理仓库](git/platform/practice-repository.md)、[Fork 一个仓库](git/platform/practice-fork.md)三项实践。
+3. [Git 基础配置](git/3-basic-configuration.md)：配置身份、SSH，并创建或克隆仓库。
+4. [Git 暂存区与提交](git/4-staging.md)：选择修改、查看差异并形成提交。
+5. [提交信息规范](git/5-commit-message.md)：用提交信息准确说明修改动机。
+6. [参与开源项目](git/6-participate-in.md)：把工具串联成完整贡献流程。
 
-    3. **列点**来清晰地表达内容的不同方面；
+### 按需使用 Linux
 
-    4. 插入**链接与图片**从而使得界面更加灵活生动；
+[常用 Linux 命令与工具](linux/1-commands.md)作为实践手册使用。课程不要求背诵命令，重点是能够查阅帮助、理解命令影响并记录实际验证过程。
 
-    5. **引用**外部信息和权威语句来给自己背书；
-
-    6. 添加**代码语句和代码块**方便迅速上手；
-
-    7. 利用**表格**来将死板的语言更具体化的分门别类；
-
-    8. 最后，利用**分割线**让不同的段落泾渭分明
-
-!!! warning 进阶语法
-    除了基本的对文本的操作，markdown 文档能做的不止于此：
-
-    - 使用 LaTeX 语法书写数学公式
-
-    - 直接嵌入原生 HTML 标签，以实现更复杂的排版和样式
-
-    - 通过 mermaid 代码块插入图表
-
-    - 使用一种叫“图床”的工具上传图片。
-
-    - ......
-
-## 💡 四阶段学习体系
-
-### 1. [导学阶段](https://oss.openatom.club/ch3/sec1/subsec1/1-git-introduction/)
-
-!!! tip "环境准备三步走"
-    1. **平台初识**：GitHub/Gitee 功能探索
-    2. **实战入门**：创建首个仓库
-    3. **合规起点**：选择开源许可证
-
-!!! example "核心任务卡"
-
-    ```mermaid 
-    graph TB 
-    A[注册GitHub] --> B[创建个人仓库] 
-    A --> C[Fork俱乐部项目] 
-    B --> D[配置README] 
-    C --> E[提交首个Issue]
-    ```
-
-### 2. [基础阶段](https://oss.openatom.club/ch3/sec1/subsec2/1-basic-configuration/)
-
-!!! warning "Git 生存法则"
-    | 场景 | 核心命令 | 应用要点 |
-    |------|----------|----------|
-    | 版本控制 | `git init/clone` | 建立版本库 |
-    | 变更管理 | `git add/commit` | 原子性提交 |
-    | 问题排查 | `git diff/reset` | 撤销与比对 |
-
-### 3. [专业阶段](https://oss.openatom.club/ch3/sec1/subsec3/1-rebase-merge/)
-
-!!! tip "高级工作流"
-    ```mermaid
-    graph LR
-    A[特性分支] --> B{合并策略}
-    B -->|协作开发| C[Rebase]
-    B -->|公共分支| D[Merge]
-    C --> E[整洁历史]
-    D --> F[保留轨迹]
-    ```
-
-### 4. [项目阶段](https://oss.openatom.club/ch3/sec1/subsec4/1-linux-patch/)
-
-!!! danger "Linux 内核贡献须知"
-    - 遵循内核编码规范
-    - 补丁包含完整变更说明
-    - 通过邮件列表提交
-
-!!! success "团队协作评估"
-    ```mermaid
-    pie
-    title 贡献评估维度
-    "代码质量" : 40
-    "文档完善" : 25
-    "Issue解决" : 20
-    "社区互动" : 15
-    ```
-
-## 🔧 开发工具箱
-
-| 类别       | 推荐工具                  | 应用场景              |  
-|------------|-------------------------|-----------------------|  
-| **版本控制** | Git + GitLens           | 代码历史管理          |  
-| **协作平台** | GitHub/Gitee            | 项目托管&PR 流程       |  
-| **持续集成** | GitHub Actions          | 自动化测试/部署       |  
-| **调试分析** | GitHub Network Graph    | 项目关系可视化 |  
-
-## 🌟 拓展技能树
+## 真实贡献流程
 
 ```mermaid
-graph TD
-  A[开源贡献技能] --> B[Linux训练营]
-  A --> C[容器虚拟化]
-  A --> D[高效写作]
-  B --> E[命令精要]
-  B --> F[管道艺术]
-  C --> G[Docker实战]
-  C --> H[Qemu原理]
-  D --> I[Markdown精通]
-  D --> J[文档工程]
+graph LR
+    A[阅读项目规范] --> B[确认问题]
+    B --> C[创建个人分支]
+    C --> D[修改与验证]
+    D --> E[提交贡献]
+    E --> F[响应评审]
+    F --> G[复盘与继续参与]
 ```
 
-## 🔧明星工具推荐
+贡献项目的里程碑、证据和异常情况处理见[真实贡献项目](../course/project.md)。
 
-!!! example "效率提升神器"
+## 拓展学习
 
-- tmux：终端会话管理（多窗口操作）
-- better-commits：规范化提交助手
-- opencommit：AI 生成提交信息
-- pre-commit：自动化代码检
+以下内容不占用核心课时，可根据项目方向选择：
+
+- **Git 进阶**：合并与变基、分布式协作、对象数据库和本地开发技巧（[Rebase 与 Merge](git/advanced/1-rebase-merge.md)、[分布式版本控制原理](git/advanced/2-control-process.md)、[Git 底层原理](git/advanced/3-advanced-theory.md)、[Git 辅助本地开发](git/advanced/4-help-local.md)）；
+- **Docker**：镜像、存储、网络、Compose 和容器管理（[Docker 基础](docker/1-foundation.md)起）；
+- **QEMU**：系统模拟、RISC-V 环境和邮件列表补丁协作（[QEMU 基础](qemu/1-foundation.md)、[参与 QEMU 邮件列表讨论](qemu/2-send-email.md)）；
+- **效率工具**：tmux、btop、tldr 等命令行工具（[常用的开源工具](tools/1-useful-oss.md)），以及 [Missing Semester 课程](tools/2-missing-semester.md)。
+
+!!! tip "学习原则"
+
+    不必在首次贡献前学完所有工具。先选择一个范围合适的问题，再按目标项目的要求补充知识。

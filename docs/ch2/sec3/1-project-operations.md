@@ -1,8 +1,11 @@
 # 开源项目的运作规则
 
+!!! note "主要作者"
+
+    [@teapot1de](https://github.com/teapot1de)
+
 !!! note "本节概览"
     开源世界是如何运转的？一个由全球开发者共同构建的项目，如何能做到井然有序、持续创新？本小节将带你一探究竟。我们将揭开开源项目背后那套不成文或成文的“游戏规则”，了解常见的治理结构，认识项目中那些忙碌的身影——维护者、贡献者和广大的用户群体。我们还会看看，像 Apache 和 Kubernetes 这样的明星项目，是如何通过透明、民主的方式，凝聚社区力量，走向成功的。
-    本节作者：[teapot1de](https://github.com/teapot1de)
 
 ## 开源项目是如何运作的？
 
@@ -12,7 +15,7 @@
 
 ### “谁说了算？”——开源项目治理结构概览
 
-当一个开源项目启动，或者发展到一定规模时，一个不可忽视的问题就摆在面前：“这个项目由谁来管理？重要的决策该如何做出？”这就引出了[开源项目治理](https://www.tencentcloud.com/techpedia/106037)的概念。简单来说，治理就是项目如何制定方向、规划未来、分配任务以及解决内部纷争的一整套机制。
+当一个开源项目启动，或者发展到一定规模时，一个不可忽视的问题就摆在面前：“这个项目由谁来管理？重要的决策该如何做出？”这就引出了[开源项目治理](https://opensource.guide/leadership-and-governance/)的概念。简单来说，治理就是项目如何制定方向、规划未来、分配任务以及解决内部纷争的一整套机制。
 
 开源世界的治理模式五花八门，并没有一个放之四海而皆准的标准答案。不同的项目，会因为其发起人的背景、社区的文化、项目的规模和目标的不同，而演化出各式各样的治理形态。下面，我们就来认识几种常见的“权力结构”：
 
@@ -26,7 +29,7 @@
 !!! tip "**“能者多劳，劳者多得”：精英治理 (Meritocracy)**"
     在这种模式下，你在项目中的话语权和影响力，与你的贡献直接挂钩。“功绩”才是硬通货。你提交的代码越有价值，修复的 bug 越关键，提出的建议越有建设性，你获得的认可就越多，也就能在项目中扮演更重要的角色。
 
-    **典范**：[Apache 软件基金会 (ASF)](https://www.koenig-solutions.com/blog/apache-software-foundation) 旗下的众多项目，就是精英治理的忠实践行者。贡献者可以通过持续的贡献，从普通参与者成长为拥有代码提交权限的 Committer，甚至成为项目管理委员会 (PMC) 的一员，参与到项目的核心决策中。
+    **典范**：[Apache 软件基金会 (ASF)](https://www.apache.org/foundation/governance/) 旗下的众多项目，就是精英治理的忠实践行者。贡献者可以通过持续的贡献，从普通参与者成长为拥有代码提交权限的 Committer，甚至成为项目管理委员会 (PMC) 的一员，参与到项目的核心决策中。
 
     **特点**：激励高质量贡献，路径清晰。但有时也可能显得有些“论资排辈”，新面孔需要更多时间和努力才能融入核心圈。
 
@@ -40,7 +43,7 @@
 !!! abstract "**“分片包干，各显神通”：去中心化/社区驱动 (Decentralized/Community-Driven)**"
     对于一些规模庞大、领域复杂的项目，将所有权力集中起来显然不现实。于是，去中心化的社区驱动模式应运而生。项目会被分解成若干个子领域或模块，由不同的兴趣小组（SIGs）或工作组（WGs）分头负责，各自在其领域内拥有较大的自主权。
 
-    **标杆**：[Kubernetes](https://dev.to/bobcars/decentralized-governance-in-open-source-bridging-innovation-and-community-181f) 项目就是这种模式的杰出代表。它拥有众多的 SIG，分别聚焦于网络、存储、安全、文档等不同方面，共同推动着这个庞大项目的演进。
+    **标杆**：[Kubernetes](https://github.com/kubernetes/community/blob/master/governance.md) 项目就是这种模式的杰出代表。它拥有众多的 SIG，分别聚焦于网络、存储、安全、文档等不同方面，共同推动着这个庞大项目的演进。
 
     **特点**：灵活高效，能应对复杂挑战。但对协调和沟通的要求非常高，需要有良好的机制来确保各个“山头”能够劲往一处使。
 
@@ -65,7 +68,7 @@
 
     * **写代码**：修复 bug、开发新功能、优化性能……这是最核心的贡献。
     * **写文档**：清晰易懂的文档是项目的门面和新手的福音。从用户手册到 API 参考，再到把文档翻译成不同语言，都是宝贵的贡献。
-    * **当“小白鼠”**：参与软件测试，提交详细的 bug 报告，帮助开发者定位问题。
+    * **参与测试**：提交可复现的问题报告与测试结果，帮助维护者定位缺陷。
     * **出谋划策**：提出功能建议，参与设计讨论，贡献你的智慧。
     * **社区“大管家”**：在论坛或邮件列表里回答新手提问，帮忙整理和标记 issue，组织线上线下的交流活动。
 
@@ -85,7 +88,7 @@
 ???+ note "更多专业分工"
     当项目规模越来越大，分工自然也会越来越细。你可能会在一些大型项目中看到更专业的角色：
 
-    *   **指导委员会 (Steering Committee)**：类似项目的“董事会”，负责制定大方向和战略规划，比如 [Kubernetes 的指导委员会](https://kodekloud.com/blog/kubernetes-sigs/)。
+    *   **指导委员会 (Steering Committee)**：类似项目的“董事会”，负责制定大方向和战略规划，比如 [Kubernetes 的指导委员会](https://github.com/kubernetes/community/blob/master/governance.md)。
     *   **项目管理委员会 (PMC)**：在 Apache 基金会的治理体系中，PMC 是每个顶级项目的核心管理团队，由社区选举产生的资深贡献者组成。
     *   **特别兴趣小组 (SIGs) / 工作组 (WGs)**：在像 Kubernetes 这样的巨型项目中，会有很多 SIG 专注于特定领域（如网络、存储、安全等），而 WG 则可能是为了解决某个跨 SIG 的短期问题而临时成立的。
 
@@ -133,7 +136,7 @@
 空谈理论不如看看实践。世界上有那么多成功的开源项目，它们是如何通过有效的治理，凝聚社区力量，最终改变世界的呢？让我们聚焦几个耳熟能详的例子。
 
 !!! tip "**案例 1：“Apache 之道” (The Apache Way) —— 精英治理的典范**"
-    提到开源治理，[Apache 软件基金会 (ASF)](https://www.koenig-solutions.com/blog/apache-software-foundation) 是一个绕不开的名字。它不仅托管了像 Apache HTTP Server、Hadoop、Spark 这样重量级的项目，更以其独特的治理哲学——“**The Apache Way**”——闻名于世。
+    提到开源治理，[Apache 软件基金会 (ASF)](https://www.apache.org/foundation/governance/) 是一个绕不开的名字。它不仅托管了像 Apache HTTP Server、Hadoop、Spark 这样重量级的项目，更以其独特的治理哲学——“**The Apache Way**”——闻名于世。
 
     **核心理念**：
 
@@ -142,14 +145,14 @@
     * **高度透明 (Transparency)**：所有讨论、决策都在公开的邮件列表进行，并永久存档。
     * **共识决策 (Consensus Decision Making)**：力求通过讨论达成共识，而非简单投票。
     
-    **运作模式**：每个 Apache 项目都由一个**项目管理委员会 (PMC)** 负责。PMC 成员都是从那些长期为项目做出杰出贡献的社区成员中选举产生的。想在 Apache 项目中获得话语权？很简单，用你的贡献来说话！正如一位从普通贡献者成长为 [Apache Answer 项目 PPMC 成员的 Lu Fei](https://answer.apache.org/zh-CN/blog/lufei-asf-journey-from-contributor-to-ppmc-member/) 所经历的那样，这是一个“用爱发电”并获得认可的过程。
+    **运作模式**：每个 Apache 项目都由一个**项目管理委员会 (PMC)** 负责。PMC 成员都是从那些长期为项目做出杰出贡献的社区成员中选举产生的。想在 Apache 项目中获得话语权？很简单，用你的贡献来说话！正如一位从普通贡献者成长为 [Apache Answer 项目 PPMC 成员的 Lu Fei](https://answer.apache.org/zh-CN/blog/lufei-asf-journey-from-contributor-to-ppmc-member/) 所经历的那样，这是一个依靠持续投入获得认可的过程。
 
     **深远影响**：目前 ASF 旗下有超过 350 个顶级开源项目。“The Apache Way”不仅保障了这些项目的高质量和可持续发展，也为全球开源社区提供了一种可借鉴的、开放民主的软件开发与治理模式。
 
 !!! example "**案例 2：Kubernetes —— 社区驱动的巨轮如何远航**"
-    作为云原生时代的“当红炸子鸡”，Kubernetes 的成功不仅仅在于其技术的先进性，更在于它构建了一套能够驾驭大规模、快速迭代需求的现代化社区治理体系。
+    作为云原生时代的代表性项目，Kubernetes 的成功不仅仅在于其技术的先进性，更在于它构建了一套能够驾驭大规模、快速迭代需求的现代化社区治理体系。
 
-    **治理架构**：Kubernetes 的最高权力机构是**指导委员会 (Steering Committee)**，负责制定宏观战略和治理政策。但项目的日常运转则高度依赖各个**特别兴趣小组 (SIGs - Special Interest Groups)** 和临时的**工作组 (WGs - Working Groups)**。你可以把 SIGs 想象成 Kubernetes 这艘巨轮上各个关键部门的“船长”和“大副”们，比如 [SIG-Network](https://kodekloud.com/blog/kubernetes-sigs/) 负责网络，[SIG-Storage](https://kodekloud.com/blog/kubernetes-sigs/) 负责存储，[SIG-Docs](https://kodekloud.com/blog/kubernetes-sigs/) 负责文档，大家各司其职，共同推动项目前进。
+    **治理架构**：Kubernetes 的最高权力机构是**指导委员会 (Steering Committee)**，负责制定宏观战略和治理政策。但项目的日常运转则高度依赖各个**特别兴趣小组 (SIGs - Special Interest Groups)** 和临时的**工作组 (WGs - Working Groups)**。你可以把 SIGs 想象成 Kubernetes 这艘巨轮上各个关键部门的“船长”和“大副”们，比如 [SIG-Network](https://github.com/kubernetes/community/blob/master/sig-list.md) 负责网络，[SIG-Storage](https://github.com/kubernetes/community/blob/master/sig-list.md) 负责存储，[SIG-Docs](https://github.com/kubernetes/community/blob/master/sig-list.md) 负责文档，大家各司其职，共同推动项目前进。
     
     **决策流程**：想在 Kubernetes 里搞个大动作？那就得走 **KEP (Kubernetes Enhancement Proposal)** 流程。一份 KEP 就是一份详细的设计蓝图，需要经过相关 SIG 的反复打磨、社区的广泛讨论和严格的审查，才能最终落地。这个过程虽然复杂，但确保了每一个重大决策都凝聚了社区的集体智慧。
     
@@ -160,7 +163,7 @@
 !!! summary "**案例 3：Linux 内核 —— “独裁者”的演变与大规模协作的奇迹**"
     谈到开源，就不能不提 Linux 内核。这个驱动着全球无数服务器、手机和嵌入式设备的庞大项目，其治理模式也颇具传奇色彩。
 
-    **从 BDFL 到层级体系**：项目早期，Linus Torvalds 无疑是那个拥有最终决定权的“仁慈的独裁者”。但随着 Linux 内核的爆炸式增长，吸引了[全球成千上万的开发者](https://dev.to/bobcars/decentralized-governance-in-open-source-bridging-innovation-and-community-181f)参与贡献，单靠 Linus 一个人已经无法管理如此庞大的代码库。于是，Linux 内核的治理逐渐演变成一个层级化的体系：各个子系统的维护者 (subsystem maintainers) 负责审查和整合其领域内的代码补丁，最终由 Linus 决定是否将其合并到主线内核中。
+    **从 BDFL 到层级体系**：项目早期，Linus Torvalds 无疑是那个拥有最终决定权的“仁慈的独裁者”。但随着 Linux 内核的爆炸式增长，吸引了全球成千上万的开发者参与贡献，单靠 Linus 一个人已经无法管理如此庞大的代码库。于是，Linux 内核的治理逐渐演变成一个层级化的体系：各个子系统的维护者 (subsystem maintainers) 负责审查和整合其领域内的代码补丁，最终由 Linus 决定是否将其合并到主线内核中。
     
     **Linus 的领导风格与社区文化**：Linus 以其**直率甚至有时略显“粗暴”**的沟通风格闻名。这种风格在早期可能有助于快速决策和维护高标准，但也引发过不少争议。2018 年，Linus 公开为自己过去的行为道歉，并暂时离开项目以学习更好的沟通方式，这一事件也促使 Linux 内核社区采纳了新的行为准则 (Code of Conduct)，标志着社区文化向更包容的方向转变。Linus 曾将 Linux 的发展比作[生物进化](https://www.youtube.com/watch?v=jjRAKuis7T8)，没有刻板的计划，而是不断尝试，让有效的方案存活下来。
     
