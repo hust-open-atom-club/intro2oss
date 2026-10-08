@@ -74,14 +74,14 @@ Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和�
 部分 Markdown 编辑器或平台（如 Typora、Obsidian、Jupyter Notebook、GitHub）支持通过代码块插入图表，常见语法有 Mermaid。
 
 ```md preview
-~~~mermaid
+```mermaid
 graph TD
     A[开始] --> B{条件判断}
     B -- 是 --> C[处理 1]
     B -- 否 --> D[处理 2]
     C --> E[结束]
     D --> E
-~~~
+```
 ```
 
 Mermaid 提供了[在线的图表编辑器](https://www.mermaidchart.com/play)，编辑好后复制左侧 Markdown 代码即可。
