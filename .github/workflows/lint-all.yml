@@ -3,6 +3,11 @@ name: Lint All
 on:
   workflow_dispatch:
 
+env:
+  # TODO(供应链安全): 建议固定到具体 tag 或 commit SHA。当前使用分支名以便可用，
+  # 但分支内容可随时变化，作为课程仓库应尽快改为不可变引用。
+  AUTOCORRECT_REF: main
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -10,5 +15,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: AutoCorrect
-        uses: huacnlee/autocorrect-action@main
+      # 供应链安全：先把安装脚本下载到本地并打印，再执行。
+      # 不使用 `curl ... | sh`，避免在未审阅内容的情况下直接执行远程脚本
+      # ——这也与本课程 Docker 章节倡导的先检查后执行原则一致。
+      # 打印脚本不构成来源或完整性校验；不可变引用仍待上方 TODO 落实。
+      - name: Install autocorrect
+        run: |
+          # 下载到 RUNNER_TEMP，避免安装脚本出现在仓库工作区内。
+          script="$RUNNER_TEMP/autocorrect-install.sh"
+          curl -fsSL -o "$script" \
+            "https://raw.githubusercontent.com/huacnlee/autocorrect/${AUTOCORRECT_REF}/install"
+          echo "===== 即将执行的安装脚本内容 ====="
+          cat "$script"
+          echo "================================="
+          sh "$script"
+
+      - name: Fix and lint
+        run: |
+          autocorrect --fix .
+          autocorrect --lint .
