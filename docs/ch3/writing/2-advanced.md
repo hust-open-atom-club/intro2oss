@@ -27,12 +27,13 @@ Markdown 除了基本的文本格式化，还支持更高级的功能，如公�
 
 Markdown 支持使用 LaTeX 语法书写数学公式，常见于支持 MathJax 或 KaTeX 的渲染器中。
 
-**行内公式**：使用 `$...$` 包裹公式内容  
+**行内公式**：使用 `$...$` 包裹公式内容。
+
 ```md preview
 $E=mc^2$
 ```
 
-**块级公式**：使用 `$$...$$` 包裹公式内容  
+**块级公式**：使用 `$$...$$` 包裹公式内容。
 
 ```md preview
 $$
@@ -66,7 +67,7 @@ Markdown 支持直接嵌入原生 HTML 标签，以实现更复杂的排版和�
 
 !!! tip
 
-    部分 Markdown 渲染器可能会限制某些 HTML 标签的使用。若非特殊情况，请尽量使用原生Markdown语法而不是HTML标签。
+    部分 Markdown 渲染器可能会限制某些 HTML 标签的使用。若非特殊情况，请尽量使用原生 Markdown 语法，而不是 HTML 标签。
 
 ## 3. 图表
 
@@ -83,7 +84,7 @@ graph TD
 ```
 ```
 
-Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)，编辑好后复制左侧 Markdown 代码即可。
+Mermaid 提供了[在线的图表编辑器](https://www.mermaidchart.com/play)，编辑好后复制左侧 Markdown 代码即可。
 
 !!! tip
 
@@ -95,9 +96,9 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 
 在插入图片时，我们需要确保图片的 URL 可以被外界访问。当我们只能提交一个文件时，就可以使用一种叫“图床”的工具上传图片。
 
-常用的图床有 [sm.ms 图床（需登录）](https://sm.ms/) [jike 图床（浏览器插件）](https://jiketuchuang.com/)
+常用的图床有 [sm.ms 图床（需登录）](https://sm.ms/) 和 [极客图床（浏览器插件）](https://jiketuchuang.com/)。
 
-我们同样可以选择使用阿里云 OSS 或 GitHub 仓库等储存图片。
+我们同样可以选择使用阿里云 OSS 或 GitHub 仓库等存储图片。
 
 ### 插入徽章（Badge）
 
@@ -120,7 +121,6 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
 ```
 
-
 可以访问 [shields.io](https://shields.io/) 来生成自定义的徽章。
 
 ## 5. 高级语法
@@ -129,9 +129,9 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 
 ### 表情符号
 
-可以通过 `:CODE:` 来插入一个表情。其中，每个表情的`code`可通过[这个网页](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)查询
+可以通过 `:CODE:` 来插入一个表情。其中，每个表情的 `code` 可通过 [这个网页](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md) 查询。
 
-通常来说，我们会在[commit message](../git/5-commit-message.md)的初始位置插入一个表情符号，让用户和其他维护者能够一眼看出此次 commit 的性质，如：
+通常来说，我们会在 [commit message](../git/5-commit-message.md) 的初始位置插入一个表情符号，让用户和其他维护者能够一眼看出此次 commit 的性质，如：
 
 ```md preview
 :hammer: fix(api): fix handling logic
@@ -145,11 +145,11 @@ Mermaid 提供了[在线的图标编辑器](https://www.mermaidchart.com/play)�
 
 ### 提及 Issue 及 Pull Request（GitHub）
 
-复制指向 Issue 或 PR 的链接地址并放到 Markdown 中，GitHub 会自动渲染为对应页面的标题
+复制指向 Issue 或 PR 的链接地址并放到 Markdown 中，GitHub 会自动渲染为对应页面的标题。
 
 ### 提及代码特定行（GitHub）
 
 在 GitHub 代码文件中点击行号左侧，选择“复制永久链接”（Copy permalink），得到的链接放入 Markdown 后，GitHub 将自动渲染为对应的代码块。
 
 ---
-更多高级用法可参考各平台的官方文档或插件说明。GitHub 的 Markdown 用法可以在 [这个页面](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) 查询
+更多高级用法可参考各平台的官方文档或插件说明。GitHub 的 Markdown 用法可以在 [这个页面](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) 查询。
