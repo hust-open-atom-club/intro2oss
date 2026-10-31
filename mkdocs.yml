@@ -177,6 +177,7 @@ nav:
       - Git 基础配置: ch3/git/3-basic-configuration.md
       - Git 暂存区与提交: ch3/git/4-staging.md
       - 如何写好提交信息: ch3/git/5-commit-message.md
+      - 对所选项目进行评估: ch3\git\evaluate-project.md
       - 参与开源项目: ch3/git/6-participate-in.md
     - 第三节 Linux 命令行:
       - 常用 Linux 命令与工具: ch3/linux/1-commands.md
