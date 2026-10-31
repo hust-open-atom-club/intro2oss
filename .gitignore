@@ -3,3 +3,4 @@ site/
 
 # CI 安装脚本（不应进入仓库）
 autocorrect-install.sh
+.venv/
